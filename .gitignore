@@ -1,0 +1,10 @@
+# Gradle wrapper 파일
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Gradle 빌드 아티팩트 (빌드 아웃풋)
+build/
+
+# IDE 관련 파일 (예: IntelliJ, VSCode 등)
+.idea/
+.vscode/
