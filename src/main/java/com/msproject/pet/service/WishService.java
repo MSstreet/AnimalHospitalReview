@@ -127,15 +127,18 @@ public class WishService {
 
         WishEntity entity = wishRepositoryCustom.findOneReview(uid, hid);
 
-        WishDto wishDto = WishDto.builder()
-                .wishId(entity.getWishId())
-                .petHospitalNum(entity.getPetHospitalEntity().getHospitalId())
-                .userNum(entity.getUserEntity().getIdx())
-                //.wishState(entity.isWishState())
-                .wishState1(entity.getWishState1())
-                .build();
+        if (entity != null) {
 
-        return wishDto;
+            WishDto wishDto = WishDto.builder()
+                    .wishId(entity.getWishId())
+                    .petHospitalNum(entity.getPetHospitalEntity().getHospitalId())
+                    .userNum(entity.getUserEntity().getIdx())
+                    //.wishState(entity.isWishState())
+                    .wishState1(entity.getWishState1())
+                    .build();
+            return wishDto;
+        }
+        return null;
     }
 
     public Boolean checkWish(Long uid, Long hid) {

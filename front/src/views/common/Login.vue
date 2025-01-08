@@ -93,15 +93,11 @@
 
         <div class="row">
           <div class="d-grid gap-2 mt-2 col-6">
-          <button type="submit" class="btn btn-primary mt-3 fw-bold">Login</button>
-
+             <button type="submit" class="btn btn-primary mt-3 fw-bold">Login</button>
           </div>
 
           <div class="d-grid gap-2 mt-2 col-6">
             <router-link to="/join" type="button" class="btn btn-success mt-3 fw-bold">Join</router-link>
-            <button type="button" class="kakao-btn" @click="kakaoLogin">
-              <img src="@/assets/kakao_login_medium.png" class="kakao-btn-img" alt="카카오 로그인 로고" />
-            </button>
           </div>
 
           <div class="mt-2 ">
@@ -110,6 +106,11 @@
            <span type="button" class="btn btn-link a" data-bs-toggle="modal"
                  data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
           </div>
+
+          <button type="button" class="kakao-btn" @click="kakaoLogin">
+            <img src="@/assets/kakao_login_medium.png" class="kakao-btn-img" alt="카카오 로그인 로고" />
+          </button>
+
         </div>
         </form>
       </div>

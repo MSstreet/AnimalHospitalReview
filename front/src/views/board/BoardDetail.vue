@@ -45,7 +45,7 @@
                 <div class="card z-index-0 fadeIn3 fadeInBottom">
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">댓글에 답글</h4>
+                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">대댓글</h4>
                     </div>
                   </div>
 
@@ -215,7 +215,7 @@ export default {
       created_at: '',
       /////replyData
       coments:'',
-
+      coments1:'',
       c_created_at:'',
       user_name:'',
       update_coments:'',
