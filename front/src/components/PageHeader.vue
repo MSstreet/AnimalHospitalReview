@@ -3,130 +3,39 @@
 
 
   <header>
-
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link> |-->
-<!--&lt;!&ndash;      <router-link to="/about">About</router-link> |&ndash;&gt;-->
-<!--      <router-link to="/board/list">게시판</router-link> |-->
-<!--      <router-link to="/hospital/list">동물병원</router-link> |-->
-
-<!--      <router-link to="/login" v-if="!this.$store.state.isLogin">로그인 | </router-link>-->
-<!--      <router-link to="/mypage" v-if="this.$store.state.isLogin" >내 정보</router-link>-->
-
-<!--      <a v-if="this.$store.state.isLogin" @click="fnLogout">로그아웃</a>-->
-
-<!--      <router-link to="/join" v-if="!this.$store.state.isLogin">회원가입</router-link>-->
-<!--    </div>-->
 <div id="topheader">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="border-bottom: 1px solid gray">
-      <div class="container-fluid">
 
-        <router-link to="/" class="navbar-brand fw-bold text-light fs-2" ><span style="color: gray"><i class="fa-solid fa-shield-cat me-2"></i>AnimalH</span></router-link>
-        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-            <li class="nav-item ">
-              <router-link to="/board/list" class="nav-link text-light  fs-5 fw-bold" aria-current="page"><span style="color: black">게시판</span></router-link>
-            </li>
-
-            <li class="nav-item active">
-              <router-link to="/hospital/list" class="nav-link text-light fs-5 fw-bold"><span style="color: black">동물병원</span></router-link>
-            </li>
-
-            <li class="nav-item ">
-              <router-link to="/notice/list" class="nav-link text-light fs-5 fw-bold" aria-current="page"><span style="color: black">공지사항</span></router-link>
-            </li>
-
-          </ul>
-
-<!--            <li class="nav-item">-->
-<!--              <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="nav-link text-light fw-bold">나의 리뷰</router-link>-->
-<!--            </li>-->
-
-<!--            <li class="nav-item">-->
-<!--              <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="nav-link text-light fw-bold">찜한 병원</router-link>-->
-<!--            </li>-->
-<!--         <ul class="mt-2">-->
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item mt-1">
-              <router-link to="/login"  class="nav-link text-light fs-3 fw-bold" v-if="!this.$store.state.isLogin"><span style="color: gray">Login </span></router-link>
-            </li>
-
-<!--            <li class="nav-item">-->
-<!--              <router-link to="/mypage"  class="nav-link text-light fw-bold" v-if="this.$store.state.isLogin" >내 정보</router-link>-->
-<!--            </li>-->
-
-<!--            <li class="nav-item">-->
-<!--              <a v-if="this.$store.state.isLogin" class="nav-link text-light fw-bold" @click="fnLogout">로그아웃</a>-->
-<!--            </li>-->
-
-            <li class="nav-item mt-1 me-3" >
-              <router-link to="/join" class="nav-link text-light fs-3 fw-bold" v-if="!this.$store.state.isLogin"><span style="color: gray">Join</span></router-link>
-            </li>
-          </ul>
-
-
-          <ul v-if="this.$store.state.isLogin">
-            <li class="nav-item dropdown mt-3 me-5" >
-
-              <a class="nav-link text-light fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-user fa-2x"></i>
-              </a>
-
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li class="dropdown-item">
-                  <router-link to="/mypage" class="dropdown-item nav-link text-black fw-bold" v-if="this.$store.state.isLogin" >내 정보</router-link>
-                </li>
-
-                <li class="dropdown-item">
-                  <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="nav-link text-black fw-bold">나의 리뷰</router-link>
-                </li>
-
-                <li class="dropdown-item">
-                  <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="nav-link text-black fw-bold">찜한 병원</router-link>
-                </li>
-
-                <li class="dropdown-item">
-                  <a v-if="this.$store.state.isLogin" class="nav-link text-black fw-bold" @click="fnLogout">로그아웃</a>
-                </li>
-
-              </ul>
-            </li>
-
-<!--          <ul>-->
-<!--            <li class="nav-item dropdown" v-if="this.$store.state.isLogin">-->
-<!--              <a class="nav-link  text-light fw-bold me-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                <i class="fa-solid fa-user fa-lg"></i>-->
-<!--              </a>-->
-
-<!--              <ul class="dropdown-menu">-->
-
-<!--                <li class="">-->
-<!--                  <router-link to="/mypage" class="dropdown-item nav-link text-black fw-bold" v-if="this.$store.state.isLogin" >내 정보&nbsp;&nbsp;</router-link>-->
-<!--                </li>-->
-<!--                <li class="">-->
-<!--                  <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="dropdown-item nav-link text-black fw-bold">나의 리뷰</router-link>-->
-<!--                </li>-->
-<!--                <li class="">-->
-<!--                  <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="dropdown-item nav-link text-black fw-bold">찜한 병원</router-link>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                  <a v-if="this.$store.state.isLogin" class="nav-link text-black fw-bold" @click="fnLogout">로그아웃</a>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--          </ul>-->
-
-          </ul>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <!-- 왼쪽: Logo and Navigation Links -->
+      <div class="navbar-left">
+        <!-- Logo -->
+        <div class="navbar-logo">
+          <router-link to="/"><i class="fa-solid fa-shield-cat me-2"></i>리뷰</router-link>
         </div>
+
+        <!-- Navigation Links -->
+        <ul class="navbar-links">
+          <li class="navbar-item" v-for="item in menuItems" :key="item.text">
+            <router-link :to="item.link">{{ item.text }}</router-link>
+          </li>
+        </ul>
       </div>
-      <!--      <router-link to="/about">About</router-link> |-->
-    </nav>
+
+      <!-- 오르쪽: 유저 정보 -->
+      <div class="navbar-user-info">
+        <router-link to="/login" v-if="!this.$store.state.isLogin">Login</router-link>
+        <a v-if="this.$store.state.isLogin" @click="fnLogout">Logout</a>
+        <router-link to="/join" v-if="!this.$store.state.isLogin">Join</router-link>
+      </div>
+
+      <!-- 모바일 메뉴 버튼 -->
+      <div class="navbar-toggle" @click="toggleMenu">
+        <span class="navbar-toggle-icon"></span>
+      </div>
+    </div>
+  </nav>
+
 </div>
   </header>
 </template>
@@ -139,7 +48,18 @@ let setIsLogin = ({commit}, data) => {
 }
 
 export default {
+  data() {
+    return {
+      menuOpen: false,
+      menuItems: [
+        {text: '게시판', link: '/board/list'},
+      ]
+    };
+  },
   methods: {
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+    },
     fnLogout() {
       localStorage.removeItem("user_token")
       localStorage.removeItem("user_role")
@@ -168,7 +88,7 @@ export default {
 
 <style scoped>
 
-#nav{
+/*#nav{
   text-align: center;
 }
 
@@ -181,7 +101,157 @@ export default {
   text-decoration-thickness: 2px;
   text-decoration-color: white;
 
+}*/
+
+
+
+/* Global styles for body and font */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #333;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; /* Left and right sections */
+  align-items: center;
+  padding: 15px 20px;
+  height: 100%;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+
+.navbar-item {
+  margin-left: 20px;
+}
+
+.navbar-item a {
+  color: white;
+  font-size: 16px;
+  padding: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-item a:hover {
+  background-color: #444;
+  border-radius: 4px;
+}
+
+/* User Info on the right */
+.navbar-user-info {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user-info a {
+  color: white;
+  font-size: 16px;
+  padding: 8px;
+  margin-left: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-user-info a:hover {
+  background-color: #444;
+  border-radius: 4px;
+}
+
+/* Mobile menu toggle button */
+.navbar-toggle {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.navbar-toggle-icon {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+}
+
+/* Mobile Menu */
+.navbar-mobile-menu {
+  background-color: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.navbar-mobile-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.navbar-mobile-menu .navbar-item {
+  margin: 20px 0;
+}
+
+.navbar-mobile-menu .navbar-item a {
+  font-size: 18px;
+  padding: 10px;
+  color: white;
+}
+
+.navbar-mobile-menu .navbar-item a:hover {
+  background-color: #444;
+  border-radius: 4px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-mobile-menu {
+    display: flex;
+  }
+
+  .navbar-item a {
+    font-size: 18px;
+  }
+}
 
 </style>
