@@ -1,10 +1,6 @@
 <!-- PageHeader.vue -->
 <template>
-
-
   <header>
-<div id="topheader">
-
   <nav class="navbar">
     <div class="navbar-container">
       <!-- 왼쪽: Logo and Navigation Links -->
@@ -35,8 +31,13 @@
       </div>
     </div>
   </nav>
-
-</div>
+    <div class="navbar-mobile-menu" v-if="menuOpen">
+      <ul class="navbar-links">
+        <li class="navbar-item" v-for="item in menuItems" :key="item.text">
+          <router-link :to="item.link">{{ item.text }}</router-link>
+        </li>
+      </ul>
+    </div>
   </header>
 </template>
 
@@ -53,6 +54,8 @@ export default {
       menuOpen: false,
       menuItems: [
         {text: '게시판', link: '/board/list'},
+        {text: '동물병원', link: '/hospital/list'},
+        {text: '공지사항', link: '/notice/list'},
       ]
     };
   },

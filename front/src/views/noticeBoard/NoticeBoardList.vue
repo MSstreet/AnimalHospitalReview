@@ -3,7 +3,7 @@
   <div class="container-fluid px-4">
 
     <div >
-      <h1  class="tt mt-5 mb-5 fs-1 fw-bold" style="text-align: center" @click="fnReload()">공지사항</h1>
+
     </div>
 
     <div class="card mb-4 text-center">
