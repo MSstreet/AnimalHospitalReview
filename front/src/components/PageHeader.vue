@@ -1,36 +1,51 @@
 <!-- PageHeader.vue -->
 <template>
   <header>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <!-- 왼쪽: Logo and Navigation Links -->
-      <div class="navbar-left">
-        <!-- Logo -->
+    <nav class="navbar">
         <div class="navbar-logo">
           <router-link to="/"><i class="fa-solid fa-shield-cat me-2"></i>리뷰</router-link>
         </div>
+        <div class="navbar-container">
+            <!-- Navigation Links -->
+            <ul class="navbar-links">
+              <li class="navbar-item" v-for="item in menuItems" :key="item.text">
+                <router-link :to="item.link">{{ item.text }}</router-link>
+              </li>
+            </ul>
 
-        <!-- Navigation Links -->
-        <ul class="navbar-links">
-          <li class="navbar-item" v-for="item in menuItems" :key="item.text">
-            <router-link :to="item.link">{{ item.text }}</router-link>
-          </li>
-        </ul>
-      </div>
+          <div class="navbar-user-info">
+            <router-link to="/login" v-if="!this.$store.state.isLogin">Login</router-link>
+            <router-link to="/join" v-if="!this.$store.state.isLogin">Join</router-link>
+            <ul class="user-drop-button" v-if="this.$store.state.isLogin">
+              <li class="nav-item dropdown" >
+                <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
+                  <i class="fa-solid fa-user fa-2x"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li class="dropdown-item">
+                    <router-link to="/mypage" class=" text-black fw-bold" v-if="this.$store.state.isLogin" >내 정보</router-link>
+                  </li>
+                  <li class="dropdown-item">
+                    <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="nav-link text-black fw-bold">나의 리뷰</router-link>
+                  </li>
+                  <li class="dropdown-item">
+                    <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="nav-link text-black fw-bold">찜한 병원</router-link>
+                  </li>
+                  <li class="dropdown-item">
+                    <a v-if="this.$store.state.isLogin" class="nav-link text-black fw-bold" @click="fnLogout">로그아웃</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
 
-      <!-- 오르쪽: 유저 정보 -->
-      <div class="navbar-user-info">
-        <router-link to="/login" v-if="!this.$store.state.isLogin">Login</router-link>
-        <a v-if="this.$store.state.isLogin" @click="fnLogout">Logout</a>
-        <router-link to="/join" v-if="!this.$store.state.isLogin">Join</router-link>
-      </div>
+          </div>
 
-      <!-- 모바일 메뉴 버튼 -->
-      <div class="navbar-toggle" @click="toggleMenu">
-        <span class="navbar-toggle-icon"></span>
-      </div>
-    </div>
-  </nav>
+          <!-- 모바일 메뉴 버튼 -->
+          <div class="navbar-toggle" @click="toggleMenu">
+            <span class="navbar-toggle-icon"></span>
+          </div>
+        </div>
+    </nav>
     <div class="navbar-mobile-menu" v-if="menuOpen">
       <ul class="navbar-links">
         <li class="navbar-item" v-for="item in menuItems" :key="item.text">
@@ -44,6 +59,8 @@
 <script>
 import {IS_LOGIN} from '@/vuex/mutation_types'
 import store from "@/vuex/store";
+import './PageHeader.css';
+
 let setIsLogin = ({commit}, data) => {
   commit(IS_LOGIN, data)
 }
@@ -106,7 +123,10 @@ export default {
 
 }*/
 
-
+.user-drop-button{
+  margin-bottom : 0;
+  padding-left: 0;
+}
 
 /* Global styles for body and font */
 body {
@@ -132,9 +152,8 @@ a {
 
 .navbar-container {
   display: flex;
-  justify-content: space-between; /* Left and right sections */
+  justify-content: flex-end;; /* Left and right sections */
   align-items: center;
-  padding: 15px 20px;
   height: 100%;
 }
 
@@ -146,6 +165,11 @@ a {
 .navbar-logo {
   font-size: 24px;
   font-weight: bold;
+  margin-left: 20px;
+}
+
+.navbar-logo a {
+  color :#f8f8f8;
 }
 
 .navbar-links {
