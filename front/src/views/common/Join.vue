@@ -4,12 +4,12 @@
   <div class="bg-light">
     <div class="container py-4 ">
 
-      <h1 class="fs-1 fw-bold text-center mb-3"><b style="color: #4c1192">JOIN</b> </h1>
+      <h1 class="fs-1 fw-bold text-center mb-3"><b>회원가입</b> </h1>
 
       <form @submit.prevent="fnJoin" ref="form">
 
         <div class="form-group">
-          <label for="exampleInputId" class="form-label mt-4">아이디</label>
+          <label for="exampleInputId" class="fw-bold form-label mt-4">아이디</label>
           <input type="text" maxlength="50" class="form-control" id="exampleInputId"  v-model="user_id" @change ="validIdCheck">
           <div id="checkId" class="mt-1"></div>
 
@@ -17,14 +17,14 @@
         </div>
 
         <div class="form-group">
-          <label for="exampleInputEmail1" class="form-label mt-4">Email</label>
+          <label for="exampleInputEmail1" class="fw-bold form-label mt-4">Email</label>
           <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" v-model="user_email" @change="validEmailCheck">
           <div id="checkEmail" class="mt-1"></div>
         </div>
 
 
         <div class="form-group has-success">
-          <label class="form-label mt-4" for="inputValid">비밀번호</label>
+          <label class="fw-bold form-label mt-4" for="inputValid">비밀번호</label>
           <input type="password" maxlength="20" class="form-control" id="inputValid" v-model="user_pw" @change="validPasswordCheck">
           <div id="checkPwd" class="mt-1"></div>
 <!--          <div class="valid-feedback"></div>-->
@@ -32,7 +32,7 @@
 
 
         <div class="form-group has-danger" id="inputInvalid">
-          <label class="form-label mt-4" for="inputInvalid">비밀번호 재확인</label>
+          <label class="fw-bold form-label mt-4" for="inputInvalid">비밀번호 재확인</label>
           <input type="password" maxlength="20" class="form-control"  v-model="pwd_check" @change="validSamePasswordCheck">
           <div id="doubleCheckPwd" class="mt-1"></div>
           <!--          <div class="invalid-feedback">비밀번호가 일치하지 않습니다</div>-->
@@ -40,21 +40,21 @@
 
 
         <div class="form-group">
-          <label for="exampleInputName" class="form-label mt-4">이름</label>
+          <label for="exampleInputName" class="fw-bold form-label mt-4">이름</label>
           <input type="text" maxlength="20" class="form-control" id="exampleInputName" v-model="user_name" @change="validNameCheck">
           <div id="nameCheck" class="mt-1"></div>
         </div>
 
 
         <div class="form-group">
-          <label for="exampleInputNum" class="form-label mt-4">전화번호</label>
+          <label for="exampleInputNum" class="fw-bold form-label mt-4">전화번호</label>
           <input type="text" maxlength="20" class="form-control" id="exampleInputNum" v-model="user_num" @change="validNumCheck">
           <div id="numberCheck" class="mt-1"></div>
         </div>
 
 
         <div class="form-group">
-          <label for="exampleInputZip" class="form-label mt-4">우편번호</label>
+          <label for="exampleInputZip" class="fw-bold form-label mt-4">우편번호</label>
           <input type="text" maxlength="20" v-model="postcode"  class="form-control mb-1" id="exampleInputZip">
           <!--          <div id="addrCheck" class=""></div>-->
         </div>
@@ -63,13 +63,13 @@
 
 
         <div class="form-group">
-          <label for="exampleInputAddr" class="form-label mt-4">주소</label>
+          <label for="exampleInputAddr" class="fw-bold form-label mt-4">주소</label>
           <input type="text" maxlength="50" class="form-control mb-4" id="exampleInputAddr" v-model="address">
 <!--          <div id="addrCheck" class=""></div>-->
         </div>
 
         <div class="form-group">
-          <label for="exampleInputAddr" maxlength="50" class="form-label mt-4">상세주소</label>
+          <label for="exampleInputAddr" maxlength="50" class="fw-bold form-label mt-4">상세주소</label>
           <input type="text" class="form-control mb-4" id="exampleInputAddr" v-model="extra_address">
           <!--          <div id="addrCheck" class=""></div>-->
         </div>

@@ -2,81 +2,36 @@
 <template>
 
 <section class="bg-light">
-  <div class="container text-center mt-5 " >
-
-
-
-    <div id="mainslider" class="mt-3" >
-      <splide :options="options">
+<!--  <div class="container text-center mt-5 " >-->
+<!--    <div id="mainslider" class="mt-3" >-->
+<!--      <splide :options="options">-->
 <!--        <splide-slide>-->
-<!--          <img  src="../assets/home.jpg" alt="main1">-->
+<!--          <img style="border-radius: 70px" src="../assets/home.jpg" alt="main2">-->
 <!--        </splide-slide>-->
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home.jpg" alt="main2">
-        </splide-slide>
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home1.jpg" alt="main3">
-        </splide-slide>
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home2.jpg" alt="main3">
-        </splide-slide>
 <!--        <splide-slide>-->
-<!--          <img  src="../assets/animal5.png" alt="main3">-->
+<!--          <img style="border-radius: 70px" src="../assets/home1.jpg" alt="main3">-->
 <!--        </splide-slide>-->
-      </splide>
-    </div>
-
+<!--        <splide-slide>-->
+<!--          <img style="border-radius: 70px" src="../assets/home2.jpg" alt="main3">-->
+<!--        </splide-slide>-->
+<!--      </splide>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="search-container">
+    <form action="" method="">
+      <div class="input-area p-3 input-group input-group-lg">
+        <select class="styled-select" v-model="search_key">
+          <option value="author" selected>병원명</option>
+          <option value="title">지역명</option>
+        </select>
+        <input type="text" maxlength="50" class="form-control ms-1" placeholder="검색어 입력" aria-label="search"
+               aria-describedby="button-addon2" v-model="search_value" >
+        <button class="styled-button ms-1" id="button-addon2"  @click="fnPage1(`${search_key}`,`${search_value}`)">검색</button>
+      </div>
+    </form>
   </div>
-
-<!--        <div >-->
-<!--          <div id="map" class="root_cacao_roughmap" style="width: 50rem; height: 50rem; position: center">-->
-
-<!--          </div>-->
-<!--        </div>-->
-
-
-
-  <!--  <div >-->
-  <!--    <div id="map" class="root_cacao_roughmap" style="width: 50rem; height: 50rem; position: center">-->
-
-  <!--    </div>-->
-  <!--  </div>-->
-
-  <div class="container-fluid mt-3 pt-3 bg-light" style="text-align: center">
-    <!--    <img alt="Vue logo" src="../assets/logo.png">-->
-
-    <div style="width: 960px; display: inline-block">
-      <!--      <h3 class="fs-1 fw-bold"><b style="color: #4c1192">솔직한</b> 동물 병원 후기</h3>-->
-      <form action="" method="">
-
-        <!--      <div class="mx-quto input-group mt-5">-->
-        <!--/////////////////////////////////////////////////////////////////////////////////////////////////-->
-        <!--        <select v-model="search_key">-->
-        <!--          <option value="">- 선택 -</option>-->
-        <!--          <option value="author">작성자</option>-->
-        <!--          <option value="title">제목</option>-->
-        <!--          <option value="contents">내용</option>-->
-        <!--        </select>-->
-
-        <!--        <input type="text" class="ms-2" v-model="search_value" @keyup.enter="fnPage()">-->
-        <!--        <button @click="fnPage()" class="ms-2">검색</button>-->
-        <!--/////////////////////////////////////////////////////////////////////////////////////////////////-->
-        <div class=" mx-auto w-50 p-3 input-group input-group-lg">
-
-          <select v-model="search_key">
-            <option value="author" selected>병원명</option>
-<!--            <option value="" >-선택-</option>-->
-<!--            <option value="author" >병원명</option>-->
-            <option value="title">지역명</option>
-          </select>
-
-          <input type="text" maxlength="50" class="form-control input-sm ms-1" placeholder="검색어 입력" aria-label="search"
-                 aria-describedby="button-addon2" v-model="search_value" >
-
-          <button class="btn btn-success ms-1" id="button-addon2"  @click="fnPage1(`${search_key}`,`${search_value}`)">검색</button>
-        </div>
-      </form>
-
+  <div class="container-fluid pt-3 bg-light" style="text-align: center">
+    <div class="" style="width: 960px; display: inline-block">
       <div class="row text-left px-3 margin-b" style="margin-top: 48px;">
 
         <div class="col-4 px-2">
@@ -498,64 +453,8 @@ export default {
     }
   }
   ,created(){
-    // if (!("geolocation" in navigator)) {
-    //   return;
-    // }
-    // // get position
-    // navigator.geolocation.getCurrentPosition(pos => {
-    //   this.latitude = pos.coords.latitude;
-    //   this.longitude = pos.coords.longitude;
-    //   if (window.kakao && window.kakao.maps) {
-    //     this.initMap();
-    //   } else {
-    //     const script = document.createElement("script");
-    //     /* global kakao */
-    //     script.onload = () => kakao.maps.load(this.initMap);
-    //     script.src = "///dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false";
-    //     document.head.appendChild(script);
-    //   }
-    // }, err => {
-    //   alert(err.message);
-    // })
   }
   ,methods: {
-    // initMap() {
-    //   const map = document.getElementById("map")
-    //   const options = {
-    //     //center: new kakao.maps.LatLng(37, 131, 16),
-    //     center: new kakao.maps.LatLng(33.450701, 126.570667),
-    //     level: 5
-    //   }
-    //   this.map = new kakao.maps.Map(map, options)
-    //   this.displayMarker([[this.latitude, this.longitude]]);
-    //   const marker1 = new kakao.maps.LatLng(37, 131)
-    //   const marker = new kakao.maps.Marker({
-    //     position : marker1
-    //   })
-    //   marker.setMap(this.map)
-    // }
-    // ,displayMarker(markerPositions) {
-    //   if (this.markers.length > 0) {
-    //     this.markers.forEach((marker) => marker.setMap(null));
-    //   }
-    //   const positions = markerPositions.map(
-    //       (position) => new kakao.maps.LatLng(...position)
-    //   );
-    //   if (positions.length > 0) {
-    //     this.markers = positions.map(
-    //         (position) =>
-    //             new kakao.maps.Marker({
-    //               map: this.map,
-    //               position,
-    //             })
-    //     );
-    //     const bounds = positions.reduce(
-    //         (bounds, latlng) => bounds.extend(latlng),
-    //         new kakao.maps.LatLngBounds()
-    //     );
-    //     this.map.setBounds(bounds);
-    //   }
-    // }
     fnGetList() {
       console.log(this.search_key)
       console.log("벨류확인" + this.search_value)
@@ -596,20 +495,6 @@ export default {
         }
       })
     }
-    // ,fnView() {
-    //   //this.requestBody.idx = idx
-    //   this.$router.push({
-    //     path: '/hospital/list',
-    //     query: this.requestBody
-    //   })
-    // }
-    // ,fnPage(n) {
-    //   if (this.page !== n) {
-    //     this.page = n
-    //   }
-    //
-    //   this.fnGetList()
-    // }
     ,fnPage1(n,m) {
       console.log("@@@@@search_value@@@@@"+m)
       console.log("@@@@@search_key@@@@@"+n)
@@ -627,12 +512,6 @@ export default {
     }
   }
   ,mounted() {
-    // const script = document.createElement("script")
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false"
-    // script.addEventListener("load", () => {
-    //   kakao.maps.load(this.initMap)
-    // })
-    // document.head.appendChild(script)
   }
 }
 </script>
@@ -641,11 +520,6 @@ export default {
 .home {
   text-align: center;
   margin: 10px;
-  /*.img-size {*/
-  /*  width: 300px;*/
-  /*  height: 150px;*/
-  /*  object-fit: cover;*/
-  /*}*/
 }
 .test-position{
   display: flex;
@@ -657,10 +531,7 @@ export default {
   width: 100%;
   /*margin: auto;*/
 }
-/*img{*/
-/*  width: 100%;*/
-/*  height: 50%;*/
-/*}*/
+
 .margin-b{
   margin-bottom: 7rem;
 }
@@ -674,24 +545,24 @@ export default {
   margin-left: auto;
 }
 
-/*.t{*/
-/*  text-color: none;*/
-/*}*/
-
-/*.t:hover{*/
-/*  text-decoration: underline;*/
-/*  text-decoration-thickness: 1px;*/
-/*  text-decoration-color: black;*/
-/*  color: blue;*/
-/*  cursor: pointer*/
-/*}*/
-
 .tt:hover{
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-decoration-color: #ff9900;
   color:#ff9900;
   cursor: pointer
+}
+
+.input-area{
+  display: flex;
+  justify-content: center;
+  width: 600px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

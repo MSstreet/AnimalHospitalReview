@@ -1,25 +1,23 @@
 <template>
 
-  <div class="container-fluid px-4">
+  <div class="container-fluid px-4 bg-light">
 
     <div >
-
+      <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">공지사항</h1>
+    </div>
+    <div class="input-area mb-4">
+      <select class="styled-select" v-model="search_key">
+        <!--            <option value="">- 선택 -</option>-->
+        <option value="title" selected>제목</option>
+        <option value="contents">내용</option>
+      </select>
+      <input style="border-width: 1px;" type="text" maxlength="50"  placeholder="검색어 입력" aria-label="search"
+             aria-describedby="button-addon2" class="styled-input ms-1" v-model="search_value" @keyup.enter="fnPage()">
+      <button @click="fnPage()" class="styled-button ms-1" id="button-addon2">검색</button>
     </div>
 
     <div class="card mb-4 text-center">
-      <div class="card-header">
 
-        <div class="input-group input-group-sm search-pos" >
-          <select style="height: 2rem" v-model="search_key">
-<!--            <option value="">- 선택 -</option>-->
-            <option value="title" selected>제목</option>
-            <option value="contents">내용</option>
-          </select>
-          <input style="border-width: 1px; height: 2rem" type="text" maxlength="50"  placeholder="검색어 입력" aria-label="search"
-                 aria-describedby="button-addon2" class="ms-1" v-model="search_value" @keyup.enter="fnPage()">
-          <button @click="fnPage()" class="btn btn-success ms-1" id="button-addon2">검색</button>
-        </div>
-      </div>
 
       <div class="card-body">
 
@@ -214,17 +212,17 @@ export default {
 }
 
 .t1:hover{
-  /*background-color: blanchedalmond;*/
   background-color: beige;
 }
 
 .tt:hover{
-  /*text-decoration: underline;*/
-  /*text-decoration-thickness: 1px;*/
-  /*text-decoration-color: #ff9900;*/
-  /*color:#ff9900;*/
-  /*color:blue;*/
   cursor: pointer
+}
+
+.input-area{
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 </style>
 

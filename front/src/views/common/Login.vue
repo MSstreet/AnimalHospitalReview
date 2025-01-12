@@ -74,43 +74,43 @@
       </div>
     </div>
   </div>
-
   <section class="bg-light">
+
+
+  <div class="social-btn-area">
+    <button type="button" class="kakao-btn" @click="kakaoLogin">
+      <img src="@/assets/kakao_login_medium.png" class="kakao-btn-img" alt="카카오 로그인 로고" />
+    </button>
+  </div>
+
     <div class="mt-10">
       <div class="container py-4">
-        <h1 class="fs-1 fw-bold text-center mb-5"><b style="color: #4c1192">LOGIN</b> </h1>
+<!--        <h1 class="fs-1 fw-bold text-center mb-5"><b >로그인</b> </h1>-->
 
         <form @submit.prevent="fnLogin">
           <div class="form-group">
-            <label for="exampleInputEmail1" class="mb-1">ID</label>
+            <label for="exampleInputEmail1" class="fw-bold mb-1">아이디</label>
             <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputPassword1" class="mb-1 mt-4">Password</label>
+            <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
             <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw">
           </div>
 
         <div class="row">
           <div class="d-grid gap-2 mt-2 col-6">
-             <button type="submit" class="btn btn-primary mt-3 fw-bold">Login</button>
+             <button type="submit" class="btn btn-primary mt-3 fw-bold">로그인</button>
           </div>
-
           <div class="d-grid gap-2 mt-2 col-6">
-            <router-link to="/join" type="button" class="btn btn-success mt-3 fw-bold">Join</router-link>
+            <router-link to="/join" type="button" class="btn btn-success mt-3 fw-bold">회원가입</router-link>
           </div>
-
           <div class="mt-2 ">
             <span type="button" class="btn btn-link a" data-bs-toggle="modal"
                   data-bs-target="#findId">ID를 잊으셨나요?</span>
            <span type="button" class="btn btn-link a" data-bs-toggle="modal"
                  data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
           </div>
-
-          <button type="button" class="kakao-btn" @click="kakaoLogin">
-            <img src="@/assets/kakao_login_medium.png" class="kakao-btn-img" alt="카카오 로그인 로고" />
-          </button>
-
         </div>
         </form>
       </div>
@@ -170,12 +170,7 @@ export default {
         }
       }
     },async kakaoLogin() {
-      // const redirectUri = "http://localhost:8081/oauth/kakao/callback"; // 백엔드 카카오 콜백 URL
-      // const clientId = "409b3fb04dd78999f86c8dbc4a19372a";
-      // const authorizationUri = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-      //
-      // // 카카오 로그인 페이지로 리디렉션
-      // window.location.href = authorizationUri;
+
       try {
         // 백엔드로 로그인 URL을 요청
         const response = await axios.get("http://localhost:8081/oauth/kakao/login-url");
@@ -275,15 +270,27 @@ export default {
   width : 503px;
 }
 
-.kakao-btn{
+.social-btn-area{
+  display: flex;
+  justify-content: center;
   border: none;
   border-radius: 5px;
   font-size: 18px;
   margin-top: 10px;
   cursor: pointer;
+  background-color: transparent; /* 배경을 투명하게 설정 */
+  padding: 0; /* 불필요한 여백 제거 */
 }
 
 .kakao-btn-img{
   padding : 0;
+  height: auto; /* 비율을 유지 */
+  max-width: 100%; /* 부모 요소보다 커지지 않도록 제한 */
+
+}
+
+.kakao-btn{
+  background-color: transparent; /* 배경을 투명하게 설정 */
+  border: none;
 }
 </style>

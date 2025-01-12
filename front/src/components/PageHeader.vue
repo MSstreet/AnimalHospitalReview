@@ -3,7 +3,7 @@
   <header>
     <nav class="navbar">
         <div class="navbar-logo">
-          <router-link to="/"><i class="fa-solid fa-shield-cat me-2"></i>리뷰</router-link>
+          <router-link to="/"><i class="fa-solid fa-shield-cat me-2"></i></router-link>
         </div>
         <div class="navbar-container">
             <!-- Navigation Links -->
@@ -11,11 +11,16 @@
               <li class="navbar-item" v-for="item in menuItems" :key="item.text">
                 <router-link :to="item.link">{{ item.text }}</router-link>
               </li>
+              <li class="navbar-item" v-if="!$store.state.isLogin">
+                <router-link to="/login">로그인</router-link>
+              </li>
+              <li class="navbar-item" v-if="!$store.state.isLogin">
+                <router-link to="/join">회원가입</router-link>
+              </li>
             </ul>
 
           <div class="navbar-user-info">
-            <router-link to="/login" v-if="!this.$store.state.isLogin">Login</router-link>
-            <router-link to="/join" v-if="!this.$store.state.isLogin">Join</router-link>
+
             <ul class="user-drop-button" v-if="this.$store.state.isLogin">
               <li class="nav-item dropdown" >
                 <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
@@ -37,7 +42,6 @@
                 </ul>
               </li>
             </ul>
-
           </div>
 
           <!-- 모바일 메뉴 버튼 -->
@@ -59,7 +63,7 @@
 <script>
 import {IS_LOGIN} from '@/vuex/mutation_types'
 import store from "@/vuex/store";
-import './PageHeader.css';
+
 
 let setIsLogin = ({commit}, data) => {
   commit(IS_LOGIN, data)
@@ -70,8 +74,8 @@ export default {
     return {
       menuOpen: false,
       menuItems: [
-        {text: '게시판', link: '/board/list'},
         {text: '동물병원', link: '/hospital/list'},
+        {text: '소통창구', link: '/board/list'},
         {text: '공지사항', link: '/notice/list'},
       ]
     };
@@ -155,6 +159,8 @@ a {
   justify-content: flex-end;; /* Left and right sections */
   align-items: center;
   height: 100%;
+  padding: 15px 20px;
+
 }
 
 .navbar-left {
@@ -180,12 +186,13 @@ a {
 
 .navbar-item {
   margin-left: 20px;
+  font-family: "Dongle", serif;
 }
 
 .navbar-item a {
   color: white;
-  font-size: 16px;
-  padding: 8px;
+  font-size: 30px;
+  padding: 6px;
   transition: background-color 0.3s ease;
 }
 

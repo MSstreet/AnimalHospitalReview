@@ -3,24 +3,22 @@
   <div class="container-fluid px-4 bg-light">
 
     <div >
-      <h1  class="tt mt-5 mb-5 fs-1 fw-bold " style="text-align: center" @click="fnReload">자유게시판</h1>
+      <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">유용한 정보를 공유해주세요</h1>
+    </div>
+
+    <div class="input-area mb-4">
+      <div class="" >
+        <select class="styled-select" v-model="search_key">
+          <option value="title">제목</option>
+          <option value="contents">내용</option>
+        </select>
+        <input style="border-width: 1px;" type="text" maxlength="50"  placeholder="검색어 입력" aria-label="search"
+               aria-describedby="button-addon2" class="styled-input ms-1" v-model="search_value" @keyup.enter="fnPage()">
+        <button @click="fnPage()" class="styled-button ms-1" id="button-addon2">검색</button>
+      </div>
     </div>
 
     <div class="card mb-4 text-center">
-      <div class="card-header">
-        <div class="input-group input-group-sm search-pos" >
-          <select v-model="search_key">
-            <option value="title">제목</option>
-            <option value="contents">내용</option>
-          </select>
-
-          <input style="border-width: 1px;" type="text" maxlength="50"  placeholder="검색어 입력" aria-label="search"
-                 aria-describedby="button-addon2" class="ms-1" v-model="search_value" @keyup.enter="fnPage()">
-          <button @click="fnPage()" class="btn btn-success ms-1" id="button-addon2">검색</button>
-        </div>
-
-      </div>
-
       <div>
         <a class="btn btn-primary float-end me-2 mt-2" v-on:click="fnWrite"><i class="fas fa-edit"></i>  글 작성</a>
       </div>
@@ -128,7 +126,8 @@ export default {
         let end_page = this.paging.end_page;
         for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
         return pageNumber;
-      }
+      },
+      isOpen: false,
     }
   }
   ,filters: {
@@ -146,7 +145,8 @@ export default {
     },
   }
   ,mounted() {
-    this.fnGetList()
+    this.fnGetList();
+
   },methods: {
     fnGetList() {
       this.requestBody = { // 데이터 전송
@@ -242,5 +242,10 @@ export default {
   cursor: pointer
 }
 
+.input-area{
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
 </style>
 
