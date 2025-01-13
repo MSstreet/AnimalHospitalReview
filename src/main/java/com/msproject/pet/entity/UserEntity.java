@@ -5,8 +5,11 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-//@Data
+
+@ToString(exclude = "roleSet")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +41,24 @@ public class UserEntity extends BaseEntity{
     @ColumnDefault("false") //default 0
     private boolean deleteYn;
 
+    private boolean social;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<UserRole> roleSet = new HashSet<>();
+
+    public void addRole(UserRole userRole) {
+        this.roleSet.add(userRole);
+    }
+
+    public void clearRoles() {
+        this.roleSet.clear();
+    }
+
+    public void changeSocial(boolean social) {
+        this.social = social;
+    }
+
     public void changePassword(String userPw){
         this.userPw = userPw;
     }
@@ -49,7 +70,6 @@ public class UserEntity extends BaseEntity{
         this.addr = addr;
         this.detailAddr = detailAddr;
         this.email = email;
-        //this.updatedAt = updatedAt;
     }
 
     public void changePw(String userPw){

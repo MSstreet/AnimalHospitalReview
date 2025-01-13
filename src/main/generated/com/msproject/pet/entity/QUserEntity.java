@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -38,6 +39,10 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
+
+    public final SetPath<UserRole, EnumPath<UserRole>> roleSet = this.<UserRole, EnumPath<UserRole>>createSet("roleSet", UserRole.class, EnumPath.class, PathInits.DIRECT2);
+
+    public final BooleanPath social = createBoolean("social");
 
     public final StringPath userId = createString("userId");
 

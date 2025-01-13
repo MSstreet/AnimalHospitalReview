@@ -32,24 +32,12 @@ spring:
         web-allow-others: true
       path: /h2-console
 
-#  datasource:
-#    url: jdbc:h2:tcp://localhost/~/pethospital1 # test ??? ??? ??? ??? ???? ???.
-#    username: user # username? password? ??? ??? ??
-#    password: user123123
-#    driver-class-name: org.h2.Driver
-
-
   servlet:
     multipart:
       enabled: 'true'
       max-request-size: 30MB
       max-file-size: 10MB
       location: C:\upload
-
-#  application:
-#    name: user-service
-#  main:
-#    allow-circular-references: true
 
   jpa:
     hibernate:
@@ -79,3 +67,9 @@ org:
   zerock:
     upload:
       path: C:\upload
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace

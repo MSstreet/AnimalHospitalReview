@@ -50,8 +50,6 @@ public class UserService implements UserDetailsService {
 
     private final BoardReplyRepository boardReplyRepository;
 
-    //private final PasswordEncoder passwordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<GrantedAuthority> authorities = new ArrayList<>();

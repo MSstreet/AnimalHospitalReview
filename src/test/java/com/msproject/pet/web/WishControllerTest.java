@@ -40,7 +40,7 @@ class WishControllerTest {
                 WishDto.builder()
                         .petHospitalNum(2429L)
                         .userNum(1L)
-                        .wishState(false)
+                        //.wishState(false)
                         .build()
         );
 
@@ -48,7 +48,7 @@ class WishControllerTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
-        //System.out.println(mvcResult.getResponse().getContentAsString());
+
     }
 
 }

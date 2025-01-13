@@ -1,6 +1,8 @@
 package com.msproject.pet.entity;
 
 import com.msproject.pet.service.UserService;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +15,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.*;
 
+@Log4j2
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class UserRepositoryTest {
@@ -31,13 +37,6 @@ class UserRepositoryTest {
     @DisplayName("2. 유저정보 검색 후 비밀번호 비교")
     @Test
     void test_2(){
-        /*
-        String encPassword = passwordEncoder.encode("test_password");
-        UserEntity user = userRepository.findByUserId("test_user")
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-        assertThat(user.getUserPw()).isEqualTo(encPassword);
-        */
-
         String userId = "test_user";
         String userPw = "test_password";
         UserDetails user = userService.loadUserByUsername(userId);
@@ -65,5 +64,37 @@ class UserRepositoryTest {
 
         UserEntity savedUser = userRepository.save(userEntity);
         assertThat(userEntity.getUserId()).isEqualTo(savedUser.getUserId());
+    }
+
+    @Test
+    public void insertUser(){
+        IntStream.rangeClosed(1,100).forEach(i -> {
+            UserEntity user = UserEntity.builder()
+                    .userId("user" + i)
+                    .userPw(passwordEncoder.encode("1111"))
+                    .email("email"+i+"@email.com")
+                    .deleteYn(false)
+                    .social(false)
+                    .build();
+
+            user.addRole(UserRole.USER);
+
+            if(i >= 90){
+                user.addRole(UserRole.ADMIN);
+            }
+            userRepository.save(user);
+        });
+
+    }
+
+    @Test
+    public void testRead(){
+        Optional<UserEntity> userEntity = userRepository.getWithRole("user100");
+        UserEntity user = userEntity.orElseThrow();
+
+        log.info(user);
+        log.info(user.getRoleSet());
+
+        user.getRoleSet().forEach(userRole -> log.info(userRole.name()));
     }
 }
