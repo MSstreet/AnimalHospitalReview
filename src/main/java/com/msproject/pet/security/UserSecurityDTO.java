@@ -13,7 +13,6 @@ import java.util.Collection;
 @ToString
 public class UserSecurityDTO  extends User {
 
-
     private String userId;
     private String userPw;
     private String userName;
@@ -23,14 +22,22 @@ public class UserSecurityDTO  extends User {
     private String detailAddr;
     private String email;
     private boolean deleteYn;
-    private String social;
+    private boolean social;
 
-    public UserSecurityDTO(String userId, String password, String username, String phoneNum,
-                           String zipCode, String addr, String detailAddr, String email, boolean deleteYn, String social,
-                            Collection<? extends GrantedAuthority> authorities ) {
-        super(username,password,authorities);
-
-        this.userId = username;
-        this.userPw = password;
+    public UserSecurityDTO(String userId, String userPw, String userName, String phoneNum,
+                           String zipCode, String addr, String detailAddr, String email,
+                           boolean deleteYn, boolean social,
+                           Collection<? extends GrantedAuthority> authorities) {
+        super(userId, userPw, authorities);
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userName = userName;
+        this.phoneNum = phoneNum;
+        this.zipCode = zipCode;
+        this.addr = addr;
+        this.detailAddr = detailAddr;
+        this.email = email;
+        this.deleteYn = deleteYn;
+        this.social = social;
     }
 }
