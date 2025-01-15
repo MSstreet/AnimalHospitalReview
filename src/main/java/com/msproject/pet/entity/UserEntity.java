@@ -22,26 +22,17 @@ public class UserEntity extends BaseEntity{
     @Column(name = "user_idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
-
     private String userId;
-
     private String userPw;
     private String userName;
-
     private String phoneNum;
-
     private String zipCode;
-
     private String addr;
-
     private String detailAddr;
-
     private String email; // 0208
-
     @ColumnDefault("false") //default 0
-    private boolean deleteYn;
-
     private boolean social;
+    private boolean deleteYn;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -59,10 +50,6 @@ public class UserEntity extends BaseEntity{
         this.social = social;
     }
 
-    public void changePassword(String userPw){
-        this.userPw = userPw;
-    }
-
     public void change(String userName, String phoneNum, String zipCode, String addr, String detailAddr,String email){
         this.userName =userName;
         this.phoneNum = phoneNum;
@@ -73,6 +60,10 @@ public class UserEntity extends BaseEntity{
     }
 
     public void changePw(String userPw){
+        this.userPw = userPw;
+    }
+
+    public void changePassword(String userPw){
         this.userPw = userPw;
     }
 

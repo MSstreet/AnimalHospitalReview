@@ -5,6 +5,7 @@ import com.msproject.pet.service.UserService;
 import com.msproject.pet.util.JwtUtil;
 import com.msproject.pet.web.dtos.FindUserIdDto;
 import com.msproject.pet.web.dtos.UserDto;
+import com.msproject.pet.web.dtos.UserJoinDto;
 import com.msproject.pet.web.dtos.UserPwChangeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,22 +33,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     private final JwtUtil jwtUtil;
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     //아이디 중복 체크
     @GetMapping("/check")
     public Boolean checkId(@RequestParam String userId){
-
         return userService.checkId(userId);
     }
 
     @GetMapping("/check/mail")
     public Boolean checkEmail(@RequestParam String email){
-
         return userService.checkEmail(email);
     }
 
@@ -77,6 +79,39 @@ public class UserController {
         return  user.getIdx();
     }
 
+    @GetMapping("/login")
+    public void loginGET(String errorCode, String logout){
+        log.info("login get...");
+        log.info("logout:" + logout);
+
+        if(logout != null){
+            log.info("user logout...");
+        }
+    }
+
+    @GetMapping("/join")
+    public void joinGET(){
+        log.info("join get...");
+    }
+
+//    @PostMapping("/join")
+//    public void joinPOST(UserJoinDto userJoinDto, HttpServletResponse response) throws IOException {
+//
+//        log.info("join post...");
+//        log.info("userJoinDto: {}", userJoinDto);
+//
+//        try{
+//            userService.join(userJoinDto);
+//        }catch (Exception e){
+//            String redirectUrl = String.format("http://localhost:8080/join");
+//            // 리디렉션 처리
+//            response.sendRedirect(redirectUrl);
+//        }
+//
+//        String redirectUrl = String.format("http://localhost:8080/login");
+//        response.sendRedirect(redirectUrl);
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> paramMap) {
         String userId = paramMap.get("user_id");
@@ -91,14 +126,11 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);   // 검증 통과 후 authentication 세팅
         String accessToken = jwtUtil.createToken(loginUser.getUsername(), loginUser.getUsername());     //accessToken 생성
 
-
         Map<String, Object> result = new HashMap<>();
-
 
         result.put("user_id", loginUser.getUsername());
         result.put("user_token", accessToken);
         result.put("user_role", loginUser.getAuthorities().stream().findFirst().get().getAuthority());
-
         result.put("user_idx",userService.getUser(userId).getIdx());
 
         return ResponseEntity.ok(result);

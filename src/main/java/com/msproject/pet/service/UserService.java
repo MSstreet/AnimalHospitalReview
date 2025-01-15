@@ -9,6 +9,8 @@ import com.msproject.pet.repository.UserHistoryRepository;
 import com.msproject.pet.repository.WishRepository;
 import com.msproject.pet.web.dtos.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,26 +31,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
-
-    private final UserRepositoryCustom userRepositoryCustom;
-
-    private final UserHistoryRepository userHistoryRepository;
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    private final JavaMailSender mailSender;
-
+    private final UserRepository userRepository;
+    private final UserRepositoryCustom userRepositoryCustom;
+    private final UserHistoryRepository userHistoryRepository;
     private final ReviewRepository reviewRepository;
-
     private final WishRepository wishRepository;
-
     private final BoardRepository boardRepository;
-
     private final BoardReplyRepository boardReplyRepository;
+    private final ModelMapper modelMapper;
+    private final JavaMailSender mailSender;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -58,7 +55,6 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         //UserEntity userEntity = userRepositoryCustom.findByUserId(username);
-
 //        if(userEntity.isDeleteYn()){
 //            throw new WithdrawalException();
 //        }
@@ -90,13 +86,30 @@ public class UserService implements UserDetailsService {
         return userRepository.save(userEntity);
     }
 
+    public void join(UserJoinDto userJoinDto) throws Exception{
+        String userId = userJoinDto.getUserId();
+        boolean exist = userRepository.existsByUserId(userId);
+        if(exist){
+            throw new RuntimeException();
+        }
+        UserEntity userEntity = modelMapper.map(userJoinDto, UserEntity.class);
+        userEntity.changePassword(passwordEncoder.encode(userJoinDto.getUserPw()));
+        userEntity.addRole(UserRole.USER);
+
+        log.info("================");
+        log.info(userEntity);
+        log.info(userEntity.getRoleSet());
+
+        userRepository.save(userEntity);
+    }
+
     private void validateDuplicateEmail(String userId) {
 //        if (userRepositoryCustom.CheckExistsByUserId(userId)) {
 //            throw new DuplicateUserIdException();
 //        }
     }
 
-     public Boolean checkId(String userId){
+    public Boolean checkId(String userId){
         //return userRepositoryCustom.CheckExistsByUserId(userId);
         return userRepository.existsByUserId(userId);
      }
@@ -106,7 +119,6 @@ public class UserService implements UserDetailsService {
         UserEntity entity = userRepository.findByUserId(userDto.getUserId()).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
 
         //userDto.setUpdatedAt(LocalDateTime.now());
-
         entity.change(userDto.getUserName(),userDto.getPhoneNum(),userDto.getZipCode(), userDto.getAddr(), userDto.getDetailAddr(),userDto.getEmail());
 
         return userRepository.save(entity);
@@ -133,7 +145,6 @@ public class UserService implements UserDetailsService {
             boardReplyRepository.delete(boardReply);
             //boardReply.changeDeleteState();
         }
-
 
         UserHistory userHistory = UserHistory.builder()
                 .userId(entity.getUserId())
@@ -215,7 +226,6 @@ public class UserService implements UserDetailsService {
             UserEntity userEntity = user.orElseThrow();
 
             MailDto mailDto = createMailAndChangePassword(userEntity);
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             mailSend(mailDto);
 
             return userEntity;
@@ -244,13 +254,6 @@ public class UserService implements UserDetailsService {
 
         return dto;
     }
-
-//    public void updatePassword(String str, String userEmail){
-//        String memberPassword = str;
-//
-//        Long memberId = mr.findByMemberEmail(userEmail).getId();
-//        mmr.updatePassword(memberId,memberPassword);
-//    }
 
     private String getTempPassword() {
 
@@ -286,7 +289,6 @@ public class UserService implements UserDetailsService {
 
         if(passwordEncoder.matches(userPwChangeDto.getPassword(),userEntity.getUserPw())){
             userEntity.changePw(passwordEncoder.encode(userPwChangeDto.getNewPassword()));
-
             userRepository.save(userEntity);
 
             return true;
