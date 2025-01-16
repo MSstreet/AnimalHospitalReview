@@ -15,11 +15,16 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
 
     Boolean existsByEmail(String email);
 
-    Optional<UserEntity> findByEmail(String Email);
     Optional<UserEntity> findByUserNameAndEmail(String userName, String Email);
+
     Boolean existsByUserNameAndEmail(String userName, String Email);
 
     @EntityGraph(attributePaths = "roleSet")
     @Query("select u from UserEntity u where u.userId = :userId and u.social =false")
     Optional<UserEntity> getWithRole(@Param("userId") String userId);
+
+    @EntityGraph(attributePaths = "roleSet")
+    Optional<UserEntity> findByEmail(String Email);
+
+
 }
