@@ -25,24 +25,18 @@ import java.util.Optional;
 public class WishService {
 
     private final WishRepository wishRepository;
-
     private final WishRepositoryCustom wishRepositoryCustom;
     private final UserRepository userRepository;
-
     private final PetHospitalRepository petHospitalRepository;
-
     private final ModelMapper modelMapper;
 
     public WishEntity wishCreate(WishDto wishDto){
-
-
 
         Optional<PetHospitalEntity> petHospitalEntity = petHospitalRepository.findById(wishDto.getPetHospitalNum());
         PetHospitalEntity pet = petHospitalEntity.orElseThrow();
 
         Optional<UserEntity> userEntity = userRepository.findById(wishDto.getUserNum());
         UserEntity user = userEntity.orElseThrow();
-
 
         WishEntity wishEntity = WishEntity.builder()
                 .petHospitalEntity(pet)
@@ -72,7 +66,6 @@ public class WishService {
         WishEntity entity = wishRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 리뷰입니다."));
 
         wishRepository.delete(entity);
-
     }
 
 

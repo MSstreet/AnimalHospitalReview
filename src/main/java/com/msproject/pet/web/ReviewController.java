@@ -25,8 +25,9 @@ import java.util.UUID;
 @RestController
 public class ReviewController {
 
-    private final ReviewService reviewService;
     private String path = "C:\\upload\\";
+    private final ReviewService reviewService;
+
     @PostMapping("/review/join")
     public ReviewEntity create(ReviewDto reviewDto) throws Exception{
 
@@ -71,8 +72,6 @@ public class ReviewController {
                                               @PageableDefault(sort = {"idx"}) Pageable pageable,
                                               SearchCondition searchCondition)
     {
-        System.out.println("들어오는지 확인");
-        System.out.println(id);
         return reviewService.getUserReviewList(pageable, searchCondition, id);
     }
 
@@ -116,11 +115,9 @@ public class ReviewController {
         reviewService.delete(id);
     }
 
-
     public void deleteImage(Long id){
         reviewService.deleteImage(id);
     }
-
 
     @GetMapping("/review/hos/{id}")
     public double GetReviewAvg(@PathVariable Long id){

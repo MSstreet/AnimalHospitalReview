@@ -12,17 +12,10 @@ import lombok.NoArgsConstructor;
 public class NoticeBoardDto {
 
     private Long noticeBoardIdx;
-
     private String title;
-
     private String contents;
-
     private boolean displayYn;
-
-    private String createdAt;
-
-    private String updatedAt;
-
     private boolean deleteYn;
-
+    private String createdAt;
+    private String updatedAt;
 }

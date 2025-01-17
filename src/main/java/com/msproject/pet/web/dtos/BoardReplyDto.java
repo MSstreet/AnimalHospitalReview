@@ -13,22 +13,13 @@ import org.hibernate.annotations.ColumnDefault;
 public class BoardReplyDto {
 
     private Long replyIdx;
-
     private Long boardIdx;
-
     private Long userIdx;
-
-    private String contents;
-
-    private String createdAt;
-
-    private String updatedAt;
-
     private String userName;
-
-    private boolean deleteYn;
-
     private String userId;
-
+    private String contents;
+    private boolean deleteYn;
     private Long parent;
+    private String createdAt;
+    private String updatedAt;
 }

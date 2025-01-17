@@ -1,8 +1,11 @@
 package com.msproject.pet.security;
 
+import com.msproject.pet.entity.UserEntity;
 import com.msproject.pet.entity.UserRepository;
+import com.msproject.pet.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -11,8 +14,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -44,6 +50,45 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("email: " + email);
 
         return oAuth2User;
+    }
+    private UserSecurityDTO generateDTO(String email, Map<String,Object> params) {
+        Optional<UserEntity> result = userRepository.findByEmail(email);
+
+        if (result.isEmpty()) {
+            UserEntity user = UserEntity.builder()
+                    .userId(email)
+                    .userPw(passwordEncoder.encode("1111"))
+                    .email(email)
+                    .social(true)
+                    .build();
+            user.addRole(UserRole.USER);
+            userRepository.save(user);
+
+            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", "이름", "010111122222", "11111", "주소", "상세주소"
+                    , email, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            userSecurityDTO.setProps(params);
+
+            return userSecurityDTO;
+        } else {
+            UserEntity user = result.get();
+            UserSecurityDTO userSecurityDTO =
+                    new UserSecurityDTO(
+                            user.getUserId(),
+                            user.getUserPw(),
+                            user.getUserName(),
+                            user.getPhoneNum(),
+                            user.getZipCode(),
+                            user.getAddr(),
+                            user.getDetailAddr(),
+                            user.getEmail(),
+                            user.isDeleteYn(),
+                            user.isSocial(),
+                            user.getRoleSet()
+                                    .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name())).collect(Collectors.toList())
+                    );
+
+            return userSecurityDTO;
+        }
     }
 
     private String getKakaoEmail(Map<String, Object> attributes){

@@ -31,12 +31,9 @@ import java.util.Optional;
 public class PetHospitalService {
 
     private final PetHospitalRepository petHospitalRepository;
-
     private final ReviewRepository reviewRepository;
     private final PetHospitalRepositoryCustom petHospitalRepositoryCustom;
-
     private final ReviewRepositoryCustom reviewRepositoryCustom;
-
 
     public PetHospitalEntity create(PetHospitalDto petHospitalDto) {
 
@@ -107,8 +104,6 @@ public class PetHospitalService {
         List<PetHospitalListReviewCountDto> dtos = new ArrayList<>();
         Page<PetHospitalListReviewCountDto> hospitalEntities = petHospitalRepositoryCustom.findAllBySearchConditionWithReviewCount(pageable, searchCondition);
 
-        System.out.println(hospitalEntities.getTotalElements());
-
 
         for (PetHospitalListReviewCountDto entity : hospitalEntities) {
             PetHospitalListReviewCountDto dto = PetHospitalListReviewCountDto.builder()
@@ -122,7 +117,6 @@ public class PetHospitalService {
                     .reviewCount(entity.getReviewCount())
                     .build();
 //            if(dto.getOperState().equals("정상")) {
-                //System.out.println(entity.getOperState());
             if(dto.getReviewCount() != 0){
                // float avg = reviewRepository.getReviewAvg(dto.getHospitalId());
                double avg = reviewRepositoryCustom.getReviewAvg(dto.getHospitalId());
@@ -161,7 +155,6 @@ public class PetHospitalService {
                     .build();
 
             if(dto.getOperState().equals("정상")) {
-//                System.out.println(oper);
                 dtos.add(dto);
             }
         }
@@ -181,8 +174,6 @@ public class PetHospitalService {
         List<PetHospitalListReviewCountDto> dtos = new ArrayList<>();
         Page<PetHospitalListReviewCountDto> hospitalEntities = petHospitalRepositoryCustom.findAllBySearchConditionWithReviewCount1(pageable, searchCondition);
 
-        System.out.println(hospitalEntities.getTotalElements());
-
         for (PetHospitalListReviewCountDto entity : hospitalEntities) {
             PetHospitalListReviewCountDto dto = PetHospitalListReviewCountDto.builder()
                     .hospitalId(entity.getHospitalId())
@@ -195,7 +186,6 @@ public class PetHospitalService {
                     .reviewCount(entity.getReviewCount())
                     .build();
 //            if(dto.getOperState().equals("정상")) {
-            System.out.println(entity.getOperState());
             dtos.add(dto);
             //}
         }

@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 public class UserPwChangeDto {
 
     private Long idx;
-
     private String password;
-
     private String newPassword;
-
 }

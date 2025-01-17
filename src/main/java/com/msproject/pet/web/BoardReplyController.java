@@ -24,14 +24,8 @@ public class BoardReplyController {
 
     private final BoardReplyService boardReplyService;
 
-
     @PostMapping("/reply/join")
     public BoardReply create (@RequestBody BoardReplyDto boardReplyDto) throws Exception{
-
-        System.out.println(boardReplyDto.getUserIdx());
-        System.out.println(boardReplyDto.getBoardIdx());
-        System.out.println(boardReplyDto.getContents());
-
         return boardReplyService.BoardReplyCreate(boardReplyDto);
     }
 
@@ -56,8 +50,6 @@ public class BoardReplyController {
 
     @PatchMapping("/reply")
     public BoardReply update(@RequestBody BoardReplyDto boardReplyDto) {
-        System.out.println("들어오는지 확인해보기");
-        System.out.println(boardReplyDto.getReplyIdx());
         return boardReplyService.update(boardReplyDto);
     }
 

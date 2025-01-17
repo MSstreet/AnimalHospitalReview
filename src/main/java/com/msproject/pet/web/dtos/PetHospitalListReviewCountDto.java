@@ -14,23 +14,14 @@ import java.math.BigDecimal;
 public class PetHospitalListReviewCountDto {
 
     private Long hospitalId;
-
-    private String sigunName;
-
     private String hospitalName;
-
-    private String operState;
-
     private String hospitalNum;
-
     private String hospitalAddr; // 도로명 주소
-
     //private float hospitalScore;
     private double hospitalScore;
-
+    private String sigunName;
+    private String operState;
     private Long reviewCount;
-
     private BigDecimal hosLatitude ;
-
     private BigDecimal hosLongitude;
 }

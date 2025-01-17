@@ -29,7 +29,6 @@ public class NoticeBoardController {
             @PageableDefault(sort = {"idx"}) Pageable pageable,
             SearchCondition searchCondition)
     {
-
         return noticeBoardService.getNoticeBoardList(pageable, searchCondition);
     }
 

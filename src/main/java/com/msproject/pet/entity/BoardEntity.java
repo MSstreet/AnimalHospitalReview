@@ -26,31 +26,18 @@ public class BoardEntity {
     @Column(name = "board_idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
-
     private String title;
-
     private String contents;
-
     private String author; // 삭제해도 됨
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity userEntity;
-
-//    @Column(name = "created_at")
-//    @CreatedDate
-//    private String createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-
-//    @Column(name = "updated_at")
-//    @CreatedDate
-//    private String updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     @ColumnDefault("false")
     private boolean deleteYn;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public void changeState(){
         this.deleteYn = true;

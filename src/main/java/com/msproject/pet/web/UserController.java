@@ -75,7 +75,6 @@ public class UserController {
     public Long saveUser(@RequestBody @Valid UserDto userDto) throws Exception {
 
         UserEntity user = userService.saveUser(userDto);
-
         return  user.getIdx();
     }
 
@@ -114,6 +113,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> paramMap) {
+
         String userId = paramMap.get("user_id");
         String userPw = paramMap.get("user_pw");
 
@@ -155,25 +155,4 @@ public class UserController {
     public Boolean updatePw(@RequestBody UserPwChangeDto userPwChangeDto){
         return userService.updatePw(userPwChangeDto);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

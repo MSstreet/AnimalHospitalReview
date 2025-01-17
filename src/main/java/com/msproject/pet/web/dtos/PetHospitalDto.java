@@ -14,19 +14,11 @@ import java.math.BigDecimal;
 public class PetHospitalDto {
 
     private Long hospitalId;
-
-    private String sigunName;
-
     private String hospitalName;
-
-    private String operState;
-
     private String hospitalNum;
-
     private String hospitalAddr; // 도로명 주소
-
-
+    private String sigunName;
+    private String operState;
     private BigDecimal hosLatitude ;
-
     private BigDecimal hosLongitude;
 }

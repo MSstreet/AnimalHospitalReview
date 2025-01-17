@@ -1,11 +1,9 @@
 package com.msproject.pet.web;
 
-import com.msproject.pet.entity.ReviewEntity;
 import com.msproject.pet.entity.WishEntity;
 import com.msproject.pet.model.Header;
-import com.msproject.pet.model.SearchCondition;
+
 import com.msproject.pet.service.WishService;
-import com.msproject.pet.web.dtos.ReviewDto;
 import com.msproject.pet.web.dtos.WishDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +27,12 @@ public class WishController {
         if(checkId(wishDto.getUserNum(),wishDto.getPetHospitalNum())){
             return wishService.wishCreate(wishDto);
         }else{
-
             return update(wishDto);
         }
     }
 
     @GetMapping("/wish/check/{uid}/{hid}")
     public Boolean checkId(@PathVariable Long uid, @PathVariable Long hid){
-
         return wishService.checkWish(uid,hid);
     }
 
@@ -65,15 +61,11 @@ public class WishController {
 
     @GetMapping("/wish/one/{uid}/{hid}")
     public WishDto getWish1(@PathVariable Long uid,@PathVariable Long hid){
-
         return wishService.getWish1(uid,hid);
     }
 
     @GetMapping("/wish/change/{wid}")
     public WishEntity changeStateZero(@PathVariable Long wid){
-
         return  wishService.changeStateZero(wid);
     }
-
-
 }

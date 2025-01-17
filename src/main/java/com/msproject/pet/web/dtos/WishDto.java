@@ -12,28 +12,16 @@ import lombok.NoArgsConstructor;
 public class WishDto {
 
     private Long wishId;
-
     private Long petHospitalNum;
-
     private Long userNum;
-
     //private boolean wishState;
-
     private int wishState1;
-
     private String hospitalName;
-
     private String hospitalNum;
-
     private String hospitalSigunName;
-
     private String hospitalAddr;
-
     private float hospitalScore;
-
     private String createdAt;
-
     private String updatedAt;
-
 
 }

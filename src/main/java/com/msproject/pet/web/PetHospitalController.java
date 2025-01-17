@@ -39,13 +39,11 @@ public class PetHospitalController {
             @PageableDefault(sort = {"idx"}) Pageable pageable,
             SearchCondition searchCondition)
     {
-
         return petHospitalService.getHospitalListWithReviewCount1(pageable, searchCondition);
     }
 
     @GetMapping("/hospital/{id}")
     public PetHospitalListReviewCountDto getPetHospital(@PathVariable Long id){
-        System.out.println("컨트롤러");
         return petHospitalService.getPetHospitalWithReviewCount(id);
     }
 

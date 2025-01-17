@@ -26,7 +26,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     //private final UserService userService;
-
     //private final TokenRequestFilter tokenRequestFilter;
 
     @Bean

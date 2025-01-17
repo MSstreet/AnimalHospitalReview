@@ -48,13 +48,10 @@ public class ReviewService {
 
     public double GetReviewAvg(Long id) {
 
-        //float reviewAvg = reviewRepository.getReviewAvg(id);
         double reviewAvg = reviewRepositoryCustom.getReviewAvg(id);
 
-        //reviewAvg = Math.round(reviewAvg * 100) / 100;
         DecimalFormat df = new DecimalFormat("#");
         reviewAvg = Integer.parseInt(df.format(reviewAvg));
-        //int rounded = (int)Math.round(reviewAvg);
         return  reviewAvg;
     }
 
@@ -66,18 +63,8 @@ public class ReviewService {
         Optional<UserEntity> userEntity = userRepository.findById(reviewDto.getUserNum());
         UserEntity user = userEntity.orElseThrow();
 
-//        String originalFilename = reviewDto.getFile().getOriginalFilename();
-//        String uuid = UUID.randomUUID().toString();
-//        String extension =  originalFilename.substring(originalFilename.lastIndexOf("."));
-//        String savedName = uuid + extension;
-
-        System.out.println(reviewDto.getEffectScore());
-        System.out.println(reviewDto.getPriceScore());
-        System.out.println(reviewDto.getKindnessScore());
-
         float avgScore = (float)(reviewDto.getEffectScore() + reviewDto.getPriceScore() + reviewDto.getKindnessScore()) / 3;
 
-        System.out.println("평균값 확인" + avgScore);
         DecimalFormat df = new DecimalFormat("0.0");
         avgScore = Float.parseFloat(df.format(avgScore));
 
@@ -89,18 +76,13 @@ public class ReviewService {
                 .kindnessScore(reviewDto.getKindnessScore())
                 .effectScore(reviewDto.getEffectScore())
                 .priceScore(reviewDto.getPriceScore())
-                //.score(reviewDto.getScore())
                 .deleteYn(reviewDto.isDeleteYn())
-//                .file(reviewDto.getFile())
                 .tmpScore(avgScore)
                 .fileName(reviewDto.getFileName())
                 .originalFileName(reviewDto.getOriginalFileName())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
-
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + reviewDto.getScore());
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + reviewEntity.getTmpScore());
 
         return reviewRepository.save(reviewEntity);
     }
@@ -123,8 +105,6 @@ public class ReviewService {
     public void delete(Long id) {
         ReviewEntity entity = reviewRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 리뷰입니다."));
 
-        //deleteImage(entity.getFileName());
-        //reviewRepository.delete(entity);
         entity.changeDeleteState();
         entity.isDeleteYn();
 

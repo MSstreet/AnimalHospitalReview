@@ -15,28 +15,16 @@ import java.time.LocalDateTime;
 public class BoardListWithReplyCountDto {
 
     private Long idx;
-
     private String title;
-
     private String contents;
-
     private String author;
-
     private Long userIdx;
-    //private String userIdx;
-
     private String userId;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private boolean deleteYn;
-
     private Long replyCount;
-
     private String createdAt1;
-
     private String updatedAt1;
+    private boolean deleteYn;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }
