@@ -5,6 +5,8 @@ import com.msproject.pet.entity.UserRepository;
 import com.msproject.pet.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -40,7 +42,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String email = null;
-
         switch(clientName){
             case "kakao":
                 email = getKakaoEmail(attributes);
@@ -48,9 +49,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         log.info("email: " + email);
-
-        return oAuth2User;
+        return generateDTO(email, attributes);
     }
+
     private UserSecurityDTO generateDTO(String email, Map<String,Object> params) {
         Optional<UserEntity> result = userRepository.findByEmail(email);
 
@@ -60,12 +61,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .userPw(passwordEncoder.encode("1111"))
                     .email(email)
                     .social(true)
+                    .deleteYn(false)
                     .build();
             user.addRole(UserRole.USER);
             userRepository.save(user);
 
-            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", "이름", "010111122222", "11111", "주소", "상세주소"
-                    , email, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", email, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             userSecurityDTO.setProps(params);
 
             return userSecurityDTO;
@@ -86,7 +87,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             user.getRoleSet()
                                     .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name())).collect(Collectors.toList())
                     );
-
             return userSecurityDTO;
         }
     }
@@ -94,7 +94,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private String getKakaoEmail(Map<String, Object> attributes){
         log.info("KAKAO=================================================");
 
-        Object value = attributes.get("kakao_account");
+        Object value = attributes.get("account_email");
         log.info("value: " + value);
 
         LinkedHashMap accountMap = (LinkedHashMap)value;

@@ -13,10 +13,11 @@ spring:
         registration:
           kakao:
             client-id: 409b3fb04dd78999f86c8dbc4a19372a  # 카카오 REST API 키
+            client-secret: hCjNC6r9e9w8N6an8eOBxiWu2ZXP5en0
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8081/oauth/kakao/callback"
-            scope: profile_image
+            scope: profile_nickname,profile_image,account_email
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize

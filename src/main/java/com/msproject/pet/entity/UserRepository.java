@@ -2,8 +2,10 @@ package com.msproject.pet.entity;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,5 +28,8 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
     @EntityGraph(attributePaths = "roleSet")
     Optional<UserEntity> findByEmail(String Email);
 
-
+    @Modifying
+    @Transactional
+    @Query("update UserEntity u set u.userPw =:userPw where u.userId = :userId ")
+    void updatePassword(@Param("userPw") String userPw, @Param("userId") String userId);
 }

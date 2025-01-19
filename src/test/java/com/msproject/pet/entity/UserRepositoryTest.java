@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
@@ -97,4 +99,13 @@ class UserRepositoryTest {
 
         user.getRoleSet().forEach(userRole -> log.info(userRole.name()));
     }
+
+    @Commit
+    @Test
+    public void testUpdate(){
+        String userId = "test_user@naver.com";
+        String userPw = passwordEncoder.encode("54321");
+        userRepository.updatePassword(userPw, userId);
+    }
+
 }

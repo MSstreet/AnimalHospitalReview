@@ -47,6 +47,17 @@ public class UserSecurityDTO  extends User implements OAuth2User {
         this.social = social;
     }
 
+    public UserSecurityDTO(String userId, String userPw, String email,
+                           boolean deleteYn, boolean social,
+                           Collection<? extends GrantedAuthority> authorities) {
+        super(userId, userPw, authorities);
+        this.userId = userId;
+        this.userPw = userPw;
+        this.email = email;
+        this.deleteYn = deleteYn;
+        this.social = social;
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
      return this.getProps();
