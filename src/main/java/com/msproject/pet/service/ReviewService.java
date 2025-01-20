@@ -4,7 +4,6 @@ import com.msproject.pet.entity.PetHospitalEntity;
 import com.msproject.pet.entity.ReviewEntity;
 import com.msproject.pet.entity.UserEntity;
 import com.msproject.pet.entity.UserRepository;
-import com.msproject.pet.exception.InCorrectImageFileException;
 import com.msproject.pet.model.Header;
 import com.msproject.pet.model.Pagination;
 import com.msproject.pet.model.SearchCondition;
@@ -18,10 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,13 +1,11 @@
 package com.msproject.pet.service;
 
-import com.msproject.pet.entity.BoardEntity;
 import com.msproject.pet.entity.NoticeBoard;
 import com.msproject.pet.model.Header;
 import com.msproject.pet.model.Pagination;
 import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.repository.NoticeBoardRepository;
 import com.msproject.pet.repository.NoticeBoardRepositoryCustom;
-import com.msproject.pet.web.dtos.BoardDto;
 import com.msproject.pet.web.dtos.NoticeBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

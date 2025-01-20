@@ -50,7 +50,6 @@ public class WishService {
         return wishRepository.save(wishEntity);
     }
 
-
     public WishEntity update(WishDto wishDto) {
 
         WishEntity entity = wishRepositoryCustom.findOneReview(wishDto.getUserNum(),wishDto.getPetHospitalNum());
@@ -60,14 +59,12 @@ public class WishService {
         return wishRepository.save(entity);
     }
 
-
     public void delete(Long id) {
 
         WishEntity entity = wishRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 리뷰입니다."));
 
         wishRepository.delete(entity);
     }
-
 
     public Header<List<WishDto>> getWishList(Pageable pageable, Long uid) {
 

@@ -1,7 +1,6 @@
 package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.BoardReply;
-import com.msproject.pet.entity.ReviewEntity;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.msproject.pet.entity.QBoardReply.boardReply;
-
-
 
 @RequiredArgsConstructor
 @Repository

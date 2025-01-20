@@ -1,13 +1,10 @@
 package com.msproject.pet.web;
 
 import com.msproject.pet.entity.BoardReply;
-import com.msproject.pet.entity.ReviewEntity;
 import com.msproject.pet.model.Header;
-import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.service.BoardReplyService;
 
 import com.msproject.pet.web.dtos.BoardReplyDto;
-import com.msproject.pet.web.dtos.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

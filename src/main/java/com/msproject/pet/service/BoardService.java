@@ -6,15 +6,12 @@ import com.msproject.pet.model.Pagination;
 import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.web.dtos.BoardDto;
 import com.msproject.pet.web.dtos.BoardListWithReplyCountDto;
-import com.msproject.pet.web.dtos.PetHospitalListReviewCountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

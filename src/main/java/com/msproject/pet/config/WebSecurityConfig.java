@@ -47,6 +47,7 @@ public class WebSecurityConfig {
 //    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 //    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()

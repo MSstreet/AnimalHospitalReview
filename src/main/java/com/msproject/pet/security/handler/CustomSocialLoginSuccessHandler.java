@@ -4,7 +4,6 @@ import com.msproject.pet.security.UserSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -33,11 +32,11 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         //소셜로그인이고 회원의 패스워드가 1111이라면
         if (user.isSocial()
                 && (user.getUserPw().equals("1111")
-                ||  passwordEncoder.matches("1111", user.getUserPw())
+                ||  passwordEncoder.matches("1111", encodedPw)
         )) {
             log.info("Should Change Password");
-
             log.info("Redirect to Member Modify ");
+
             response.sendRedirect("/member/modify");
             return;
         } else {

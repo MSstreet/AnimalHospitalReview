@@ -75,46 +75,42 @@
     </div>
   </div>
   <section class="bg-light">
-
-
   <div class="social-btn-area">
     <button type="button" class="kakao-btn" @click="kakaoLogin">
       <img src="@/assets/kakao_login_medium.png" class="kakao-btn-img" alt="카카오 로그인 로고" />
     </button>
   </div>
 
-    <div class="mt-10">
-      <div class="container py-4">
-<!--        <h1 class="fs-1 fw-bold text-center mb-5"><b >로그인</b> </h1>-->
-
-        <form @submit.prevent="fnLogin">
-          <div class="form-group">
-            <label for="exampleInputEmail1" class="fw-bold mb-1">아이디</label>
-            <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
-          </div>
-
-          <div class="form-group">
-            <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
-            <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw">
-          </div>
-
-        <div class="row">
-          <div class="d-grid gap-2 mt-2 col-6">
-             <button type="submit" class="btn btn-primary mt-3 fw-bold">로그인</button>
-          </div>
-          <div class="d-grid gap-2 mt-2 col-6">
-            <router-link to="/join" type="button" class="btn btn-success mt-3 fw-bold">회원가입</router-link>
-          </div>
-          <div class="mt-2 ">
-            <span type="button" class="btn btn-link a" data-bs-toggle="modal"
-                  data-bs-target="#findId">ID를 잊으셨나요?</span>
-           <span type="button" class="btn btn-link a" data-bs-toggle="modal"
-                 data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
-          </div>
+  <div class="mt-10">
+    <div class="container py-4">
+      <form @submit.prevent="fnLogin">
+        <div class="form-group">
+          <label for="exampleInputEmail1" class="fw-bold mb-1">아이디</label>
+          <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
         </div>
-        </form>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
+          <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw">
+        </div>
+
+      <div class="row">
+        <div class="d-grid gap-2 mt-2 col-6">
+           <button type="submit" class="btn btn-primary mt-3 fw-bold">로그인</button>
+        </div>
+        <div class="d-grid gap-2 mt-2 col-6">
+          <router-link to="/join" type="button" class="btn btn-success mt-3 fw-bold">회원가입</router-link>
+        </div>
+        <div class="mt-2 ">
+          <span type="button" class="btn btn-link a" data-bs-toggle="modal"
+                data-bs-target="#findId">ID를 잊으셨나요?</span>
+         <span type="button" class="btn btn-link a" data-bs-toggle="modal"
+               data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
+        </div>
       </div>
+      </form>
     </div>
+  </div>
   </section>
 </template>
 
@@ -134,7 +130,6 @@ export default {
 
   }
   ,mounted() {
-    // console.log("확인!!!!!!!" + user_idx)
   },
   methods: {
 
@@ -181,6 +176,8 @@ export default {
       } catch (error) {
         console.error("카카오 로그인 URL을 가져오는 중 오류가 발생했습니다.", error);
       }
+    },async kakaoLogin1() {
+      window.location.href = "http://localhost:8081/oauth2/authorization/kakao";
     }
     ,goToPages() {
       this.$router.replace({
@@ -189,8 +186,6 @@ export default {
       })
     }
     ,checkEmail(){
-      console.log("!!!!!!!!!!!!!!!!")
-
       let apiUrl = this.$serverUrl + '/user/find/pw?userEmail=' + this.user_email
 
       this.$axios.post(apiUrl, {

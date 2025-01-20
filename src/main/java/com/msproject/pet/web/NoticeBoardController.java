@@ -3,7 +3,6 @@ package com.msproject.pet.web;
 import com.msproject.pet.model.Header;
 import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.service.NoticeBoardService;
-import com.msproject.pet.web.dtos.BoardDto;
 import com.msproject.pet.web.dtos.NoticeBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

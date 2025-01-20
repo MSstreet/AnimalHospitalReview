@@ -1,8 +1,6 @@
 package com.msproject.pet.service;
 
 import com.msproject.pet.entity.*;
-import com.msproject.pet.exception.DuplicateUserIdException;
-import com.msproject.pet.exception.WithdrawalException;
 import com.msproject.pet.repository.BoardReplyRepository;
 import com.msproject.pet.repository.ReviewRepository;
 import com.msproject.pet.repository.UserHistoryRepository;
@@ -11,7 +9,6 @@ import com.msproject.pet.web.dtos.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +18,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -238,7 +233,6 @@ public class UserService implements UserDetailsService {
     public MailDto createMailAndChangePassword(UserEntity userEntity) {
 
         String str = getTempPassword();
-
         MailDto dto = new MailDto();
 
         dto.setAddress(userEntity.getEmail());
