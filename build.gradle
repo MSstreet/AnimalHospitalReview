@@ -56,6 +56,8 @@ dependencies {
 	// Log4j2
 	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 	implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+
+	implementation 'net.sourceforge.tess4j:tess4j:5.5.1' // 최신 버전 확인 필요
 }
 
 tasks.named('test') {
