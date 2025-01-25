@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(name="TB_USER")
 @Entity
 public class UserEntity extends BaseEntity{
 
@@ -42,12 +40,12 @@ public class UserEntity extends BaseEntity{
         this.roleSet.add(userRole);
     }
 
-    public void clearRoles() {
-        this.roleSet.clear();
-    }
-
     public void changeSocial(boolean social) {
         this.social = social;
+    }
+
+    public void clearRoles() {
+        this.roleSet.clear();
     }
 
     public void change(String userName, String phoneNum, String zipCode, String addr, String detailAddr,String email){

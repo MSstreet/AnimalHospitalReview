@@ -1,6 +1,5 @@
 package com.msproject.pet.repository;
 
-import com.msproject.pet.entity.BoardEntity;
 import com.msproject.pet.entity.NoticeBoard;
 import com.msproject.pet.model.SearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -42,11 +41,6 @@ public class NoticeBoardRepositoryCustom {
     }
 
     private BooleanExpression searchKeywords(String sk, String sv) {
-//        if("author".equals(sk)) {
-//            if(StringUtils.hasLength(sv)) {
-//                return boardEntity.author.contains(sv);
-//            }
-//        }
         if ("title".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
                 return noticeBoard.title.contains(sv);

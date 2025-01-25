@@ -39,53 +39,11 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    //아이디 중복 체크
-    @GetMapping("/check")
-    public Boolean checkId(@RequestParam String userId){
-        return userService.checkId(userId);
-    }
-
-    @GetMapping("/check/mail")
-    public Boolean checkEmail(@RequestParam String email){
-        return userService.checkEmail(email);
-    }
-
-    @PostMapping("/find")
-    public String findId(@RequestBody FindUserIdDto findUserIdDto){
-
-        UserEntity user = userService.findId(findUserIdDto);
-
-        if(user == null){
-            return null;
-        }
-        return user.getUserId();
-    }
-    @PostMapping("/find/pw")
-    public String findPassword(@RequestParam("userEmail") String userEmail){
-
-        UserEntity user = userService.findPw(userEmail);
-
-        if(user == null){
-            return null;
-        }
-        return user.getEmail();
-    }
-
     @PostMapping("/join")
     public Long saveUser(@RequestBody @Valid UserDto userDto) throws Exception {
 
         UserEntity user = userService.saveUser(userDto);
         return  user.getIdx();
-    }
-
-    @GetMapping("/login")
-    public void loginGET(String errorCode, String logout){
-        log.info("login get...");
-        log.info("logout:" + logout);
-
-        if(logout != null){
-            log.info("user logout...");
-        }
     }
 
     @GetMapping("/join")
@@ -111,12 +69,23 @@ public class UserController {
 //        response.sendRedirect(redirectUrl);
 //    }
 
+//    @GetMapping("/login")
+//    public void loginGET(String errorCode, String logout){
+//        log.info("login get...");
+//        log.info("logout:" + logout);
+//
+//        if(logout != null){
+//            log.info("user logout...");
+//        }
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> paramMap) {
 
         String userId = paramMap.get("user_id");
         String userPw = paramMap.get("user_pw");
 
+        //String encodedPassword = passwordEncoder.encode(userPw);
         UserDetails loginUser = userService.loadUserByUsername(userId); //userId로 정보 가져오기
 
         Authentication authentication = authenticationManager.authenticate(     //가져온 정보와 입력한 비밀번호로 검증
@@ -136,6 +105,39 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
+    //아이디 중복 체크
+    @GetMapping("/check")
+    public Boolean checkId(@RequestParam String userId){
+        return userService.checkId(userId);
+    }
+
+    @GetMapping("/check/mail")
+    public Boolean checkEmail(@RequestParam String email){
+        return userService.checkEmail(email);
+    }
+
+    @PostMapping("/find")
+    public String findId(@RequestBody FindUserIdDto findUserIdDto){
+
+        UserEntity user = userService.findId(findUserIdDto);
+
+        if(user == null){
+            return null;
+        }
+        return user.getUserId();
+    }
+
+    @PostMapping("/find/pw")
+    public String findPassword(@RequestParam("userEmail") String userEmail){
+
+        UserEntity user = userService.findPw(userEmail);
+
+        if(user == null){
+            return null;
+        }
+        return user.getEmail();
+    }
+
     @GetMapping("/{id}")
     public UserDto getUser(@PathVariable Long id){
         return userService.getUser(id);
@@ -146,13 +148,13 @@ public class UserController {
         return userService.update(userDto);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id){
-        userService.delete(id);
-    }
-
     @PatchMapping("/change-pw")
     public Boolean updatePw(@RequestBody UserPwChangeDto userPwChangeDto){
         return userService.updatePw(userPwChangeDto);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id){
+        userService.delete(id);
     }
 }

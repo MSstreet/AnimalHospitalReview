@@ -4,10 +4,7 @@ import com.msproject.pet.entity.PetHospitalEntity;
 import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.web.dtos.PetHospitalListReviewCountDto;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -52,14 +49,10 @@ public class PetHospitalRepositoryCustom {
                 petHospitalEntity.operState,
                 petHospitalEntity.hospitalNum,
                 petHospitalEntity.hospitalAddr,
-                //petHospitalEntity.petHospitalScore,
                 reviewEntity.count().as("reviewCount")
-                //reviewEntity.deleteYn.eq(false).count().as("reviewCount")
         ));
 
         List<PetHospitalListReviewCountDto> dtoList = dtoJPAQuery.fetch();
-
-        //long count = dtoJPAQuery.stream().count();
 
         return new PageImpl<>(dtoList, pageable, total);
     }
@@ -77,7 +70,6 @@ public class PetHospitalRepositoryCustom {
                 petHospitalEntity.operState,
                 petHospitalEntity.hospitalNum,
                 petHospitalEntity.hospitalAddr,
-               // petHospitalEntity.petHospitalScore,
                 petHospitalEntity.hosLatitude,
                 petHospitalEntity.hosLongitude,
                 reviewEntity.count().as("reviewCount")
@@ -123,12 +115,6 @@ public class PetHospitalRepositoryCustom {
             }
         }
 
-//        } else if ("contents".equals(sk)) {
-//            if(StringUtils.hasLength(sv)) {
-//                return petHospitalEntity.hospitalId.contents.contains(sv);
-//            }
-//        }
-
         return null;
     }
 
@@ -139,11 +125,6 @@ public class PetHospitalRepositoryCustom {
                 return petHospitalEntity.hospitalAddr.contains(sv);
             }
 
-//        } else if ("contents".equals(sk)) {
-//            if(StringUtils.hasLength(sv)) {
-//                return petHospitalEntity.hospitalId.contents.contains(sv);
-//            }
-//        }
         return null;
     }
 
@@ -158,16 +139,12 @@ public class PetHospitalRepositoryCustom {
 
         long total = query.stream().count();
 
-        //System.out.println("total : " + total);
-
         List<PetHospitalEntity> results = query
                 .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()),petHospitalEntity.operState.contains("정상"))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(petHospitalEntity.hospitalId.desc())
                 .fetch();
-
-        //System.out.println("resultSize : " + results.size());
 
         JPAQuery<PetHospitalListReviewCountDto> dtoJPAQuery = query.select(Projections.bean(PetHospitalListReviewCountDto.class,
                 petHospitalEntity.hospitalId,
@@ -176,13 +153,10 @@ public class PetHospitalRepositoryCustom {
                 petHospitalEntity.operState,
                 petHospitalEntity.hospitalNum,
                 petHospitalEntity.hospitalAddr,
-                //petHospitalEntity.petHospitalScore,
                 reviewEntity.count().as("reviewCount")
         ));
 
         List<PetHospitalListReviewCountDto> dtoList = dtoJPAQuery.fetch();
-
-        //long count = dtoJPAQuery.stream().count();
 
         return new PageImpl<>(dtoList, pageable, total);
 

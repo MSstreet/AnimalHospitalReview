@@ -25,53 +25,6 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardRepositoryCustom boardRepositoryCustom;
     private final UserRepository userRepository;
-    /**
-     * 게시글 목록 가져오기
-     */
-//    public List<BoardDto> getBoardList() {
-//        List<BoardEntity> boardEntities = boardRepository.findAll();
-//        List<BoardDto> dtos = new ArrayList<>();
-//
-//        for (BoardEntity entity : boardEntities) {
-//            BoardDto dto = BoardDto.builder()
-//                    .idx(entity.getIdx())
-//                    .author(entity.getAuthor())
-//                    .title(entity.getTitle())
-//                    .contents(entity.getContents())
-//                    .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
-//                    .build();
-//
-//            dtos.add(dto);
-//        }
-//
-//        return dtos;
-//    }
-
-//    public Header<List<BoardDto>> getBoardList(Pageable pageable) {
-//        List<BoardDto> dtos = new ArrayList<>();
-//
-//        Page<BoardEntity> boardEntities = boardRepository.findAllByOrderByIdxDesc(pageable);
-//        for (BoardEntity entity : boardEntities) {
-//            BoardDto dto = BoardDto.builder()
-//                    .idx(entity.getIdx())
-//                    .author(entity.getAuthor())
-//                    .title(entity.getTitle())
-//                    .contents(entity.getContents())
-//                    .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
-//                    .build();
-//
-//            dtos.add(dto);
-//        }
-//
-//        Pagination pagination = new Pagination(
-//                (int) boardEntities.getTotalElements()
-//                , pageable.getPageNumber() + 1
-//                , pageable.getPageSize()
-//                , 10
-//        );
-//
-//        return Header.OK(dtos, pagination);
-//    }
 
     public Header<List<BoardDto>> getBoardList(Pageable pageable, SearchCondition searchCondition) {
 

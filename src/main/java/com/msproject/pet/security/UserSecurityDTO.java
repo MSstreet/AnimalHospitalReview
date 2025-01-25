@@ -1,5 +1,6 @@
 package com.msproject.pet.security;
 
+import com.msproject.pet.entity.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +9,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,6 +28,7 @@ public class UserSecurityDTO  extends User implements OAuth2User {
     private String email;
     private boolean deleteYn;
     private boolean social;
+    private Set<UserRole> roleSet = new HashSet<>();
 
     private Map<String, Object> props;
 

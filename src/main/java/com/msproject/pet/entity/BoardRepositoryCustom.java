@@ -2,7 +2,6 @@ package com.msproject.pet.entity;
 
 import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.web.dtos.BoardListWithReplyCountDto;
-import com.msproject.pet.web.dtos.PetHospitalListReviewCountDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -14,14 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.msproject.pet.entity.QBoardEntity.boardEntity;
 import static com.msproject.pet.entity.QBoardReply.boardReply;
-import static com.msproject.pet.entity.QPetHospitalEntity.petHospitalEntity;
-import static com.msproject.pet.entity.QReviewEntity.reviewEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -53,15 +48,12 @@ public class BoardRepositoryCustom {
         query.groupBy(boardEntity);
 
         long total = query.stream().count();
-        //System.out.println("total : " + total);
 
         List<BoardEntity> results = query
                 .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                //.orderBy(petHospitalEntity.hospitalId.desc())
                 .orderBy(boardEntity.idx.desc())
-                //.orderBy(reviewEntity.score.avg().when(reviewEntity.deleteYn.eq(false)))
                 .fetch();
 
         JPAQuery<BoardListWithReplyCountDto> dtoJPAQuery = query.select(Projections.bean(BoardListWithReplyCountDto.class,
@@ -77,8 +69,6 @@ public class BoardRepositoryCustom {
         ));
 
         List<BoardListWithReplyCountDto> dtoList = dtoJPAQuery.fetch();
-
-        //long count = dtoJPAQuery.stream().count();
 
         return new PageImpl<>(dtoList, pageable, total);
     }

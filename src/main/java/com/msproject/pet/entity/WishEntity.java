@@ -30,7 +30,6 @@ public class WishEntity {
     @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity userEntity;
 
-    //private boolean wishState; //삭제
     private int wishState1;
 
     private LocalDateTime createdAt;

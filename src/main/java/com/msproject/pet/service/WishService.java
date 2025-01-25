@@ -3,11 +3,11 @@ package com.msproject.pet.service;
 import com.msproject.pet.entity.*;
 import com.msproject.pet.model.Header;
 import com.msproject.pet.model.Pagination;
-import com.msproject.pet.model.SearchCondition;
+
 import com.msproject.pet.repository.PetHospitalRepository;
 import com.msproject.pet.repository.WishRepository;
 import com.msproject.pet.repository.WishRepositoryCustom;
-import com.msproject.pet.web.dtos.ReviewDto;
+
 import com.msproject.pet.web.dtos.WishDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -43,7 +43,6 @@ public class WishService {
                 .userEntity(user)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
-                //.wishState(wishDto.isWishState())
                 .wishState1(wishDto.getWishState1())
                 .build();
 
@@ -78,13 +77,11 @@ public class WishService {
                   .wishId(entity.getWishId())
                   .petHospitalNum(entity.getPetHospitalEntity().getHospitalId())
                   .userNum(entity.getUserEntity().getIdx())
-                  //.wishState(entity.isWishState())
                   .wishState1(entity.getWishState1())
                   .hospitalName(entity.getPetHospitalEntity().getHospitalName())
                   .hospitalNum(entity.getPetHospitalEntity().getHospitalNum())
                   .hospitalSigunName(entity.getPetHospitalEntity().getSigunName())
                   .hospitalAddr(entity.getPetHospitalEntity().getHospitalAddr())
-                  //.hospitalScore(entity.getPetHospitalEntity().getPetHospitalScore())
                   .build();
 
             dtos.add(dto);
@@ -107,13 +104,11 @@ public class WishService {
                 .wishId(entity.getWishId())
                 .petHospitalNum(entity.getPetHospitalEntity().getHospitalId())
                 .userNum(entity.getUserEntity().getIdx())
-                //.wishState(entity.isWishState())
                 .wishState1(entity.getWishState1())
                 .build();
     }
 
     public WishDto getWish1(Long uid, Long hid) {
-        //WishEntity entity = wishRepository.findById(id).orElseThrow(() -> new RuntimeException("찜 리스트에 존재하지 않는 병원입니다."));
 
         WishEntity entity = wishRepositoryCustom.findOneReview(uid, hid);
 
@@ -123,7 +118,6 @@ public class WishService {
                     .wishId(entity.getWishId())
                     .petHospitalNum(entity.getPetHospitalEntity().getHospitalId())
                     .userNum(entity.getUserEntity().getIdx())
-                    //.wishState(entity.isWishState())
                     .wishState1(entity.getWishState1())
                     .build();
             return wishDto;

@@ -12,7 +12,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(name="TB_USER")
 @Entity
 public class UserHistory extends BaseEntity {
 

@@ -4,16 +4,14 @@ import com.msproject.pet.entity.*;
 import com.msproject.pet.repository.BoardReplyRepository;
 import com.msproject.pet.repository.ReviewRepository;
 import com.msproject.pet.repository.UserHistoryRepository;
-import com.msproject.pet.repository.WishRepository;
+import com.msproject.pet.security.UserSecurityDTO;
 import com.msproject.pet.web.dtos.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,9 +20,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -36,35 +34,14 @@ public class UserService implements UserDetailsService {
     private final UserRepositoryCustom userRepositoryCustom;
     private final UserHistoryRepository userHistoryRepository;
     private final ReviewRepository reviewRepository;
-    private final WishRepository wishRepository;
     private final BoardRepository boardRepository;
     private final BoardReplyRepository boardReplyRepository;
     private final ModelMapper modelMapper;
     private final JavaMailSender mailSender;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        UserEntity userEntity = userRepository.findByUserId(username)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
-        //UserEntity userEntity = userRepositoryCustom.findByUserId(username);
-//        if(userEntity.isDeleteYn()){
-//            throw new WithdrawalException();
-//        }
-
-        if (userEntity.getUserId().equals(username)) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        }
-        return new User(userEntity.getUserId(), userEntity.getUserPw(), authorities);
-    }
-
     @Transactional
     public UserEntity saveUser(UserDto userDto) throws Exception{
 
-        System.out.println(userDto.getUserId());
-        System.out.println(userDto.getDetailAddr());
         validateDuplicateEmail(userDto.getUserId());
 
         UserEntity userEntity = UserEntity.builder()
@@ -77,6 +54,8 @@ public class UserService implements UserDetailsService {
                 .email(userDto.getEmail())
                 .detailAddr(userDto.getDetailAddr())
                 .build();
+
+        userEntity.addRole(UserRole.USER);
 
         return userRepository.save(userEntity);
     }
@@ -98,16 +77,39 @@ public class UserService implements UserDetailsService {
         userRepository.save(userEntity);
     }
 
-    private void validateDuplicateEmail(String userId) {
-//        if (userRepositoryCustom.CheckExistsByUserId(userId)) {
-//            throw new DuplicateUserIdException();
-//        }
-    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    public Boolean checkId(String userId){
-        //return userRepositoryCustom.CheckExistsByUserId(userId);
-        return userRepository.existsByUserId(userId);
-     }
+        log.info("loadUserByUsername" + username);
+
+        Optional<UserEntity> user = userRepository.getWithRole(username);
+
+        if(user.isEmpty()){
+            throw new UsernameNotFoundException("username not found");
+        }
+
+        UserEntity userEntity = user.get();
+
+        UserSecurityDTO userSecurityDTO =
+                new UserSecurityDTO(
+                        userEntity.getUserId(),
+                        userEntity.getUserPw(),
+                        userEntity.getUserName(),
+                        userEntity.getPhoneNum(),
+                        userEntity.getZipCode(),
+                        userEntity.getAddr(),
+                        userEntity.getDetailAddr(),
+                        userEntity.getEmail(),
+                        userEntity.isDeleteYn(),
+                        false,
+                        userEntity.getRoleSet()
+                                .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_"+userRole.name())).collect(Collectors.toList())
+                );
+
+        log.info("userSecurityDTO" + userSecurityDTO);
+
+        return userSecurityDTO;
+    }
 
     //, get, update, delete
     public UserEntity update(UserDto userDto){
@@ -123,8 +125,6 @@ public class UserService implements UserDetailsService {
 
         UserEntity entity = userRepository.findById(id).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
 
-//        entity.changeState();
-//        userRepository.save(entity);
 
         List<ReviewEntity> reviewEntities = reviewRepository.findByUserEntity(entity);
         for (ReviewEntity entity1 : reviewEntities) {
@@ -138,7 +138,6 @@ public class UserService implements UserDetailsService {
 
         for (BoardReply boardReply : boardReplies){
             boardReplyRepository.delete(boardReply);
-            //boardReply.changeDeleteState();
         }
 
         UserHistory userHistory = UserHistory.builder()
@@ -155,7 +154,21 @@ public class UserService implements UserDetailsService {
         userHistoryRepository.save(userHistory);
 
         userRepositoryCustom.delete(entity.getIdx());
-        //userRepository.delete(entity);
+    }
+
+    public Boolean updatePw(UserPwChangeDto userPwChangeDto) {
+        Optional<UserEntity> user = userRepository.findById(userPwChangeDto.getIdx());
+        UserEntity userEntity = user.orElseThrow();
+
+        if(passwordEncoder.matches(userPwChangeDto.getPassword(),userEntity.getUserPw())){
+            userEntity.changePw(passwordEncoder.encode(userPwChangeDto.getNewPassword()));
+            userRepository.save(userEntity);
+
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     public UserDto getUser(Long id){
@@ -190,9 +203,15 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public Boolean checkEmail(String email) {
+    private void validateDuplicateEmail(String userId) {
 
-        //return userRepositoryCustom.existsByEmail(email);
+    }
+
+    public Boolean checkId(String userId){
+        return userRepository.existsByUserId(userId);
+     }
+
+    public Boolean checkEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
@@ -207,13 +226,9 @@ public class UserService implements UserDetailsService {
         }else{
             return null;
         }
-//        Optional<UserEntity> user = userRepository.findByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
-//        UserEntity userEntity = user.orElseThrow();
     }
 
     public UserEntity findPw(String userEmail) {
-
-//        Boolean check = userRepository.existsByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
         Boolean check = userRepository.existsByEmail(userEmail);
 
         if(check){
@@ -275,20 +290,5 @@ public class UserService implements UserDetailsService {
         message.setReplyTo("kssjjh123@gmail.com");
         System.out.println("message"+message);
         mailSender.send(message);
-    }
-
-    public Boolean updatePw(UserPwChangeDto userPwChangeDto) {
-        Optional<UserEntity> user = userRepository.findById(userPwChangeDto.getIdx());
-        UserEntity userEntity = user.orElseThrow();
-
-        if(passwordEncoder.matches(userPwChangeDto.getPassword(),userEntity.getUserPw())){
-            userEntity.changePw(passwordEncoder.encode(userPwChangeDto.getNewPassword()));
-            userRepository.save(userEntity);
-
-            return true;
-        }else{
-            return false;
-        }
-
     }
 }

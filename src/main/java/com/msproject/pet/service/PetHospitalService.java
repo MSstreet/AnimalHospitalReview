@@ -87,12 +87,10 @@ public class PetHospitalService {
         if (reviewEntities.size() == 0) {
             petHospitalListReviewCountDto.setHospitalScore(0);
         } else {
-            //float avg = reviewRepository.getReviewAvg(petHospitalListReviewCountDto.getHospitalId());
 
             double avg = reviewRepositoryCustom.getReviewAvg(petHospitalListReviewCountDto.getHospitalId());
             DecimalFormat df = new DecimalFormat("0.0");
             avg = Double.parseDouble(df.format(avg));
-            //avg = Math.round(avg * 100) / 100;
             petHospitalListReviewCountDto.setHospitalScore(avg);
         }
 
@@ -116,9 +114,7 @@ public class PetHospitalService {
                     .operState(entity.getOperState())
                     .reviewCount(entity.getReviewCount())
                     .build();
-//            if(dto.getOperState().equals("정상")) {
             if(dto.getReviewCount() != 0){
-               // float avg = reviewRepository.getReviewAvg(dto.getHospitalId());
                double avg = reviewRepositoryCustom.getReviewAvg(dto.getHospitalId());
                 DecimalFormat df = new DecimalFormat("0.0");
                 avg = Double.parseDouble(df.format(avg));
@@ -150,7 +146,6 @@ public class PetHospitalService {
                     .sigunName(entity.getSigunName())
                     .hospitalNum(entity.getHospitalNum())
                     .hospitalAddr(entity.getHospitalAddr())
-                    //.hospitalScore(entity.getPetHospitalScore())
                     .operState(entity.getOperState())
                     .build();
 
@@ -185,9 +180,7 @@ public class PetHospitalService {
                     .operState(entity.getOperState())
                     .reviewCount(entity.getReviewCount())
                     .build();
-//            if(dto.getOperState().equals("정상")) {
             dtos.add(dto);
-            //}
         }
         Pagination pagination = new Pagination(
                 (int) hospitalEntities.getTotalElements()
