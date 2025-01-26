@@ -1,12 +1,8 @@
 <template>
 
-  <div class="container-fluid px-4 bg-light">
-
-    <div >
-      <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">유용한 정보를 공유해주세요</h1>
-    </div>
-
-    <div class="input-area mb-4">
+  <div class="container mt-5 mb-5">
+    <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">유용한 정보를 공유해주세요</h1>
+    <div class="input-area mb-5">
       <div class="" >
         <select class="styled-select" v-model="search_key">
           <option value="title">제목</option>
@@ -18,7 +14,7 @@
       </div>
     </div>
 
-    <div class="card mb-4 text-center">
+    <div class="card mb-4 text-center container">
       <div>
         <a class="btn btn-primary float-end me-2 mt-2" v-on:click="fnWrite"><i class="fas fa-edit"></i>  글 작성</a>
       </div>

@@ -2,7 +2,7 @@
   <div class="row mb-3 mt-2" style="width: 100%">
 
     <div class="col-6">
-      <div id="map" class="root_cacao_roughmap" style="width: 27rem; height: 20rem; position: center">
+      <div id="map" class="root_cacao_roughmap" style="width: 27rem; height: 20rem;">
       </div>
     </div>
 
@@ -52,7 +52,6 @@ export default {
     this.fnGetView(this.settingMap)
 
   }
-
     // const script = document.createElement("script")
     // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false"
     //
@@ -83,9 +82,6 @@ export default {
 
   ,methods: {
     initMap() {
-      console.log(2)
-      console.log("경도 : " + this.hos_latitude)
-      console.log("위도 : " + this.hos_longitude)
 
       const map = document.getElementById("map")
 
@@ -101,13 +97,12 @@ export default {
       //this.displayMakers(this.hos_latitude,this.hos_longitude)
       this.displayMakers(this.hos_latitude,this.hos_longitude)
      // const marker1 = new kakao.maps.LatLng(37.82618, 127.51352)
-
      //  const marker1 = new kakao.maps.LatLng(this.hos_latitude,this.hos_longitude)
-     //
+
      //  const marker = new kakao.maps.Marker({
      //    position : marker1
      //  })
-     //
+
      //  marker.setMap(this.map)
 
     }
@@ -130,10 +125,8 @@ export default {
         this.hos_latitude = res.data.hos_latitude
         this.hos_longitude = res.data.hos_longitude
 
-        console.log("!!!!!!!!"+res.data.hos_latitude)
-        console.log(res.data.hos_longitude)
         const script = document.createElement("script")
-        script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=2eba89360677e7a9e1a8ba734e3502d8&autoload=false"
+        script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=d65815a3036b82a47f46344d7cf57bdf&autoload=false"
         script.addEventListener("load", () => {
           kakao.maps.load(this.initMap)
         })
@@ -143,7 +136,6 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-      console.log(1)
     }
 
     ,fnTest(){
@@ -159,9 +151,6 @@ export default {
     //   kakao.maps.load(this.initMap)
     // })
     // document.head.appendChild(script)
-
-
-
 
   }
 }

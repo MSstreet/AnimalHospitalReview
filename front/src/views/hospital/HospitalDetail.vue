@@ -12,9 +12,20 @@
             </div>
           </div>
 
-        <div class="row">
-        <h1 class="col-12 name mt-2 my-1 d-flex align-items-center">{{hospital_name }}</h1>
-        <a class="col-1 btn btn-success btn-sm mb-3" v-on:click="fnHosList">목록</a>
+        <div class="hos-info">
+          <div>
+             {{hospital_name }}
+            <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
+              <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
+              <div style="font-size: 1rem" id="heart" class=" " v-if="wish_state != 1">찜하기</div>
+              <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
+              <div style="font-size: 1rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">찜완료!</div>
+            </a>
+          </div>
+          <div class="" >
+            <a class=" btn btn-success  " v-on:click="fnHosList">목록</a>
+            <a class="btn btn-primary " v-on:click="reviewWrite(`${hospital_id}`)"><i class="fas fa-edit"></i> 리뷰 남기기</a>
+          </div>
         </div>
 
         <div class="d-flex align-items-start py-2 color49 pb-1">
@@ -25,34 +36,20 @@
         </div>
 
         <div class=" pb-2 pt-2 btn-pos">
-          <a class="btn btn-primary btn-lg" v-on:click="reviewWrite(`${hospital_id}`)"><i class="fas fa-edit"></i> 리뷰 남기기</a>
+
         </div>
 
-        <div>
-          <div class="" >
-            <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
-<!--              <img class="heart-size" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Heart_icon_red_hollow.svg/746px-Heart_icon_red_hollow.svg.png">-->
-              <span style="font-size: 3rem" id="heart" class="heart-position ms-2" v-if="wish_state != 1">🤍</span>
-              <div style="font-size: 1rem" id="heart" class="heart-position ms-2" v-if="wish_state != 1">찜하기</div>
 
-              <span style="font-size: 3rem" id="heart" class="heart-position ms-2" v-else-if="wish_state == 1">🧡</span>
-              <div style="font-size: 1rem" id="heart" class="heart-position ms-2" v-else-if="wish_state == 1">찜완료!</div>
-
-            </a>
-          </div>
-        </div>
       </div>
     </div>
 
     <div class="row border px-3 middle-tab" style="top:72px !important;">
-
       <div class="position">
         <button class="btn fs-3" @click="changeComponent('HospitalInfo')">병원 정보
         </button>
         <button class="btn fs-3" @click="changeComponent('ReviewDetail')">리뷰
         </button>
       </div>
-
       <keep-alive>
         <component v-bind:is="comp"></component>
       </keep-alive>
@@ -100,12 +97,6 @@ export default {
   , mounted() {
     this.wishCheck()
     this.fnGetView()
-    console.log("check !!!" + this.idx)
-    console.log("check !!!" + this.user_idx)
-    console.log(this.requestBody)
-    // console.log(())
-    // this.fnGetReviewAvg()
-    // console.log("체크!!!!!!!!!" + this.idx)
   },
   methods:{
     changeComponent: function (componentName){
@@ -116,10 +107,6 @@ export default {
           .then((res) => {
 
             this.hospital_score = res.data
-
-            // console.log("확인!!!!!!!"+res.data)
-            // console.log(this.hospital_score)
-
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -135,7 +122,6 @@ export default {
         this.heartval = 1
         document.getElementById("heart").innerText = "🧡"
       }
-      console.log("체크!!" + this.heartval)
 
       let apiUrl = this.$serverUrl + '/wish'
 
@@ -145,13 +131,8 @@ export default {
         "wish_state1" : this.heartval
       }
 
-      console.log("동물병원 " + this.pet_hospital_num)
-
       this.$axios.post(apiUrl, this.form)
           .then((res) => {
-            //alert('.')
-            //this.fnView(res.data.pet_hospital_entity.hospital_id)
-            //console.log("확인!!!"+res.data.pet_hospital_entity.hospital_id)
             this.wish_state = res.data.wish_state1
 
             console.log(this.wish_state)
@@ -161,15 +142,6 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-
-      // this.$axios.post(this.$serverUrl + '/wish/check/' + this.user_idx + this.idx)
-      //     .then((res) => {
-      //       this.wish_state = res.data.wish_state
-      //     }).catch((err) => {
-      //   if (err.message.indexOf('Network Error') > -1) {
-      //     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-      //   }
-      // })
     }
     ,fnView(idx) {
       this.requestBody.idx = idx
@@ -275,6 +247,8 @@ export default {
     right: 17rem;
     bottom:4.2rem;
 }
-
+ .hos-info{
+   display: flex;
+ }
 
 </style>

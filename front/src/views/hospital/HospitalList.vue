@@ -1,7 +1,7 @@
 <template>
 
-<div class="text-center mb-5 bg-light">
-  <div class="text-start" style="margin-left: 135px">
+<div class="text-center mt-5 mb-5 container">
+  <div class="text-start" style="margin-left: 110px">
     <h1  class="tt mt-1 mb-3 fs-1 fw-bold" @click="fnReload">동물병원 목록</h1>
     <div class="input-group input-group-sm" >
       <select class="styled-select" v-model="search_key">

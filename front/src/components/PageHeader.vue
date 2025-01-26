@@ -20,7 +20,6 @@
             </ul>
 
           <div class="navbar-user-info">
-
             <ul class="user-drop-button" v-if="this.$store.state.isLogin">
               <li class="nav-item dropdown" >
                 <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
@@ -146,12 +145,27 @@ a {
 
 /* Navbar Styles */
 .navbar {
-  background-color: #333;
+  --bs-navbar-padding-x: unset;
   color: white;
   position: sticky;
+  padding-left: 35px; /* 좌측 여백 */
+  padding-right: 30px; /* 우측 여백 */
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: none; /* 그림자 제거 */
+  max-width: 1200px;
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100vw; /* 화면 전체 너비 */
+  height: 1px; /* 구분선 두께 */
+  background-color: rgba(0, 0, 0, 0.1); /* 구분선 색상 */
+  transform: translateX(-50%);
+  left: 50%;
 }
 
 .navbar-container {
@@ -175,7 +189,7 @@ a {
 }
 
 .navbar-logo a {
-  color :#f8f8f8;
+  color: black;
 }
 
 .navbar-links {
@@ -190,14 +204,14 @@ a {
 }
 
 .navbar-item a {
-  color: white;
+  color: black;
   font-size: 30px;
   padding: 6px;
   transition: background-color 0.3s ease;
 }
 
 .navbar-item a:hover {
-  background-color: #444;
+  background-color: lightgrey;
   border-radius: 4px;
 }
 
@@ -205,20 +219,18 @@ a {
 .navbar-user-info {
   display: flex;
   align-items: center;
+
+
 }
 
 .navbar-user-info a {
-  color: white;
+  color: black !important;
   font-size: 16px;
   padding: 8px;
   margin-left: 20px;
   transition: background-color 0.3s ease;
 }
 
-.navbar-user-info a:hover {
-  background-color: #444;
-  border-radius: 4px;
-}
 
 /* Mobile menu toggle button */
 .navbar-toggle {
@@ -265,9 +277,9 @@ a {
 }
 
 .navbar-mobile-menu .navbar-item a:hover {
-  background-color: #444;
-  border-radius: 4px;
-}
+   background-color: #444;
+   border-radius: 4px;
+ }
 
 /* Responsive Styles for Mobile */
 @media (max-width: 768px) {

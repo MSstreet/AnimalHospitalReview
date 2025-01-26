@@ -1,23 +1,23 @@
 <!-- PageHome.vue -->
 <template>
 
-<section class="bg-light">
-<!--  <div class="container text-center mt-5 " >-->
-<!--    <div id="mainslider" class="mt-3" >-->
-<!--      <splide :options="options">-->
-<!--        <splide-slide>-->
-<!--          <img style="border-radius: 70px" src="../assets/home.jpg" alt="main2">-->
-<!--        </splide-slide>-->
-<!--        <splide-slide>-->
-<!--          <img style="border-radius: 70px" src="../assets/home1.jpg" alt="main3">-->
-<!--        </splide-slide>-->
-<!--        <splide-slide>-->
-<!--          <img style="border-radius: 70px" src="../assets/home2.jpg" alt="main3">-->
-<!--        </splide-slide>-->
-<!--      </splide>-->
-<!--    </div>-->
-<!--  </div>-->
-  <div class="search-container">
+<section class="" style="margin-top: 30px">
+  <div class="container text-center mt-5 " >
+    <div id="mainslider" class="mt-3" >
+      <splide :options="options">
+        <splide-slide>
+          <img style="border-radius: 70px" src="../assets/home.jpg" alt="main2">
+        </splide-slide>
+        <splide-slide>
+          <img style="border-radius: 70px" src="../assets/home1.jpg" alt="main3">
+        </splide-slide>
+        <splide-slide>
+          <img style="border-radius: 70px" src="../assets/home2.jpg" alt="main3">
+        </splide-slide>
+      </splide>
+    </div>
+  </div>
+  <div class="search-container mt-5">
     <form action="" method="">
       <div class="input-area p-3 input-group input-group-lg">
         <select class="styled-select" v-model="search_key">
@@ -30,7 +30,7 @@
       </div>
     </form>
   </div>
-  <div class="container-fluid pt-3 bg-light" style="text-align: center">
+  <div class="container-fluid pt-1" style="text-align: center">
     <div class="" style="width: 960px; display: inline-block">
       <div class="row text-left px-3 margin-b" style="margin-top: 48px;">
 

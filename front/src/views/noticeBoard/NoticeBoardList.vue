@@ -1,13 +1,9 @@
 <template>
 
-  <div class="container-fluid px-4 bg-light">
-
-    <div >
-      <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">공지사항</h1>
-    </div>
-    <div class="input-area mb-4">
+  <div class="container mt-5 mb-5 ">
+    <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">공지사항</h1>
+    <div class="input-area mb-5">
       <select class="styled-select" v-model="search_key">
-        <!--            <option value="">- 선택 -</option>-->
         <option value="title" selected>제목</option>
         <option value="contents">내용</option>
       </select>
@@ -16,12 +12,8 @@
       <button @click="fnPage()" class="styled-button ms-1" id="button-addon2">검색</button>
     </div>
 
-    <div class="card mb-4 text-center">
-
-
+    <div class="card mb-4 text-center container">
       <div class="card-body">
-
-
           <div class="mt-3 test-position" v-if="list.length==0">
             <h3>조회하신 글을 찾을 수 없습니다.</h3>
           </div>
@@ -30,7 +22,6 @@
           <thead>
           <tr>
             <th>제목</th>
-<!--            <th>내용</th>-->
             <th>작성일</th>
             <th>수정일</th>
           </tr>
@@ -40,7 +31,6 @@
           <tr class="t1" v-for="(row, idx) in list" :key="idx">
 
             <td class="t"><a v-on:click="fnView(`${row.notice_board_idx}`)">{{ row.title }}</a></td>
-<!--            <td>{{ row.contents }}</td>-->
             <td  width="20%" >{{ row.created_at }}</td>
             <td width="20%" >{{ row.updated_at }}</td>
 
@@ -56,9 +46,7 @@
       <ul class="pagination">
 
         <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-
          <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-
         <template v-for=" (n,index) in paginavigation()">
             <template v-if="paging.page==n">
                 <div v-if="n == 2">
@@ -72,15 +60,12 @@
         </template>
 
          <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-
             @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-
         <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
       </ul>
     </span>
         </nav>
       </div>
-
     </div>
 
 
