@@ -17,14 +17,12 @@
              {{hospital_name }}
             <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
               <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
-              <div style="font-size: 1rem" id="heart" class=" " v-if="wish_state != 1">찜하기</div>
               <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
-              <div style="font-size: 1rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">찜완료!</div>
             </a>
           </div>
-          <div class="" >
-            <a class=" btn btn-success  " v-on:click="fnHosList">목록</a>
-            <a class="btn btn-primary " v-on:click="reviewWrite(`${hospital_id}`)"><i class="fas fa-edit"></i> 리뷰 남기기</a>
+          <div class="hos-detail-btn" >
+            <a class="btn btn-success  " v-on:click="fnHosList">목록</a>
+            <a class="btn btn-primary " v-on:click="reviewWrite(`${hospital_id}`)"> 리뷰 남기기</a>
           </div>
         </div>
 
@@ -249,6 +247,11 @@ export default {
 }
  .hos-info{
    display: flex;
+   justify-content: space-between;
+ }
+
+ .hos-detail-btn{
+
  }
 
 </style>

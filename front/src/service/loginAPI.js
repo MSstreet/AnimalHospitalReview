@@ -28,12 +28,10 @@ export default {
             } else {
                 localStorage.setItem('user_token', userInfoResponse.data.user_token)
                 localStorage.setItem('user_role', userInfoResponse.data.user_role)
-                //localStorage.setItem('user_idx', userInfoResponse.data.user_idx)
-                //console.log("!!!!!!!!!!!!!" + userInfoResponse.data.errorCode)
                 return userInfoResponse
             }
         } catch (err) {
-            //console.error("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+err)
+
         }
     }
 }

@@ -407,6 +407,10 @@ export default {
   },
   data() {
     return {
+      userInfo: {
+        userId: null,
+        nickname: null,
+      },
       options: {
         type: 'fade',
         rewind: true,
@@ -456,8 +460,6 @@ export default {
   }
   ,methods: {
     fnGetList() {
-      console.log(this.search_key)
-      console.log("벨류확인" + this.search_value)
       this.requestBody = { // 데이터 전송
         sk: this.search_key,
         sv: this.search_value,
@@ -476,6 +478,22 @@ export default {
         // this.fnView()
         console.log(res.data.data);
         // console.log(res.data.pagination);
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    }, fnGetUserInfo() {
+      this.requestBody = { // 데이터 전송
+        email: this.userInfo.userId,
+        nickname: this.userInfo.nickname,
+      }
+      this.$axios.get(this.$serverUrl + "/oauth/kakao/user-info", {
+        params: this.requestBody,
+        headers: {}
+      }).then((res) => {
+        console.log(res.data);
+
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -510,8 +528,6 @@ export default {
         }
       })
     }
-  }
-  ,mounted() {
   }
 }
 </script>

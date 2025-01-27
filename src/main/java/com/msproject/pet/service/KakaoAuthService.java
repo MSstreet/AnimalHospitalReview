@@ -28,6 +28,7 @@ public class KakaoAuthService {
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
 
+
 //    @Value("${security.oauth2.client.registration.kakao.redirect-uri}")
 //    private String REDIRECT_URI;
 //    @Value("${security.oauth2.client.registration.kakao.client-id}")
@@ -42,7 +43,8 @@ public class KakaoAuthService {
         String tokenUri = "https://kauth.kakao.com/oauth/token";
         String clientId = "409b3fb04dd78999f86c8dbc4a19372a";
         String clientSecret = "hCjNC6r9e9w8N6an8eOBxiWu2ZXP5en0";
-        String redirectUri = "http://localhost:8081/oauth/kakao/callback";
+        //String redirectUri = "http://localhost:8081/oauth/kakao/callback";
+        String redirectUri = "http://localhost:8080/oauth/kakao/callback";
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(tokenUri)
                 .queryParam("grant_type", "authorization_code")
@@ -59,7 +61,6 @@ public class KakaoAuthService {
         );
 
         return (String) response.getBody().get("access_token");
-
     }
 
     public UserSecurityDTO getUserInfo(String accessToken) {
@@ -81,16 +82,17 @@ public class KakaoAuthService {
         log.info("email: " + email);
         log.info("nickname: " + nickname);
 
-        return generateDTO(email);
+        return generateDTO(email,nickname);
     }
 
-    private UserSecurityDTO generateDTO(String email) {
+    private UserSecurityDTO generateDTO(String email,String nickname) {
         Optional<UserEntity> result = userRepository.findByEmail(email);
 
         if (result.isEmpty()) {
             UserEntity user = UserEntity.builder()
                     .userId(email)
                     .userPw(passwordEncoder.encode("1111"))
+                    .userName(nickname)
                     .email(email)
                     .social(true)
                     .deleteYn(false)

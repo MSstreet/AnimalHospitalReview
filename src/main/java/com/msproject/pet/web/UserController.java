@@ -85,7 +85,6 @@ public class UserController {
         String userId = paramMap.get("user_id");
         String userPw = paramMap.get("user_pw");
 
-        //String encodedPassword = passwordEncoder.encode(userPw);
         UserDetails loginUser = userService.loadUserByUsername(userId); //userId로 정보 가져오기
 
         Authentication authentication = authenticationManager.authenticate(     //가져온 정보와 입력한 비밀번호로 검증

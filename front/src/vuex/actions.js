@@ -19,11 +19,6 @@ let setUserIdx = ({commit}, data)=>{
     commit(USER_IDX,data)
 }
 
-
-
-
-
-
 let setIsLogin = ({commit}, data) => {
     commit(IS_LOGIN, data)
 }
@@ -68,30 +63,36 @@ let processResponse1 = (store, joinResponse) => {
     }
 }
 
+let processResponse2 = (store) => {
+
+    setErrorState(store, '')
+    setIsAuth(store, true)
+    setIsLogin(store, true)
+
+}
+
 
 export default {
     async login (store, {user_id, user_pw}) {
         let loginResponse = await loginAPI.doLogin(user_id, user_pw)
-
-
 
         setUserId(store,loginResponse.data.user_id)
         setUserIdx(store,loginResponse.data.user_idx)
 
         processResponse(store, loginResponse)
 
-        console.log("확인이요" + store.getters.getIsUserIdx)
-        console.log("확인이요" + store.getters.getUserId)
-
-
         return store.getters.getIsAuth  // 로그인 결과를 리턴한다
-        //return store.getters.getIsUserIdx
+    },
+    async socialLogin (store, {user_id, user_idx}) {
+        setUserId(store,user_id)
+        setUserIdx(store,user_idx)
+        processResponse2(store)
+        return store.getters.getIsAuth  // 로그인 결과를 리턴한다
     },
 
     async join (store, {user_id, user_pw, user_name, phone_num, zip_code,addr,detail_addr,email}) {
         let joinResponse = await joinAPI.doJoin(user_id, user_pw, user_name,phone_num, zip_code,addr,detail_addr,email)
         processResponse1(store,joinResponse)
-        // console.log("페크!!!!!!!")
         return store.getters.getIsAuth  // 회원가입 결과 리턴
     }
 }

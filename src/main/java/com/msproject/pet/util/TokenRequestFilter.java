@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-//@Component
+@Component
 public class TokenRequestFilter extends OncePerRequestFilter {
 
     private final UserService userService;
@@ -29,6 +29,12 @@ public class TokenRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+
+            if("/oauth/kakao/login-url".equals(request.getRequestURI()) || "/oauth/kakao/callback1".equals(request.getRequestURI())
+             || "/oauth/kakao/user-info".equals(request.getRequestURI())){
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             if ("/user/login".equals(request.getRequestURI())) {
                 doFilter(request, response, filterChain);

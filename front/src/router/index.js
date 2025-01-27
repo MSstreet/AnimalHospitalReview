@@ -5,6 +5,7 @@ import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
 import BoardUpdate from "@/views/board/BoardUpdate";
 import Login from "@/views/common/Login"
+import KakaoRedirection from "@/views/common/KakaoRedirection.vue"
 import Join from "@/views/common/Join"
 import HospitalList from '@/views/hospital/HospitalList'
 import HospitalListFromHome from '@/views/hospital/HospitalListFromHome'
@@ -81,6 +82,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login  //로그인 컴포넌트 추가
+    },
+    {
+        path: '/oauth/kakao/callback',
+        name: 'KakaoRedirection',
+        component: KakaoRedirection
     },
     {
         path: '/mypage',

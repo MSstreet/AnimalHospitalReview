@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     //private final UserService userService;
-    //private final TokenRequestFilter tokenRequestFilter;
+    private final TokenRequestFilter tokenRequestFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final PasswordEncoder passwordEncoder;
 
@@ -52,21 +52,22 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeRequests()
+                    .antMatchers("/oauth/kakao/login-url").permitAll() // 이 경로는 필터 체인에서 제외
                     .anyRequest().permitAll()
                 .and() // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and() // form 기반의 로그인에 대해 비활성화 한다.
                 .formLogin()
-                .disable();
+                .disable()
 //                .oauth2Login(oauth2 -> oauth2
-////                        .userInfoEndpoint(userInfo -> userInfo
-////                                .userService(customOAuth2UserService)  // CustomOAuth2UserService 설정
-////                        )
-////                        .loginPage("/user/login")  // 로그인 페이지 설정
-////                        .successHandler(authenticationSuccessHandler())  // 로그인 성공 후 처리할 핸들러 설정
-////                );
-                //.addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .userService(customOAuth2UserService)  // CustomOAuth2UserService 설정
+//                        )
+//                        .loginPage("/user/login")  // 로그인 페이지 설정
+//                        .successHandler(authenticationSuccessHandler())  // 로그인 성공 후 처리할 핸들러 설정
+//                )
+                .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
         //http.oauth2Login().loginPage("/user/login").successHandler(authenticationSuccessHandler());
         http.cors();
         return http.build();
