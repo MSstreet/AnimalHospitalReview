@@ -5,7 +5,6 @@ import com.msproject.pet.service.UserService;
 import com.msproject.pet.util.JwtUtil;
 import com.msproject.pet.web.dtos.FindUserIdDto;
 import com.msproject.pet.web.dtos.UserDto;
-import com.msproject.pet.web.dtos.UserJoinDto;
 import com.msproject.pet.web.dtos.UserPwChangeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,16 +13,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,33 +45,6 @@ public class UserController {
         log.info("join get...");
     }
 
-//    @PostMapping("/join")
-//    public void joinPOST(UserJoinDto userJoinDto, HttpServletResponse response) throws IOException {
-//
-//        log.info("join post...");
-//        log.info("userJoinDto: {}", userJoinDto);
-//
-//        try{
-//            userService.join(userJoinDto);
-//        }catch (Exception e){
-//            String redirectUrl = String.format("http://localhost:8080/join");
-//            // 리디렉션 처리
-//            response.sendRedirect(redirectUrl);
-//        }
-//
-//        String redirectUrl = String.format("http://localhost:8080/login");
-//        response.sendRedirect(redirectUrl);
-//    }
-
-//    @GetMapping("/login")
-//    public void loginGET(String errorCode, String logout){
-//        log.info("login get...");
-//        log.info("logout:" + logout);
-//
-//        if(logout != null){
-//            log.info("user logout...");
-//        }
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> paramMap) {

@@ -35,11 +35,6 @@ let processResponse = (store, loginResponse) => {
             setErrorState(store, 'Withdrawal ID')
             setIsAuth(store, false)
         default:
-            // console.log("check"+loginResponse.user_id)
-            // console.log("check"+loginResponse.user_idx)
-
-            //setUserId(store, loginResponse.user_id)
-            //setUserId(store, 'check')
             setErrorState(store, '')
             setIsAuth(store, true)
             setIsLogin(store, true)
@@ -57,36 +52,30 @@ let processResponse1 = (store, joinResponse) => {
             break
 
         default:
-            //setUserId(store, loginResponse.user_id)
             setErrorState(store, '')
             setIsAuth(store, true)
     }
 }
 
-let processResponse2 = (store) => {
-
+let updateLoginStateBySocial = (store) => {
     setErrorState(store, '')
     setIsAuth(store, true)
     setIsLogin(store, true)
-
 }
 
 
 export default {
     async login (store, {user_id, user_pw}) {
         let loginResponse = await loginAPI.doLogin(user_id, user_pw)
-
         setUserId(store,loginResponse.data.user_id)
         setUserIdx(store,loginResponse.data.user_idx)
-
         processResponse(store, loginResponse)
-
         return store.getters.getIsAuth  // 로그인 결과를 리턴한다
     },
     async socialLogin (store, {user_id, user_idx}) {
         setUserId(store,user_id)
         setUserIdx(store,user_idx)
-        processResponse2(store)
+        updateLoginStateBySocial(store)
         return store.getters.getIsAuth  // 로그인 결과를 리턴한다
     },
 

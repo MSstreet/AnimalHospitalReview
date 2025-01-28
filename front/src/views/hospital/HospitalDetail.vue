@@ -13,12 +13,16 @@
           </div>
 
         <div class="hos-info">
-          <div>
-             {{hospital_name }}
-            <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
-              <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
-              <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
-            </a>
+          <div class="hos-text-container">
+            <div>
+              <h1>{{hospital_name }}</h1>
+            </div>
+            <div>
+              <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
+                <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
+                <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
+              </a>
+            </div>
           </div>
           <div class="hos-detail-btn" >
             <a class="btn btn-success  " v-on:click="fnHosList">목록</a>
@@ -249,9 +253,9 @@ export default {
    display: flex;
    justify-content: space-between;
  }
-
- .hos-detail-btn{
-
- }
+.hos-text-container{
+  display: flex;
+  justify-content: space-between;
+}
 
 </style>

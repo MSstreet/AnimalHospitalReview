@@ -23,21 +23,13 @@ public class UserHistory extends BaseEntity {
     private String userId;
     private String userPw;
     private String userName;
-
     private String phoneNum;
-
     private String zipCode;
-
     private String addr;
-
     private String detailAddr;
-
     private String email; // 0208
-
     private String created;
-
     private String updated;
-
     @ColumnDefault("false") //default 0
     private boolean deleteYn;
 }

@@ -41,6 +41,11 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public UserEntity saveUser(UserDto userDto) throws Exception{
+        String userId = userDto.getUserId();
+        boolean exist = userRepository.existsByUserId(userId);
+        if(exist){
+            throw new RuntimeException();
+        }
 
         validateDuplicateEmail(userDto.getUserId());
 
@@ -58,23 +63,6 @@ public class UserService implements UserDetailsService {
         userEntity.addRole(UserRole.USER);
 
         return userRepository.save(userEntity);
-    }
-
-    public void join(UserJoinDto userJoinDto) throws Exception{
-        String userId = userJoinDto.getUserId();
-        boolean exist = userRepository.existsByUserId(userId);
-        if(exist){
-            throw new RuntimeException();
-        }
-        UserEntity userEntity = modelMapper.map(userJoinDto, UserEntity.class);
-        userEntity.changePassword(passwordEncoder.encode(userJoinDto.getUserPw()));
-        userEntity.addRole(UserRole.USER);
-
-        log.info("================");
-        log.info(userEntity);
-        log.info(userEntity.getRoleSet());
-
-        userRepository.save(userEntity);
     }
 
     @Override
@@ -254,7 +242,6 @@ public class UserService implements UserDetailsService {
         dto.setTitle("AnimalH 임시비밀번호 안내 이메일 입니다.");
         dto.setMessage("안녕하세요. AnimalH 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
                 + str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
-
 
         userEntity.changePw(passwordEncoder.encode(str));
 

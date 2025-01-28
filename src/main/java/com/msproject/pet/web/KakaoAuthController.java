@@ -31,10 +31,6 @@ public class KakaoAuthController {
     private final KakaoAuthService kakaoAuthService;
     private final UserService userService;
     private final JwtUtil jwtUtil;
-//    @Value("${security.oauth2.client.registration.kakao.client-id}")
-//    private String CLIENT_ID;
-//    @Value("${security.oauth2.client.registration.kakao.redirect-uri}")
-//    private String REDIRECT_URI;
 
     private static final String CLIENT_ID = "409b3fb04dd78999f86c8dbc4a19372a"; // 카카오 REST API 키
     private static final String REDIRECT_URI = "http://localhost:8081/oauth/kakao/callback"; // 리디렉션 URI
@@ -48,7 +44,7 @@ public class KakaoAuthController {
         return authorizationUri;
     }
 
-    @GetMapping("/callback1")
+    @GetMapping("/user-info")
     public ResponseEntity<Map<String, Object>> kakaoCallback(@RequestParam String code, HttpServletResponse response) throws IOException {
         // KakaoAuthService에서 액세스 토큰을 받아옵니다.
         String accessToken = kakaoAuthService.getKakaoAccessToken(code);
@@ -66,33 +62,5 @@ public class KakaoAuthController {
 
         return ResponseEntity.ok(result);
 
-//        String email = userSecurityDTO.getUserId();
-//        String nickname = userSecurityDTO.getUserName();
-//        if(email != null && nickname != null) {
-//            // URL 파라미터를 URL 인코딩
-//            try {
-//                email = URLEncoder.encode(email, "UTF-8");
-//                nickname = URLEncoder.encode(nickname, "UTF-8");
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        // 리디렉션 URL 지정 (사용자 정보를 쿼리 파라미터로 포함)
-//        String redirectUrl = String.format("http://localhost:8080/?userId=%s&nickname=%s",
-//                email, nickname);
-//        // 리디렉션 처리
-//        response.sendRedirect(redirectUrl);
-    }
-
-    @GetMapping("/user-info")
-    public ResponseEntity<Map<String, Object>> kakaoUserInfoCallback(@RequestParam String email, @RequestParam String nickname) {
-
-        String jwtToken = jwtUtil.createToken(email, nickname);     //accessToken 생성
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("user_token", jwtToken);
-        result.put("user_idx", userService.getUser(email).getIdx());
-
-        return ResponseEntity.ok(result);
     }
 }

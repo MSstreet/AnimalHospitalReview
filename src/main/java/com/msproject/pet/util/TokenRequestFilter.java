@@ -30,8 +30,7 @@ public class TokenRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
 
-            if("/oauth/kakao/login-url".equals(request.getRequestURI()) || "/oauth/kakao/callback1".equals(request.getRequestURI())
-             || "/oauth/kakao/user-info".equals(request.getRequestURI())){
+            if("/oauth/kakao/user-info".equals(request.getRequestURI())){
                 filterChain.doFilter(request, response);
                 return;
             }

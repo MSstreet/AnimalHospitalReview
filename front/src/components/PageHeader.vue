@@ -84,13 +84,14 @@ export default {
       this.menuOpen = !this.menuOpen;
     },
     fnLogout() {
-      localStorage.removeItem("user_token")
-      localStorage.removeItem("user_role")
+      if (!confirm("로그아웃 하시겠습니까?")) return;
+      localStorage.removeItem("user_token");
+      localStorage.removeItem("user_role");
       //location.reload()
       //setTimeout(()=>  {this.goToPages1(),1000})
-      this.$store.state.isLogin = false
-      setIsLogin(store, false)
-      this.goToPages1()
+      this.$store.state.isLogin = false;
+      setIsLogin(store, false);
+      this.goToPages1();
     },
     goToPages1() {
       this.$router.push({
@@ -110,21 +111,6 @@ export default {
 </script>
 
 <style scoped>
-
-/*#nav{
-  text-align: center;
-}
-
-.nav-item {
-  text-color: none;
-}
-
-.nav-item:hover  {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-decoration-color: white;
-
-}*/
 
 .user-drop-button{
   margin-bottom : 0;
@@ -175,11 +161,6 @@ a {
   height: 100%;
   padding: 15px 20px;
 
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
 }
 
 .navbar-logo {

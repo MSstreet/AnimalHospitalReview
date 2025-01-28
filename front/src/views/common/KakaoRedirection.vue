@@ -14,7 +14,6 @@ export default {
   },
   created() {
     this.code = this.$route.query.code;
-    console.log(this.code)
     this.getJwtToken();
   }
   ,methods: {
@@ -23,11 +22,10 @@ export default {
       this.requestBody = { // 데이터 전송
         code: this.code
       }
-      this.$axios.get(this.$serverUrl + "/oauth/kakao/callback1", {
+      this.$axios.get(this.$serverUrl + "/oauth/kakao/user-info", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
-        console.log(res.data);
         this.userInfo.userId = res.data.user_id;
         this.userInfo.userIdx = res.data.user_idx;
         this.userInfo.userToken = res.data.user_token;
@@ -45,7 +43,6 @@ export default {
     , async fnSocialLogin() {       //async 함수로 변경
       try {
         let loginResult = await this.socialLogin({user_id: this.userInfo.userId, user_idx :this.userInfo.userIdx});
-
         if (loginResult) {
           this.goToPages()
           alert(this.userInfo.userId + "님 환영합니다.")
