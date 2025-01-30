@@ -7,6 +7,7 @@ import BoardUpdate from "@/views/board/BoardUpdate";
 import Login from "@/views/common/Login"
 import KakaoRedirection from "@/views/common/KakaoRedirection.vue"
 import Join from "@/views/common/Join"
+import KakaoJoin from "@/views/common/KakaoJoin"
 import HospitalList from '@/views/hospital/HospitalList'
 import HospitalListFromHome from '@/views/hospital/HospitalListFromHome'
 import MyPage from '@/views/common/MyPage'
@@ -77,6 +78,11 @@ const routes = [
         path: '/join',
         name: 'Join',
         component: Join //회원가입 컴포넌트 추가
+    },
+    {
+        path: '/kakao-join',
+        name: 'kakaoJoin',
+        component: KakaoJoin //회원가입 컴포넌트 추가
     },
     {
         path: '/login',

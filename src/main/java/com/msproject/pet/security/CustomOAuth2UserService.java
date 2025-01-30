@@ -51,20 +51,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private UserSecurityDTO generateDTO(String email, Map<String,Object> params) {
-        Optional<UserEntity> result = userRepository.findByEmail(email);
+        Optional<UserEntity> result = userRepository.findByUserId(email);
 
         if (result.isEmpty()) {
             UserEntity user = UserEntity.builder()
                     .userId(email)
                     .userPw(passwordEncoder.encode("1111"))
-                    .email(email)
+                    //.email(email)
                     .social(true)
                     .deleteYn(false)
                     .build();
             user.addRole(UserRole.USER);
             userRepository.save(user);
 
-            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", email, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             userSecurityDTO.setProps(params);
 
             return userSecurityDTO;
@@ -79,7 +79,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             user.getZipCode(),
                             user.getAddr(),
                             user.getDetailAddr(),
-                            user.getEmail(),
+                            //user.getEmail(),
                             user.isDeleteYn(),
                             user.isSocial(),
                             user.getRoleSet()

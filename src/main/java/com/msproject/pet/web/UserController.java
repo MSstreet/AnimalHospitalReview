@@ -82,16 +82,16 @@ public class UserController {
         return userService.checkEmail(email);
     }
 
-    @PostMapping("/find")
-    public String findId(@RequestBody FindUserIdDto findUserIdDto){
-
-        UserEntity user = userService.findId(findUserIdDto);
-
-        if(user == null){
-            return null;
-        }
-        return user.getUserId();
-    }
+//    @PostMapping("/find")
+//    public String findId(@RequestBody FindUserIdDto findUserIdDto){
+//
+//        UserEntity user = userService.findId(findUserIdDto);
+//
+//        if(user == null){
+//            return null;
+//        }
+//        return user.getUserId();
+//    }
 
     @PostMapping("/find/pw")
     public String findPassword(@RequestParam("userEmail") String userEmail){
@@ -101,7 +101,7 @@ public class UserController {
         if(user == null){
             return null;
         }
-        return user.getEmail();
+        return user.getUserId();
     }
 
     @GetMapping("/{id}")

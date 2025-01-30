@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
                 .phoneNum(userDto.getPhoneNum())
                 .zipCode(userDto.getZipCode())
                 .addr(userDto.getAddr())
-                .email(userDto.getEmail())
+                //.email(userDto.getEmail())
                 .detailAddr(userDto.getDetailAddr())
                 .build();
 
@@ -73,6 +73,8 @@ public class UserService implements UserDetailsService {
         Optional<UserEntity> user = userRepository.getWithRole(username);
 
         if(user.isEmpty()){
+
+
             throw new UsernameNotFoundException("username not found");
         }
 
@@ -87,7 +89,7 @@ public class UserService implements UserDetailsService {
                         userEntity.getZipCode(),
                         userEntity.getAddr(),
                         userEntity.getDetailAddr(),
-                        userEntity.getEmail(),
+                        //userEntity.getEmail(),
                         userEntity.isDeleteYn(),
                         false,
                         userEntity.getRoleSet()
@@ -104,7 +106,7 @@ public class UserService implements UserDetailsService {
         UserEntity entity = userRepository.findByUserId(userDto.getUserId()).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
 
         //userDto.setUpdatedAt(LocalDateTime.now());
-        entity.change(userDto.getUserName(),userDto.getPhoneNum(),userDto.getZipCode(), userDto.getAddr(), userDto.getDetailAddr(),userDto.getEmail());
+        entity.change(userDto.getUserName(),userDto.getPhoneNum(),userDto.getZipCode(), userDto.getAddr(), userDto.getDetailAddr());
 
         return userRepository.save(entity);
     }
@@ -112,7 +114,6 @@ public class UserService implements UserDetailsService {
     public void delete(Long id){
 
         UserEntity entity = userRepository.findById(id).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
-
 
         List<ReviewEntity> reviewEntities = reviewRepository.findByUserEntity(entity);
         for (ReviewEntity entity1 : reviewEntities) {
@@ -136,7 +137,7 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                .email(entity.getEmail())
+                //.email(entity.getEmail())
                 .build();
 
         userHistoryRepository.save(userHistory);
@@ -171,7 +172,7 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                .email(entity.getEmail())
+                //.email(entity.getEmail())
                 .build();
     }
 
@@ -187,7 +188,7 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                .email(entity.getEmail())
+                //.email(entity.getEmail())
                 .build();
     }
 
@@ -200,27 +201,27 @@ public class UserService implements UserDetailsService {
      }
 
     public Boolean checkEmail(String email) {
-        return userRepository.existsByEmail(email);
+        return userRepository.existsByUserId(email);
     }
 
-    public UserEntity findId(FindUserIdDto findUserIdDto) {
-
-        Boolean check = userRepository.existsByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
-
-        if(check){
-            Optional<UserEntity> user = userRepository.findByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
-            UserEntity userEntity = user.orElseThrow();
-            return userEntity;
-        }else{
-            return null;
-        }
-    }
+//    public UserEntity findId(FindUserIdDto findUserIdDto) {
+//
+//        Boolean check = userRepository.existsByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
+//
+//        if(check){
+//            Optional<UserEntity> user = userRepository.findByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
+//            UserEntity userEntity = user.orElseThrow();
+//            return userEntity;
+//        }else{
+//            return null;
+//        }
+//    }
 
     public UserEntity findPw(String userEmail) {
-        Boolean check = userRepository.existsByEmail(userEmail);
+        Boolean check = userRepository.existsByUserId(userEmail);
 
         if(check){
-            Optional<UserEntity> user = userRepository.findByEmail(userEmail);
+            Optional<UserEntity> user = userRepository.findByUserId(userEmail);
             UserEntity userEntity = user.orElseThrow();
 
             MailDto mailDto = createMailAndChangePassword(userEntity);
@@ -238,7 +239,7 @@ public class UserService implements UserDetailsService {
         String str = getTempPassword();
         MailDto dto = new MailDto();
 
-        dto.setAddress(userEntity.getEmail());
+        //dto.setAddress(userEntity.getEmail());
         dto.setTitle("AnimalH 임시비밀번호 안내 이메일 입니다.");
         dto.setMessage("안녕하세요. AnimalH 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
                 + str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");

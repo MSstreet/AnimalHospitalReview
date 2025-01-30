@@ -40,6 +40,7 @@ public class KakaoAuthService {
 
 
     public String getKakaoAccessToken(String code) {
+
         String tokenUri = "https://kauth.kakao.com/oauth/token";
         String clientId = "409b3fb04dd78999f86c8dbc4a19372a";
         String clientSecret = "hCjNC6r9e9w8N6an8eOBxiWu2ZXP5en0";
@@ -86,21 +87,21 @@ public class KakaoAuthService {
     }
 
     private UserSecurityDTO generateDTO(String email,String nickname) {
-        Optional<UserEntity> result = userRepository.findByEmail(email);
+        Optional<UserEntity> result = userRepository.findByUserId(email);
 
         if (result.isEmpty()) {
             UserEntity user = UserEntity.builder()
                     .userId(email)
                     .userPw(passwordEncoder.encode("1111"))
                     .userName(nickname)
-                    .email(email)
+                    //.email(email)
                     .social(true)
                     .deleteYn(false)
                     .build();
             user.addRole(UserRole.USER);
             userRepository.save(user);
 
-            return new UserSecurityDTO(email, "1111", email, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            return new UserSecurityDTO(email, "1111", false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         } else {
             UserEntity user = result.get();
             return new UserSecurityDTO(
@@ -111,7 +112,7 @@ public class KakaoAuthService {
                     user.getZipCode(),
                     user.getAddr(),
                     user.getDetailAddr(),
-                    user.getEmail(),
+                    //user.getEmail(),
                     user.isDeleteYn(),
                     user.isSocial(),
                     user.getRoleSet()

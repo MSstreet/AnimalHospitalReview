@@ -30,19 +30,18 @@ public class UserRepositoryCustom {
         }
     }
 
-    public Boolean existsByEmail(String email) {
-
-        JPAQuery<UserEntity> query = queryFactory.selectFrom(userEntity)
-                .where(userEntity.deleteYn.eq(false).and(userEntity.email.eq(email)));
-
-        UserEntity user = query.fetchOne();
-
-        if(user != null){
-            return true;
-        }else{
-            return false;
-        }
-    }
+//    public Boolean existsByEmail(String email) {
+//
+//        JPAQuery<UserEntity> query = queryFactory.selectFrom(userEntity)
+//                .where(userEntity.deleteYn.eq(false).and(userEntity.email.eq(email)));
+//        UserEntity user = query.fetchOne();
+//
+//        if(user != null){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 
     public UserEntity findByUserId(String username) {
 

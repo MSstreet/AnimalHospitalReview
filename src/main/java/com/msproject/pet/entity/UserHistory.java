@@ -27,7 +27,7 @@ public class UserHistory extends BaseEntity {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    private String email; // 0208
+    //private String email; // 0208
     private String created;
     private String updated;
     @ColumnDefault("false") //default 0

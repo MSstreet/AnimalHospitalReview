@@ -12,7 +12,7 @@ public class UserJoinDto {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    private String email;
+    //private String email;
     private boolean deleteYn;
     private boolean social;
 }

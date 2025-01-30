@@ -8,26 +8,11 @@
 
       <form @submit.prevent="fnJoin" ref="form">
 
-<!--        <div class="form-group">-->
-<!--          <label for="exampleInputId" class="fw-bold form-label mt-4">이메일</label>-->
-<!--          <input type="text" maxlength="50" class="form-control" id="exampleInputId"  v-model="user_id" @change ="validIdCheck">-->
-<!--          <div id="checkId" class="mt-1"></div>-->
-
-<!--&lt;!&ndash;           <button @click="fnPage()" class="btn btn-success" id="button-addon2">검색</button>&ndash;&gt;-->
-<!--        </div>-->
-
-        <div class="form-group">
-          <label for="exampleInputEmail1" class="fw-bold form-label mt-4">이메일</label>
-          <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" v-model="user_id" @change="validEmailCheck">
-          <div id="checkEmail" class="mt-1"></div>
-        </div>
-
-
         <div class="form-group has-success">
           <label class="fw-bold form-label mt-4" for="inputValid">비밀번호</label>
           <input type="password" maxlength="20" class="form-control" id="inputValid" v-model="user_pw" @change="validPasswordCheck">
           <div id="checkPwd" class="mt-1"></div>
-<!--          <div class="valid-feedback"></div>-->
+          <!--          <div class="valid-feedback"></div>-->
         </div>
 
 
@@ -37,14 +22,6 @@
           <div id="doubleCheckPwd" class="mt-1"></div>
           <!--          <div class="invalid-feedback">비밀번호가 일치하지 않습니다</div>-->
         </div>
-
-
-        <div class="form-group">
-          <label for="exampleInputName" class="fw-bold form-label mt-4">이름</label>
-          <input type="text" maxlength="20" class="form-control" id="exampleInputName" v-model="user_name" @change="validNameCheck">
-          <div id="nameCheck" class="mt-1"></div>
-        </div>
-
 
         <div class="form-group">
           <label for="exampleInputNum" class="fw-bold form-label mt-4">전화번호</label>
@@ -65,7 +42,7 @@
         <div class="form-group">
           <label for="exampleInputAddr" class="fw-bold form-label mt-4">주소</label>
           <input type="text" maxlength="50" class="form-control mb-4" id="exampleInputAddr" v-model="address">
-<!--          <div id="addrCheck" class=""></div>-->
+          <!--          <div id="addrCheck" class=""></div>-->
         </div>
 
         <div class="form-group">
@@ -89,22 +66,14 @@ export default {
     return {
       check : false,
 
-      duplicated_check: false,
-      duplicated_id_check: false,
-      user_id: '',
       user_pw: '',
       pwd_check: '',
-      user_name: '',
       user_num: '',
 
-      user_email:'',
-
       user_addr: '',
-
       postcode:'',
       address: '',
       extra_address: ''
-
 
     }
   },
@@ -232,21 +201,21 @@ export default {
         }
       }).then((res) => {
         //console.log(res.data)
-            if(res.data === true){
-              document.getElementById('checkId').style.color="red"
-              document.getElementById('checkId').innerHTML = "중복된 ID 입니다.";
-              alert("중복된 ID 입니다.")
-              this.duplicated_id_check = false
-              console.log("아이디 중복 확인 :" + this.check)
-            }else{
-              document.getElementById('checkId').style.color="black"
-              document.getElementById('checkId').innerHTML = "";
-              this.duplicated_id_check = true
-            }
-          }).catch((err) => {
-          if (err.message.indexOf('Network Error') > -1){
-            alert('네크워크가 원활하지 않습니다. \n잠시 후 다시 시도해주세요.')
-          }
+        if(res.data === true){
+          document.getElementById('checkId').style.color="red"
+          document.getElementById('checkId').innerHTML = "중복된 ID 입니다.";
+          alert("중복된 ID 입니다.")
+          this.duplicated_id_check = false
+          console.log("아이디 중복 확인 :" + this.check)
+        }else{
+          document.getElementById('checkId').style.color="black"
+          document.getElementById('checkId').innerHTML = "";
+          this.duplicated_id_check = true
+        }
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1){
+          alert('네크워크가 원활하지 않습니다. \n잠시 후 다시 시도해주세요.')
+        }
       })
     }
     //비밀번호 유효성 체크
@@ -354,7 +323,7 @@ export default {
         document.getElementById('checkEmail').style.color="black"
         document.getElementById('checkEmail').innerHTML = "";
         this.check = true
-       //return
+        //return
       }
       this.validDuplicationEmailCheck()
 

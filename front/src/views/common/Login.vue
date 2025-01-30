@@ -91,7 +91,7 @@
       <div class="container py-4">
         <form @submit.prevent="fnLogin">
           <div class="form-group">
-            <label for="exampleInputEmail1" class="fw-bold mb-1">아이디</label>
+            <label for="exampleInputEmail1" class="fw-bold mb-1">이메일</label>
             <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
           </div>
 
@@ -257,11 +257,9 @@ export default {
   color: #333; /* 원하는 색상 */
 }
 
-
 .site-title p {
   margin-top: 0;
 }
-
 
 .intro-text {
   font-size: 1rem; /* 소개 텍스트 크기 */

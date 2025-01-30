@@ -25,7 +25,7 @@ public class UserSecurityDTO  extends User implements OAuth2User {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    private String email;
+    //private String email;
     private boolean deleteYn;
     private boolean social;
     private Set<UserRole> roleSet = new HashSet<>();
@@ -33,7 +33,7 @@ public class UserSecurityDTO  extends User implements OAuth2User {
     private Map<String, Object> props;
 
     public UserSecurityDTO(String userId, String userPw, String userName, String phoneNum,
-                           String zipCode, String addr, String detailAddr, String email,
+                           String zipCode, String addr, String detailAddr,
                            boolean deleteYn, boolean social,
                            Collection<? extends GrantedAuthority> authorities) {
         super(userId, userPw, authorities);
@@ -44,18 +44,18 @@ public class UserSecurityDTO  extends User implements OAuth2User {
         this.zipCode = zipCode;
         this.addr = addr;
         this.detailAddr = detailAddr;
-        this.email = email;
+        //this.email = email;
         this.deleteYn = deleteYn;
         this.social = social;
     }
 
-    public UserSecurityDTO(String userId, String userPw, String email,
+    public UserSecurityDTO(String userId, String userPw,
                            boolean deleteYn, boolean social,
                            Collection<? extends GrantedAuthority> authorities) {
         super(userId, userPw, authorities);
         this.userId = userId;
         this.userPw = userPw;
-        this.email = email;
+        //this.email = email;
         this.deleteYn = deleteYn;
         this.social = social;
     }

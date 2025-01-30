@@ -1,51 +1,42 @@
 <template>
 
-<div class="text-center">
-  <div style="width: 960px; display: inline-block">
-    <div class="row p-3">
-      <div class="col-12 border-0">
-          <div class=" ml-3 col-20 text-left d-flex align-items-center justify-content-between pt-2">
+<div class="hos-detail-container">
+    <div class="hos-info-detail">
+        <div class="hos-info">
+          <div class=" ">
             <div style="font-weight: 300;">
               {{ addr1[1] }}
-               >
+              >
               {{ addr1[2] }}
             </div>
           </div>
-
-        <div class="hos-info">
-          <div class="hos-text-container">
+          <div class="hos-text">
             <div>
               <h1>{{hospital_name }}</h1>
             </div>
-            <div>
+            <div class="hos-heart">
               <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
                 <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
                 <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
               </a>
             </div>
           </div>
-          <div class="hos-detail-btn" >
-            <a class="btn btn-success  " v-on:click="fnHosList">목록</a>
-            <a class="btn btn-primary " v-on:click="reviewWrite(`${hospital_id}`)"> 리뷰 남기기</a>
+
+          <div class="hos-review-btn">
+            <div class="" >
+              <span class="mr-1" style="font-weight: 700;">{{hospital_score}}</span>
+              | <span class="ml-1">리뷰 ({{review_count}})</span>
+            </div>
+            <div class="hos-detail-btn" >
+              <a class="btn btn-success" v-on:click="fnHosList">목록</a>
+              <a class="btn btn-primary" v-on:click="reviewWrite(`${hospital_id}`)">리뷰</a>
+            </div>
           </div>
         </div>
-
-        <div class="d-flex align-items-start py-2 color49 pb-1">
-          <div class="review" style="position: relative; font-size: 1.5rem;letter-spacing: 1px;">
-            <span class="mr-1" style="font-weight: 700;">{{hospital_score}}</span>
-            | <span class="ml-1">리뷰 ({{review_count}})</span>
-          </div>
-        </div>
-
-        <div class=" pb-2 pt-2 btn-pos">
-
-        </div>
-
-
       </div>
     </div>
 
-    <div class="row border px-3 middle-tab" style="top:72px !important;">
+    <div class="border px-3 middle-tab" style="top:72px !important;">
       <div class="position">
         <button class="btn fs-3" @click="changeComponent('HospitalInfo')">병원 정보
         </button>
@@ -56,8 +47,7 @@
         <component v-bind:is="comp"></component>
       </keep-alive>
     </div>
-  </div>
-</div>
+
 
 </template>
 
@@ -222,40 +212,55 @@ export default {
 </script>
 
 <style>
-  .review{
-    left: 0.2rem;
-  }
-
-  .name{
-    position: relative;
-    right: 0.5rem;
-    top: 0.2rem;
-  }
-
-  .position{
-    display: flex;
-    flex-direction:row;
-    justify-content: space-evenly;
-  }
-
-  .btn-pos{
-    text-align: left;
-  }
-  .info-pos{
-    text-align: left;
-  }
- .heart-position{
-    position: relative;
-    right: 17rem;
-    bottom:4.2rem;
+.hos-detail-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+  margin-top: 10px;
 }
- .hos-info{
-   display: flex;
-   justify-content: space-between;
- }
-.hos-text-container{
+
+.hos-info-detail{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.hos-review-btn{
   display: flex;
   justify-content: space-between;
 }
 
+.position{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-evenly;
+}
+
+.hos-info{
+ display: flex;
+ justify-content: space-between;
+}
+
+.hos-text{
+display: flex;
+justify-content: space-between;
+}
+.hos-detail-btn {
+  display: flex;
+  justify-content: space-between; /* 버튼을 양쪽으로 정렬 */
+  gap: 10px; /* 버튼 간 간격 */
+  margin-top: 20px; /* 상단 여백 */
+}
+
+.hos-detail-btn .btn {
+  display: inline-flex; /* 버튼 안의 텍스트를 정렬하기 위해 inline-flex 사용 */
+  align-items: center; /* 세로 정렬 */
+  justify-content: center; /* 가로 정렬 (필요시) */
+  line-height: 1.5; /* 텍스트 높이 조정 */
+  padding: 10px 20px; /* 버튼 크기 조정 */
+  font-size: 16px; /* 텍스트 크기 */
+  vertical-align: middle; /* 텍스트 정렬 보정 */
+  border-radius: 8px; /* 둥근 버튼 */
+
+}
 </style>
