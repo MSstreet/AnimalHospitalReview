@@ -114,6 +114,11 @@ public class UserController {
         return userService.update(userDto);
     }
 
+    @PatchMapping("/social-update")
+    public UserEntity socialUpdate(@RequestBody UserDto userDto){
+        return userService.socialUpdate(userDto);
+    }
+
     @PatchMapping("/change-pw")
     public Boolean updatePw(@RequestBody UserPwChangeDto userPwChangeDto){
         return userService.updatePw(userPwChangeDto);

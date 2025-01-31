@@ -105,8 +105,15 @@ public class UserService implements UserDetailsService {
     public UserEntity update(UserDto userDto){
         UserEntity entity = userRepository.findByUserId(userDto.getUserId()).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
 
-        //userDto.setUpdatedAt(LocalDateTime.now());
         entity.change(userDto.getUserName(),userDto.getPhoneNum(),userDto.getZipCode(), userDto.getAddr(), userDto.getDetailAddr());
+
+        return userRepository.save(entity);
+    }
+
+    public UserEntity socialUpdate(UserDto userDto){
+        UserEntity entity = userRepository.findUserEntityByIdx(userDto.getIdx()).orElseThrow(()->new RuntimeException("존재하지 않는 유저입니다."));
+
+        entity.joinUpdate(passwordEncoder.encode(userDto.getUserPw()),userDto.getPhoneNum(),userDto.getZipCode(), userDto.getAddr(), userDto.getDetailAddr());
 
         return userRepository.save(entity);
     }

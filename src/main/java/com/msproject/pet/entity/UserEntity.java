@@ -57,6 +57,15 @@ public class UserEntity extends BaseEntity{
         //this.email = email;
     }
 
+    public void joinUpdate(String userPw, String phoneNum, String zipCode, String addr, String detailAddr){
+        this.userPw = userPw;
+        this.phoneNum = phoneNum;
+        this.zipCode = zipCode;
+        this.addr = addr;
+        this.detailAddr = detailAddr;
+        //this.email = email;
+    }
+
     public void changePw(String userPw){
         this.userPw = userPw;
     }

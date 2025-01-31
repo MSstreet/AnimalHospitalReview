@@ -45,7 +45,7 @@ export default {
         let loginResult = await this.socialLogin({user_id: this.userInfo.userId, user_idx :this.userInfo.userIdx});
         if (loginResult) {
           this.goToPages()
-          alert(this.userInfo.userId + "님 환영합니다.")
+          console.log(" this.userInfo.userId : "+  this.userInfo.userId)
         }
       } catch (err) {
         if (err.message.indexOf('Network Error') > -1) {
@@ -55,11 +55,12 @@ export default {
         }
       }
     },goToPages() {
-    this.$router.replace({
-      // path: './write',
-      name: 'PageHome'
-    })
+      this.$router.replace('/kakao-join',
+          { state:
+                { id: this.userInfo.userId}
+          });
   }
+
   }
 }
 </script>
