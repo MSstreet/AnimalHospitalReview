@@ -55,11 +55,10 @@ export default {
         }
       }
     },goToPages() {
-      this.$router.replace('/kakao-join',
-          { state:
-                { id: this.userInfo.userId}
-          });
-  }
+      this.$router.replace({
+        name: 'PageHome'
+      })
+    }
 
   }
 }
