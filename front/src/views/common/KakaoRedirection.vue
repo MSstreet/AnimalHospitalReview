@@ -14,11 +14,11 @@ export default {
   },
   created() {
     this.code = this.$route.query.code;
-    this.getJwtToken();
+    this.getUserInfo();
   }
   ,methods: {
     ...mapActions(['socialLogin']),
-    getJwtToken() {
+    getUserInfo() {
       this.requestBody = { // 데이터 전송
         code: this.code
       }
@@ -26,8 +26,8 @@ export default {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
-        this.userInfo.userId = res.data.user_id;
         this.userInfo.userIdx = res.data.user_idx;
+        this.userInfo.userId = res.data.user_id;
         this.userInfo.userToken = res.data.user_token;
         this.userInfo.userRoleole = res.data.user_role;
 

@@ -43,7 +43,7 @@ let processResponse = (store, loginResponse) => {
     }
 }
 
-let processResponse1 = (store, joinResponse) => {
+let joinProcessResponse = (store, joinResponse) => {
 
     switch (joinResponse) {
         case 'notFound':
@@ -63,7 +63,6 @@ let updateLoginStateBySocial = (store) => {
     setIsLogin(store, true)
 }
 
-
 export default {
     async login (store, {user_id, user_pw}) {
         let loginResponse = await loginAPI.doLogin(user_id, user_pw)
@@ -71,17 +70,18 @@ export default {
         setUserIdx(store,loginResponse.data.user_idx)
         processResponse(store, loginResponse)
         return store.getters.getIsAuth  // 로그인 결과를 리턴한다
-    },
-    async socialLogin (store, {user_id, user_idx}) {
+    }
+
+    ,async socialLogin (store, {user_id, user_idx}) {
         setUserId(store,user_id)
         setUserIdx(store,user_idx)
         updateLoginStateBySocial(store)
         return store.getters.getIsAuth  // 로그인 결과를 리턴한다
-    },
+    }
 
-    async join (store, {user_id, user_pw, user_name, phone_num, zip_code,addr,detail_addr,email}) {
+    ,async join (store, {user_id, user_pw, user_name, phone_num, zip_code,addr,detail_addr,email}) {
         let joinResponse = await joinAPI.doJoin(user_id, user_pw, user_name,phone_num, zip_code,addr,detail_addr,email)
-        processResponse1(store,joinResponse)
+        joinProcessResponse(store,joinResponse)
         return store.getters.getIsAuth  // 회원가입 결과 리턴
     }
 }

@@ -9,20 +9,20 @@
     <div class="text-left info-pos col-6 mt-3">
       <div class="color49 mt-3" style="font-size: 14px; font-weight: 40; letter-spacing: -0.6px;">
         <div >
-           <p class="text-title">주소</p>
+           <p class="text-title text-lg-start">주소</p>
         </div>
 
         <div>
-          <p class="text-content">{{ addr }}</p>
+          <p class="text-content text-lg-start">{{ addr }}</p>
         </div>
       </div>
       <div class="color49 mt-3" style="font-size: 14px; font-weight: 40; letter-spacing: -0.6px;">
         <div>
-          <p class="text-title">전화번호</p>
+          <p class="text-title text-lg-start">전화번호</p>
         </div>
 
         <div>
-          <p class="text-content">{{number }}</p>
+          <p class="text-content text-lg-start">{{number }}</p>
         </div>
 
       </div>

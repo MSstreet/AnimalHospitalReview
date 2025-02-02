@@ -1,10 +1,8 @@
 <template>
 
-<div class="text-center">
+<div class="text-center mt-5">
   <div style="width: 960px; display: inline-block">
-    <div class="row p-3">
       <div class="col-12 border-0">
-
         <div class=" ml-3 col-20 text-left d-flex align-items-center justify-content-between pt-2">
           <div style="font-weight: 300;">
             {{ addr1[1] }}
@@ -20,8 +18,8 @@
             </div>
             <div class="hos-heart">
               <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
-                <span style="font-size: 3rem" id="heart" class=" " v-if="wish_state != 1">🤍</span>
-                <span style="font-size: 3rem" id="heart" class=" ms-2" v-else-if="wish_state == 1">🧡</span>
+                <span style="font-size: 3rem" id="heart" class="" v-if="wish_state != 1">🤍</span>
+                <span style="font-size: 3rem" id="heart" class="" v-else-if="wish_state == 1">🧡</span>
               </a>
             </div>
           </div>
@@ -38,7 +36,7 @@
           </div>
         </div>
       </div>
-    </div>
+
 
     <div class="row border px-3 middle-tab" style="top:72px !important;">
       <div class="position">
