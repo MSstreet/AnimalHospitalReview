@@ -48,12 +48,7 @@
                 </div>
                 <div class="card-body">
                   <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
-                  <!--                  <div class="input-group input-group-outline my-3">-->
-                  <!--&lt;!&ndash;                    <label class="form-label">이름</label>&ndash;&gt;-->
-                  <!--                    <input type="text" id="userName" name="userName" class="form-control" placeholder="이름" v-model="user_name" required>-->
-                  <!--                  </div>-->
                   <div class="input-group input-group-outline my-3">
-                    <!--                      <label class="form-label">Email</label>-->
                     <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required>
                   </div>
                   <div class="text-center">

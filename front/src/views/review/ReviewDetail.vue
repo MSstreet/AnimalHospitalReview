@@ -1,5 +1,56 @@
 <template>
   <div class="mt-5 mb-3 pt-3 ">
+
+    <div id="report" class="modal fade">
+      <div class="modal-dialog modal-dialog-centered modal-login">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container my-auto">
+              <div class="row">
+                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                  <div class=" p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-danger shadow-danger border-radius-lg py-3 pe-1">
+                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">신고하기</h4>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-start">신고 사유를 선택하고 추가 설명을 입력해주세요.</p>
+                    <div class="form-check text-start">
+                      <input class="form-check-input" type="radio" name="reportReason" id="spam" value="스팸/홍보" v-model="selectedReason">
+                      <label class="form-check-label text-start" for="spam">스팸/홍보</label>
+                    </div>
+                    <div class="form-check text-start">
+                      <input class="form-check-input" type="radio" name="reportReason" id="hateSpeech" value="혐오 발언" v-model="selectedReason">
+                      <label class="form-check-label" for="hateSpeech">혐오 발언</label>
+                    </div>
+                    <div class="form-check text-start">
+                      <input class="form-check-input" type="radio" name="reportReason" id="harassment" value="괴롭힘/폭력" v-model="selectedReason">
+                      <label class="form-check-label" for="harassment">괴롭힘/폭력</label>
+                    </div>
+                    <div class="form-check text-start">
+                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="허위 정보" v-model="selectedReason">
+                      <label class="form-check-label" for="falseInfo">허위 정보</label>
+                    </div>
+                    <div class="input-group input-group-outline my-3">
+                      <textarea id="reportDetails" class="form-control" rows="4" placeholder="추가 설명을 입력해주세요." v-model="reportDetails"></textarea>
+                    </div>
+                    <div class="text-center">
+                      <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2"
+                              @click="fnSubmitReport">신고하기</button>
+                    </div>
+                    <div class="text-center">
+                      <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">취소</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="boarder">
       <div class="row px-3">
         <div class="col-12 px-3 pt-3 pb-0 mb-3" style="text-align: center; border-right: solid 1px #e9e9e9; background-color: #f8f8f8">
@@ -379,8 +430,8 @@
         <h3 class="text-lg-start ">{{row.user_id}}</h3>
         <!-- 삭제 / 수정 버튼 (오른쪽 하단) -->
         <div>
-          <button class="btn btn-danger me-2 btn-sm" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
-          <button class="btn btn-warning btn-sm" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
+          <button class="btn btn-secondary me-2 btn-sm" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
+          <button class="btn btn-secondary btn-sm" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
         </div>
       </div>
 
@@ -463,9 +514,9 @@
 
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="mb-2">
-            <button class="btn btn-outline-primary btn-sm me-2" @click="fnHelpful(row.review_id)">도움이 돼요 👍</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="fnNotHelpful(row.review_id)">도움이 안 돼요 👎</button>
-            <button class="btn btn-outline-danger btn-sm" @click="fnReport(row.review_id)">신고하기 ⚠️</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(row.review_id)">도움이 돼요</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnNotHelpful(row.review_id)">도움이 안 돼요</button>
+            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report" @click="fnReport(row.review_id)">신고하기</button>
           </div>
         </div>
 
