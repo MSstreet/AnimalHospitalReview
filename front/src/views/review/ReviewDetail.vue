@@ -16,19 +16,15 @@
                   <div class="card-body">
                     <p class="text-start">신고 사유를 선택하고 추가 설명을 입력해주세요.</p>
                     <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="spam" value="스팸/홍보" v-model="selectedReason">
+                      <input class="form-check-input" type="radio" name="reportReason" id="spam" value="1" v-model="reportReason">
                       <label class="form-check-label text-start" for="spam">스팸/홍보</label>
                     </div>
                     <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="hateSpeech" value="혐오 발언" v-model="selectedReason">
+                      <input class="form-check-input" type="radio" name="reportReason" id="hateSpeech" value="2" v-model="reportReason">
                       <label class="form-check-label" for="hateSpeech">혐오 발언</label>
                     </div>
                     <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="harassment" value="괴롭힘/폭력" v-model="selectedReason">
-                      <label class="form-check-label" for="harassment">괴롭힘/폭력</label>
-                    </div>
-                    <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="허위 정보" v-model="selectedReason">
+                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="2" v-model="reportReason">
                       <label class="form-check-label" for="falseInfo">허위 정보</label>
                     </div>
                     <div class="input-group input-group-outline my-3">
@@ -36,7 +32,7 @@
                     </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2"
-                              @click="fnSubmitReport">신고하기</button>
+                              @click="fnSubmitReport(idx)">신고하기</button>
                     </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">취소</button>
@@ -506,12 +502,9 @@
           {{ new Date(row.created_at).toISOString().split('T')[0].replace(/-/g, '-')}}
         </div>
       </div>
-
-
         <div class="fs-4 fw-semibold mt-3 text-start" style="word-break: break-word">
           <p>{{ row.content }}</p>
         </div>
-
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="mb-2">
             <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(row.review_id)">도움이 돼요</button>
@@ -519,7 +512,6 @@
             <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report" @click="fnReport(row.review_id)">신고하기</button>
           </div>
         </div>
-
     </div>
   </div>
 
@@ -555,7 +547,8 @@
 export default {
   data() { //변수생성
     return {
-
+      reportDetails:'',
+      reportReason:'0',
       idx:this.$route.query.idx,
       hos_score:'',
       log_id: this.$store.state.userIdx,
@@ -565,11 +558,8 @@ export default {
       no: '', //게시판 숫자처리
 
       avg_price_score:'',
-
       avg_kindness_score:'',
-
       avg_effect_score:'',
-
 
       paging: {
         block: 0,
@@ -614,8 +604,6 @@ export default {
     }
     ,fnGetList() {
       this.requestBody = { // 데이터 전송
-        // sk: this.search_key,
-        // sv: this.search_value,
         page: this.page,
         size: this.size
       }
@@ -665,9 +653,9 @@ export default {
         this.avg_kindness_score = this.avg_kindness_score.toFixed(1)
         this.avg_price_score = this.avg_price_score.toFixed(1)
 
-        console.log("친절평균!!!" + this.avg_kindness_score)
-        console.log("가격평균!!!" + this.avg_price_score)
-        console.log("효과평균!!!" + this.avg_effect_score)
+        console.log("친절평균:" + this.avg_kindness_score)
+        console.log("가격평균:" + this.avg_price_score)
+        console.log("효과평균:" + this.avg_effect_score)
 
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -679,7 +667,6 @@ export default {
       this.$axios.get(this.$serverUrl + '/review/hos/'+ this.idx, {
         headers: {}
       }).then((res) => {
-        console.log("!!!!!!!" + res.data);
         this.hos_score = res.data;
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -688,8 +675,6 @@ export default {
       })
     }
     ,fnDelete(idx){
-      console.log(idx)
-
       if (!confirm("삭제하시겠습니까?")) return
 
       this.$axios.delete(this.$serverUrl + '/review/' + idx, {})
@@ -704,12 +689,8 @@ export default {
       })
     }
     ,fnUpdate(hos_idx,rev_idx){
-      console.log("hos_idx:" + hos_idx)
-      console.log("rev_idx:" + rev_idx)
-
       this.requestBody.hos_idx = hos_idx
       this.requestBody.rev_idx = rev_idx
-
       this.$router.push({
         path: '/review/update',
         query: this.requestBody
@@ -731,11 +712,22 @@ export default {
       console.log(`리뷰 ${reviewId}가 도움이 안 됨`);
       // 서버 API 호출 또는 상태 업데이트 로직 추가
     }
-    ,fnReport(reviewId) {
-      console.log(`리뷰 ${reviewId} 신고`);
-      // 신고 처리 로직 추가
+    ,fnSubmitReport(reviewId) {
+      let apiUrl = this.$serverUrl + '/report' + reviewId
+      this.form = {
+        "reportReason": Number(this.reportReason), // 숫자로 변환하여 전송
+        "reportDetails": this.reportDetails
+      }
+      this.$axios.post(apiUrl, this.form)
+          .then(() => {
+            alert('신고가 완료되었습니다.')
+          }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
     }
-}
+  }
 }
 
 
