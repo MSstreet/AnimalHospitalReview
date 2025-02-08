@@ -94,7 +94,6 @@ public class KakaoAuthService {
                     .userId(email)
                     .userPw(passwordEncoder.encode("1111"))
                     .userName(nickname)
-                    //.email(email)
                     .social(true)
                     .deleteYn(false)
                     .build();
@@ -112,7 +111,6 @@ public class KakaoAuthService {
                     user.getZipCode(),
                     user.getAddr(),
                     user.getDetailAddr(),
-                    //user.getEmail(),
                     user.isDeleteYn(),
                     user.isSocial(),
                     user.getRoleSet()
