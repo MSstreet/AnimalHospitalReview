@@ -32,7 +32,7 @@
                     </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2"
-                              @click="fnSubmitReport(idx)">신고하기</button>
+                              @click="fnSubmitReport()">신고하기</button>
                     </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">취소</button>
@@ -509,7 +509,7 @@
           <div class="mb-2">
             <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(row.review_id)">도움이 돼요</button>
             <button class="btn btn-outline-info btn-sm me-2" @click="fnNotHelpful(row.review_id)">도움이 안 돼요</button>
-            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report" @click="fnReport(row.review_id)">신고하기</button>
+            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">신고하기</button>
           </div>
         </div>
     </div>
@@ -540,9 +540,7 @@
       </nav>
   </div>
 </template>
-
 <script>
-
 
 export default {
   data() { //변수생성
@@ -696,14 +694,6 @@ export default {
         query: this.requestBody
       })
     }
-    ,fnDetail() {
-      this.requestBody.idx = this.idx
-
-      this.$router.push({
-        path: '/hospital/detail',
-        query: this.requestBody
-      })
-    }
     ,fnHelpful(reviewId) {
       console.log(`리뷰 ${reviewId}가 도움이 됨`);
       // 서버 API 호출 또는 상태 업데이트 로직 추가
@@ -713,7 +703,7 @@ export default {
       // 서버 API 호출 또는 상태 업데이트 로직 추가
     }
     ,fnSubmitReport(reviewId) {
-      let apiUrl = this.$serverUrl + '/report' + reviewId
+      let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
         "reportReason": Number(this.reportReason), // 숫자로 변환하여 전송
         "reportDetails": this.reportDetails
@@ -729,8 +719,6 @@ export default {
     }
   }
 }
-
-
 </script>
 
 <style>
@@ -760,7 +748,4 @@ export default {
  .position_re{
    text-align: left;
  }
-
-
-
 </style>

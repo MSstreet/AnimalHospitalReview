@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -43,7 +46,17 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf().disable()
+        http
+                .cors().configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:8080")); // Vue 주소 허용
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
+                    config.setAllowCredentials(true);
+                    return config;
+                })
+                .and()
+                .csrf().disable()
                 .authorizeRequests()
                     //.antMatchers("/oauth/kakao/login-url").permitAll() // 이 경로는 필터 체인에서 제외
                     .anyRequest().permitAll()
@@ -62,7 +75,6 @@ public class WebSecurityConfig {
 //                )
                 .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
         //http.oauth2Login().loginPage("/user/login").successHandler(authenticationSuccessHandler());
-        http.cors();
         return http.build();
     }
 

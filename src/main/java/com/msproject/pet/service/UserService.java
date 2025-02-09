@@ -89,7 +89,6 @@ public class UserService implements UserDetailsService {
                         userEntity.getZipCode(),
                         userEntity.getAddr(),
                         userEntity.getDetailAddr(),
-                        //userEntity.getEmail(),
                         userEntity.isDeleteYn(),
                         false,
                         userEntity.getRoleSet()
@@ -144,7 +143,6 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                //.email(entity.getEmail())
                 .build();
 
         userHistoryRepository.save(userHistory);
@@ -179,7 +177,6 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                //.email(entity.getEmail())
                 .build();
     }
 
@@ -195,7 +192,6 @@ public class UserService implements UserDetailsService {
                 .zipCode(entity.getZipCode())
                 .addr(entity.getAddr())
                 .detailAddr(entity.getDetailAddr())
-                //.email(entity.getEmail())
                 .build();
     }
 

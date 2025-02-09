@@ -27,7 +27,6 @@ public class UserEntity extends BaseEntity{
     private String zipCode;
     private String addr;
     private String detailAddr;
-    //private String email; // 0208
     @ColumnDefault("false") //default 0
     private boolean social;
     private boolean deleteYn;
@@ -40,21 +39,12 @@ public class UserEntity extends BaseEntity{
         this.roleSet.add(userRole);
     }
 
-    public void changeSocial(boolean social) {
-        this.social = social;
-    }
-
-    public void clearRoles() {
-        this.roleSet.clear();
-    }
-
     public void change(String userName, String phoneNum, String zipCode, String addr, String detailAddr){
         this.userName =userName;
         this.phoneNum = phoneNum;
         this.zipCode = zipCode;
         this.addr = addr;
         this.detailAddr = detailAddr;
-        //this.email = email;
     }
 
     public void joinUpdate(String userPw, String phoneNum, String zipCode, String addr, String detailAddr){
@@ -63,18 +53,10 @@ public class UserEntity extends BaseEntity{
         this.zipCode = zipCode;
         this.addr = addr;
         this.detailAddr = detailAddr;
-        //this.email = email;
     }
 
     public void changePw(String userPw){
         this.userPw = userPw;
     }
 
-    public void changePassword(String userPw){
-        this.userPw = userPw;
-    }
-
-    public void changeState(){
-        this.deleteYn = true;
-    }
 }

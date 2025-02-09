@@ -4,22 +4,18 @@ import com.msproject.pet.service.ReportService;
 import com.msproject.pet.web.dtos.ReportDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8080")
 @Slf4j
 @RequiredArgsConstructor
-@RestController
+@RestController("/report")
 public class ReportController {
 
     private final ReportService reportService;
 
-    @PostMapping("/{reviewId}")
-    public void insertReport(@PathVariable ReportDto reportDto){
+    @PostMapping("/insert")
+    public void insertReport(@RequestBody  ReportDto reportDto){
         reportService.insertReport(reportDto);
-
     }
 }

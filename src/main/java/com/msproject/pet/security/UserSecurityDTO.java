@@ -25,7 +25,6 @@ public class UserSecurityDTO  extends User implements OAuth2User {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    //private String email;
     private boolean deleteYn;
     private boolean social;
     private Set<UserRole> roleSet = new HashSet<>();
@@ -44,7 +43,6 @@ public class UserSecurityDTO  extends User implements OAuth2User {
         this.zipCode = zipCode;
         this.addr = addr;
         this.detailAddr = detailAddr;
-        //this.email = email;
         this.deleteYn = deleteYn;
         this.social = social;
     }
@@ -55,7 +53,6 @@ public class UserSecurityDTO  extends User implements OAuth2User {
         super(userId, userPw, authorities);
         this.userId = userId;
         this.userPw = userPw;
-        //this.email = email;
         this.deleteYn = deleteYn;
         this.social = social;
     }

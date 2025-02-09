@@ -1,5 +1,6 @@
 package com.msproject.pet.entity;
 
+import com.msproject.pet.web.dtos.ReportDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,11 @@ public class ReportEntity {
     private int reportReason;
     private int reportDetail;
 
-    //public ReportEntity()
+    public static ReportEntity of(ReportDto reportDto){
+        ReportEntity reportEntity = new ReportEntity();
+        reportEntity.setReportReason(reportDto.getReportReason());
+        reportEntity.setReportDetail(reportDto.getReportDetail());
+        return reportEntity;
+    }
 
 }
