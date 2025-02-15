@@ -17,12 +17,10 @@ public class ReportEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_idx")
     private Long reportIdx;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private PetHospitalEntity reviewEntity;
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity userEntity;
-
     private int reportReason;
     private int reportDetail;
 

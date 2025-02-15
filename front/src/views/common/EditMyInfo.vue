@@ -59,7 +59,6 @@
 
 <script>
 import {mapGetters} from "vuex";
-import store from "@/vuex/store";
 
 
 export default {
@@ -68,26 +67,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // userIdx : "getIsUserIdx"
     })
   },
   data() {
     return {
       requestBody: this.$route.query,
-
       user_idx: this.$store.state.userIdx,
-
       user_id: '',
-
       email:'',
-
       user_name: '',
       user_num: '',
-
       zip_code: '',
       user_addr: '',
       detail_addr:'',
-
       postcode:'',
       address: '',
       extra_address: '',
@@ -96,8 +88,6 @@ export default {
   }
   ,mounted() {
     this.fnGetView()
-    // console.log(this.$store.state.userIdx)
-    // console.log(this.user_idx)
   }
   ,methods:{
     fnGetView() {
@@ -108,8 +98,6 @@ export default {
         this.user_name = res.data.user_name
         this.user_num = res.data.phone_num
         this.postcode = res.data.zip_code
-        // this.user_addr = res.data.addr
-        // this.detail_addr = res.data.detail_addr
         this.address = res.data.addr
         this.extra_address = res.data.detail_addr
         this.email = res.data.email
@@ -128,7 +116,6 @@ export default {
           if (this.extra_address !== "") {
             this.extra_address = "";
           }
-          // console.log("화깅!!!"+data.userSelectedType)
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
@@ -256,7 +243,6 @@ export default {
       }
     }
   }
-
 }
 
 </script>

@@ -8,14 +8,6 @@
 
       <form @submit.prevent="fnJoin" ref="form">
 
-<!--        <div class="form-group">-->
-<!--          <label for="exampleInputId" class="fw-bold form-label mt-4">이메일</label>-->
-<!--          <input type="text" maxlength="50" class="form-control" id="exampleInputId"  v-model="user_id" @change ="validIdCheck">-->
-<!--          <div id="checkId" class="mt-1"></div>-->
-
-<!--&lt;!&ndash;           <button @click="fnPage()" class="btn btn-success" id="button-addon2">검색</button>&ndash;&gt;-->
-<!--        </div>-->
-
         <div class="form-group">
           <label for="exampleInputEmail1" class="fw-bold form-label mt-4">이메일</label>
           <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" v-model="user_id" @change="validEmailCheck">
@@ -27,7 +19,6 @@
           <label class="fw-bold form-label mt-4" for="inputValid">비밀번호</label>
           <input type="password" maxlength="20" class="form-control" id="inputValid" v-model="user_pw" @change="validPasswordCheck">
           <div id="checkPwd" class="mt-1"></div>
-<!--          <div class="valid-feedback"></div>-->
         </div>
 
 
@@ -35,7 +26,6 @@
           <label class="fw-bold form-label mt-4" for="inputInvalid">비밀번호 재확인</label>
           <input type="password" maxlength="20" class="form-control"  v-model="pwd_check" @change="validSamePasswordCheck">
           <div id="doubleCheckPwd" class="mt-1"></div>
-          <!--          <div class="invalid-feedback">비밀번호가 일치하지 않습니다</div>-->
         </div>
 
 
@@ -56,7 +46,6 @@
         <div class="form-group">
           <label for="exampleInputZip" class="fw-bold form-label mt-4">우편번호</label>
           <input type="text" maxlength="20" v-model="postcode"  class="form-control mb-1" id="exampleInputZip">
-          <!--          <div id="addrCheck" class=""></div>-->
         </div>
 
         <input type="button" class="btn btn-secondary" @click="execDaumPostcode()" value="우편번호 찾기"><br>
@@ -65,13 +54,11 @@
         <div class="form-group">
           <label for="exampleInputAddr" class="fw-bold form-label mt-4">주소</label>
           <input type="text" maxlength="50" class="form-control mb-4" id="exampleInputAddr" v-model="address">
-<!--          <div id="addrCheck" class=""></div>-->
         </div>
 
         <div class="form-group">
           <label for="exampleInputAddr" maxlength="50" class="fw-bold form-label mt-4">상세주소</label>
           <input type="text" class="form-control mb-4" id="exampleInputAddr" v-model="extra_address">
-          <!--          <div id="addrCheck" class=""></div>-->
         </div>
 
         <div class="d-grid gap-2">
@@ -123,18 +110,11 @@ export default {
         return false
       }
 
-      // if(!(this.duplicated_id_check)){
-      //   alert("이미 등록된 ID입니다.")
-      //   return false
-      // }
-
       try {
         let joinResult = await this.join( {
           user_id: this.user_id,
           user_pw: this.user_pw,
           user_name: this.user_name,
-          // user_num: this.user_num,
-          // user_addr: this.user_addr
 
           email:this.user_email,
 
@@ -202,18 +182,15 @@ export default {
           //email:this.user_email
         }
       }).then((res) => {
-        //console.log(res.data)
         if(res.data === true){
           alert("이미 등록된 email입니다.")
           document.getElementById('checkEmail').style.color="red"
           document.getElementById('checkEmail').innerHTML = "이미 등록된 email입니다.";
-          //this.check = false
           this.duplicated_check = false
           return
         }else{
           document.getElementById('checkEmail').style.color="black"
           document.getElementById('checkEmail').innerHTML = "";
-          //this.check = true
           this.duplicated_check = true
         }
       }).catch((err) => {
@@ -231,7 +208,6 @@ export default {
           user_id:this.user_id
         }
       }).then((res) => {
-        //console.log(res.data)
             if(res.data === true){
               document.getElementById('checkId').style.color="red"
               document.getElementById('checkId').innerHTML = "중복된 ID 입니다.";
@@ -316,25 +292,10 @@ export default {
     }
     //서브밋 체크
     ,submitCheck() {
-      //const idCheck = new RegExp("^[A-Za-z0-9]{5,20}$")
       const pwCheck = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{10,}$");
       const emailCheck = new RegExp("^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
       const numCheck = new RegExp("^(?:(010\\d{4})|(01[1|6|7|8|9]\\d{3,4}))(\\d{4})$")
       const nameCheck = new RegExp("^[|가-힣]{2,20}")
-
-      // if (this.user_id !== '' && !idCheck.test(this.user_id)) {
-      //   document.getElementById('checkId').style.color="red"
-      //   document.getElementById('checkId').innerHTML = " ID는 5자 이상 20자리 이하의 영문과 숫자로 입력해주세요";
-      //   alert("ID는 5자 이상 20자리 이하의 영문과 숫자로 입력해주세요")
-      //   this.check = false
-      //   return
-      // }else{
-      //   document.getElementById('checkId').style.color="black"
-      //   document.getElementById('checkId').innerHTML = "";
-      //   this.check = true
-      // }
-
-      //this.validIdDuplicationCheck()
 
       if (this.user_pw !== '' && !pwCheck.test(this.user_pw)) {
         alert('비밀번호 정규식에 맞지 않습니다.\n 10~20자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자가 포함되어야 합니다.')
@@ -402,14 +363,6 @@ export default {
       } else{
         this.check = true
       }
-
-      // if (this.user_email == '') {
-      //   alert('Email을 입력하세요.')
-      //   this.check = false
-      //   return
-      // } else{
-      //   this.check = true
-      // }
 
       if (this.user_pw == '') {
         alert('비밀번호를 입력하세요.')

@@ -3,10 +3,7 @@
     <b style="color: #4c1192;">게시글 작성</b>
   </div>
   <div class="board-detail">
-
-
     <div class="board-contents">
-
       <div class="mb-3">
         <label for="title">제목</label>
         <input type="text" maxlength="200" v-model="title" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요(200자 이내).">
@@ -15,20 +12,16 @@
       <div class="mb-3">
         <label for="content">내용</label>
         <textarea class="form-control" maxlength="3000" v-model="contents" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요(3000자 이내)"></textarea>
-
       </div>
     </div>
-
     <div class="common-buttons">
       <button type="button" class="btn btn-primary " v-on:click="fnSave"><i class="fas fa-edit"></i>저장</button>&nbsp;
       <button type="button" class="btn btn-primary " v-on:click="fnList"><i class="fas fa-edit"></i>목록</button>
     </div>
-
   </div>
 </template>
 
 <script>
-
 
 export default {
   data() { //변수생성
@@ -70,7 +63,6 @@ export default {
         this.check = true
       }
     }
-
     ,fnGetView() {
       if (this.idx !== undefined) {
         this.$axios.get(this.$serverUrl + '/board/' + this.idx, {
@@ -88,7 +80,6 @@ export default {
         })
       }
     }
-
     ,fnList() {
       delete this.requestBody.idx
       this.$router.push({
@@ -110,7 +101,6 @@ export default {
       if(!(this.check)){
         return false
       }
-      // this.contents.replace(/\n/g, '\u00A0')
 
       let apiUrl = this.$serverUrl + '/board'
       this.form = {

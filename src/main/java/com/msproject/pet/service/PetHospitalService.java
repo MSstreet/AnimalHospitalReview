@@ -42,7 +42,6 @@ public class PetHospitalService {
                .hospitalName(petHospitalDto.getHospitalName())
                .hospitalNum(petHospitalDto.getHospitalNum())
                .hospitalAddr(petHospitalDto.getHospitalAddr())
-               //.petHospitalScore(petHospitalDto.getHospitalScore())
                .build();
 
         return petHospitalRepository.save(entity);
@@ -51,7 +50,6 @@ public class PetHospitalService {
     public PetHospitalEntity update(PetHospitalDto petHospitalDto) {
 
         PetHospitalEntity entity = petHospitalRepository.findById(petHospitalDto.getHospitalId()).orElseThrow(()-> new RuntimeException("존재하지 않는 동물병원입니다."));
-
         entity.change(petHospitalDto.getHospitalName(), petHospitalDto.getHospitalNum(), petHospitalDto.getHospitalAddr(), petHospitalDto.getSigunName());
 
         return petHospitalRepository.save(entity);
@@ -110,7 +108,6 @@ public class PetHospitalService {
                     .sigunName(entity.getSigunName())
                     .hospitalNum(entity.getHospitalNum())
                     .hospitalAddr(entity.getHospitalAddr())
-                    //.hospitalScore(entity.getHospitalScore())
                     .operState(entity.getOperState())
                     .reviewCount(entity.getReviewCount())
                     .build();
@@ -121,7 +118,6 @@ public class PetHospitalService {
                 dto.setHospitalScore(avg);
             }
                 dtos.add(dto);
-            //}
         }
 
         Pagination pagination = new Pagination(

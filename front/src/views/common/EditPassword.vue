@@ -37,7 +37,6 @@ import {mapGetters} from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      // userIdx : "getIsUserIdx"
     })
   }
   ,data() {
@@ -70,7 +69,6 @@ export default {
       //UPDATE
       this.$axios.patch(apiUrl, this.form)
           .then((res) => {
-            //this.fnView(res.data.idx)
             if(res.data == true){
               alert('정보가 수정되었습니다.')
               this.fnView()
@@ -129,7 +127,6 @@ export default {
         document.getElementById('doubleCheckPwd').style.color="black"
         document.getElementById('doubleCheckPwd').innerHTML = "";
         this.check = true
-
       }
     }
     ,fnView() {

@@ -53,9 +53,7 @@ export default {
     }
   }
   ,mounted() {
-    //his.fnGetView()
-    // console.log(this.$store.state.userIdx)
-    // console.log(this.user_idx)
+
   }
   ,methods:{
     fnFind(){
@@ -72,12 +70,9 @@ export default {
       //UPDATE
       this.$axios.post(apiUrl, this.form)
           .then((res) => {
-            // alert('아이디 찾았다.')
-            //this.fnView(res.data.idx)
             console.log(res.data)
             if(res.data == '') {
               alert('일치하는 정보가 없습니다.')
-              console.log('일치하는 정보가 없습니다.')
             }else{
               alert("회원님의 ID : " + res.data)
             }
@@ -90,7 +85,6 @@ export default {
 
     }
   }
-
 }
 
 

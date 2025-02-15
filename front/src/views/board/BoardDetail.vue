@@ -240,7 +240,6 @@ export default {
         total_page_cnt: 0,
       }, //페이징 데이터
       page: 1,
-      //page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 10,
       search_key: this.$route.query.sk ? this.$route.query.sk : '',
       search_value: this.$route.query.sv ? this.$route.query.sv : '',
@@ -335,8 +334,6 @@ export default {
     }
     ,fnGetComent(){
       this.requestBody = { // 데이터 전송
-        // sk: this.search_key,
-        // sv: this.search_value,
         page: this.page,
         size: this.size
       }
@@ -350,8 +347,6 @@ export default {
           this.paging = res.data.pagination
           this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
         }
-        console.log(this.paging)
-        console.log(this.list)
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -360,8 +355,6 @@ export default {
     }
     ,fnGetComent1(){
       this.requestBody = { // 데이터 전송
-        // sk: this.search_key,
-        // sv: this.search_value,
         page: this.page,
         size: this.size
       }
@@ -389,8 +382,6 @@ export default {
       const input = document.getElementById("m_reply_idx").value
 
       this.reply_idx = input
-      console.log("확인한다규~" +  this.reply_idx)
-      console.log("확인한다규~" +  this.update_coments)
 
       let apiUrl = this.$serverUrl + '/reply'
       this.form = {
@@ -425,7 +416,6 @@ export default {
       })
     }
     ,testUpdate(idx){
-      console.log(idx)
       document.getElementById("m_reply_idx").value = idx
     }
   }

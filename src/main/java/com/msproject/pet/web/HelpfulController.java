@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class HelpfulController {
 
 
-    private final HelpfulService helpfulService;
-
-    @PostMapping("/")
-    public HelpfulEntity createHelpfulInfo(@RequestBody HelpfulDto helpfulDto){
-
-
-    }
+//    private final HelpfulService helpfulService;
+//
+//    @PostMapping("/")
+//    public HelpfulEntity createHelpfulInfo(@RequestBody HelpfulDto helpfulDto){
+//
+//
+//    }
 }

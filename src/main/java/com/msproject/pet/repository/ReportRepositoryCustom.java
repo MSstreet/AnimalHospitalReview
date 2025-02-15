@@ -1,7 +1,9 @@
 package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.NoticeBoard;
+import com.msproject.pet.entity.ReportEntity;
 import com.msproject.pet.model.SearchCondition;
+import com.msproject.pet.web.dtos.ReportDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,25 +17,26 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.msproject.pet.entity.QNoticeBoard.noticeBoard;
+import static com.msproject.pet.entity.QReportEntity.reportEntity;
 
 @RequiredArgsConstructor
 @Repository
-public class NoticeBoardRepositoryCustom {
+public class ReportRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<NoticeBoard> findAllBySearchCondition(Pageable pageable, SearchCondition searchCondition) {
+    public Page<ReportEntity> findAllBySearchCondition(Pageable pageable, SearchCondition searchCondition) {
 
-        JPAQuery<NoticeBoard> query = queryFactory.selectFrom(noticeBoard)
-                .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()),noticeBoard.display_yn.eq(true));
+        JPAQuery<ReportEntity> query = queryFactory.selectFrom(reportEntity)
+                .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()),reportEntity.display_yn.eq(true));
 
         long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
 
-        List<NoticeBoard> results = query
+        List<ReportEntity> results = query
                 .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(noticeBoard.nboardId.desc())
+                .orderBy(reportEntity.reportIdx.desc())
                 .fetch();
 
         return new PageImpl<>(results, pageable, total);
@@ -42,11 +45,11 @@ public class NoticeBoardRepositoryCustom {
     private BooleanExpression searchKeywords(String sk, String sv) {
         if ("title".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
-                return noticeBoard.title.contains(sv);
+                return reportEntity.title.contains(sv);
             }
         } else if ("contents".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
-                return noticeBoard.contents.contains(sv);
+                return reportEntity.contents.contains(sv);
             }
         }
         return null;

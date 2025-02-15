@@ -48,7 +48,6 @@ export default {
   },
   mounted() {
     this.fnGetView()
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@"+this.idx)
   },
   methods: {
 
@@ -80,14 +79,11 @@ export default {
           this.contents = res.data.contents
           this.created_at = res.data.created_at
 
-          console.log("확인" + res.data)
-
         }).catch((err) => {
           console.log(err)
         })
       }
     }
-
     ,fnList() {
       delete this.requestBody.idx
       this.$router.push({
@@ -95,7 +91,6 @@ export default {
         query: this.requestBody
       })
     }
-
     ,fnView(idx) {
       this.requestBody.idx = idx
       this.$router.push({
@@ -103,14 +98,11 @@ export default {
         query: this.requestBody
       })
     }
-
     ,fnSave() {
       this.validCheck()
       if(!(this.check)){
         return false
       }
-      // this.contents.replace(/\n/g, '\u00A0')
-
       let apiUrl = this.$serverUrl + '/board'
       this.form = {
         "idx": this.idx,

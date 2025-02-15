@@ -40,10 +40,6 @@ public class WebSecurityConfig {
         return new CustomSocialLoginSuccessHandler(passwordEncoder);
     }
 
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
@@ -66,15 +62,7 @@ public class WebSecurityConfig {
                 .and() // form 기반의 로그인에 대해 비활성화 한다.
                 .formLogin()
                 .disable()
-//                .oauth2Login(oauth2 -> oauth2
-//                        .userInfoEndpoint(userInfo -> userInfo
-//                                .userService(customOAuth2UserService)  // CustomOAuth2UserService 설정
-//                        )
-//                        .loginPage("/user/login")  // 로그인 페이지 설정
-//                        .successHandler(authenticationSuccessHandler())  // 로그인 성공 후 처리할 핸들러 설정
-//                )
                 .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        //http.oauth2Login().loginPage("/user/login").successHandler(authenticationSuccessHandler());
         return http.build();
     }
 

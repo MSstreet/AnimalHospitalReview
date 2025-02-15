@@ -112,7 +112,6 @@ export default {
       page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 10,
 
-      //search_key: this.$route.query.sk ? this.$route.query.sk : '',
       search_key:"title",
       search_value: this.$route.query.sv ? this.$route.query.sv : '',
 
@@ -163,9 +162,6 @@ export default {
           this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
         }
 
-        console.log(res.data.data);
-        // console.log(res.data.pagination);
-
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -184,14 +180,11 @@ export default {
     ,fnReload(){
       location.reload();
     }
-
-
     ,fnWrite() {
       this.$router.push({
         path: './write'
       })
     },
-
     fnPage(n) {
       if (this.page !== n) {
         this.page = n

@@ -117,7 +117,6 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'   //vuex 추가
-import axios from 'axios'
 
 export default {
 
@@ -202,9 +201,6 @@ export default {
     , fnFind(){
       let apiUrl = this.$serverUrl + '/user/find'
 
-      console.log(this.email)
-      console.log(this.user_name)
-
       this.form = {
         "user_name": this.user_name,
         "email":this.user_email,
@@ -216,7 +212,6 @@ export default {
             console.log(res.data)
             if(res.data == '') {
               alert('일치하는 정보가 없습니다.')
-              console.log('일치하는 정보가 없습니다.')
             }else{
               alert("회원님의 ID : " + res.data)
             }
@@ -336,12 +331,6 @@ export default {
   padding: 0; /* 불필요한 여백 제거 */
 
 }
-/*
-.kakao-btn{
-  background-color: transparent;
-  border: none;
-}
-*/
 
 .kakao-btn-container {
   display: flex;
