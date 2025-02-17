@@ -13,7 +13,6 @@ import com.msproject.pet.repository.ReviewRepository;
 import com.msproject.pet.repository.ReviewRepositoryCustom;
 import com.msproject.pet.web.dtos.ReviewDto;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,6 @@ public class ReviewService {
     private String path = "C:\\upload\\";
 
     private final ReviewRepository reviewRepository;
-
-    private final ModelMapper modelMapper;
 
     private final PetHospitalRepository petHospitalRepository;
 
@@ -93,8 +90,6 @@ public class ReviewService {
         avgScore = Float.parseFloat(df.format(avgScore));
 
         entity.changeReview(reviewDto.getContent(), avgScore,reviewDto.getFileName(),LocalDateTime.now(),reviewDto.getOriginalFileName(),reviewDto.getPriceScore(),reviewDto.getKindnessScore(),reviewDto.getEffectScore());
-
-
 
         return reviewRepository.save(entity);
     }

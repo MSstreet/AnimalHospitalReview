@@ -207,19 +207,6 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByUserId(email);
     }
 
-//    public UserEntity findId(FindUserIdDto findUserIdDto) {
-//
-//        Boolean check = userRepository.existsByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
-//
-//        if(check){
-//            Optional<UserEntity> user = userRepository.findByUserNameAndEmail(findUserIdDto.getUserName(), findUserIdDto.getEmail());
-//            UserEntity userEntity = user.orElseThrow();
-//            return userEntity;
-//        }else{
-//            return null;
-//        }
-//    }
-
     public UserEntity findPw(String userEmail) {
         Boolean check = userRepository.existsByUserId(userEmail);
 
@@ -242,7 +229,6 @@ public class UserService implements UserDetailsService {
         String str = getTempPassword();
         MailDto dto = new MailDto();
 
-        //dto.setAddress(userEntity.getEmail());
         dto.setTitle("AnimalH 임시비밀번호 안내 이메일 입니다.");
         dto.setMessage("안녕하세요. AnimalH 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
                 + str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");

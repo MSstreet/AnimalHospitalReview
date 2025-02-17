@@ -17,18 +17,11 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
 
     boolean existsByUserId(String userId);
 
-    //Boolean existsByEmail(String email);
-
-    //Optional<UserEntity> findByUserNameAndEmail(String userName, String Email);
-
-    //Boolean existsByUserNameAndEmail(String userName, String Email);
 
     @EntityGraph(attributePaths = "roleSet")
     @Query("select u from UserEntity u where u.userId = :userId")
     Optional<UserEntity> getWithRole(@Param("userId") String userId);
 
-//    @EntityGraph(attributePaths = "roleSet")
-//    Optional<UserEntity> findByEmail(String Email);
 
     @Modifying
     @Transactional

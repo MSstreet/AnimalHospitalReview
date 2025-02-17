@@ -3,7 +3,6 @@ package com.msproject.pet.web;
 import com.msproject.pet.entity.UserEntity;
 import com.msproject.pet.service.UserService;
 import com.msproject.pet.util.JwtUtil;
-import com.msproject.pet.web.dtos.FindUserIdDto;
 import com.msproject.pet.web.dtos.UserDto;
 import com.msproject.pet.web.dtos.UserPwChangeDto;
 import lombok.RequiredArgsConstructor;
@@ -81,17 +80,6 @@ public class UserController {
     public Boolean checkEmail(@RequestParam String email){
         return userService.checkEmail(email);
     }
-
-//    @PostMapping("/find")
-//    public String findId(@RequestBody FindUserIdDto findUserIdDto){
-//
-//        UserEntity user = userService.findId(findUserIdDto);
-//
-//        if(user == null){
-//            return null;
-//        }
-//        return user.getUserId();
-//    }
 
     @PostMapping("/find/pw")
     public String findPassword(@RequestParam("userEmail") String userEmail){

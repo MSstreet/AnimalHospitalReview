@@ -19,7 +19,6 @@ public class UserHistoryDto {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    //private String email; // 0208
     private String created;
     private String updated;
     private boolean deleteYn;

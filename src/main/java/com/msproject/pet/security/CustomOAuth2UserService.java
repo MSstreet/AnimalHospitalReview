@@ -57,7 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity user = UserEntity.builder()
                     .userId(email)
                     .userPw(passwordEncoder.encode("1111"))
-                    //.email(email)
+
                     .social(true)
                     .deleteYn(false)
                     .build();
@@ -70,22 +70,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return userSecurityDTO;
         } else {
             UserEntity user = result.get();
-            UserSecurityDTO userSecurityDTO =
-                    new UserSecurityDTO(
-                            user.getUserId(),
-                            user.getUserPw(),
-                            user.getUserName(),
-                            user.getPhoneNum(),
-                            user.getZipCode(),
-                            user.getAddr(),
-                            user.getDetailAddr(),
-                            //user.getEmail(),
-                            user.isDeleteYn(),
-                            user.isSocial(),
-                            user.getRoleSet()
-                                    .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name())).collect(Collectors.toList())
-                    );
-            return userSecurityDTO;
+            return new UserSecurityDTO(
+                    user.getUserId(),
+                    user.getUserPw(),
+                    user.getUserName(),
+                    user.getPhoneNum(),
+                    user.getZipCode(),
+                    user.getAddr(),
+                    user.getDetailAddr(),
+
+                    user.isDeleteYn(),
+                    user.isSocial(),
+                    user.getRoleSet()
+                            .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name())).collect(Collectors.toList())
+            );
         }
     }
 

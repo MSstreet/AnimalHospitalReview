@@ -28,24 +28,12 @@ public class KakaoAuthService {
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
 
-
-//    @Value("${security.oauth2.client.registration.kakao.redirect-uri}")
-//    private String REDIRECT_URI;
-//    @Value("${security.oauth2.client.registration.kakao.client-id}")
-//    private String CLIENT_ID;
-//    @Value("${security.oauth2.client.registration.kakao.client-secret}")
-//    private String SECRET_KEY;
-//    @Value("${security.oauth2.client.provider.kakao.token-uri}")
-//    private String TOKEN_URI;
-
-
     public String getKakaoAccessToken(String code) {
 
-        String tokenUri = "https://kauth.kakao.com/oauth/token";
-        String clientId = "409b3fb04dd78999f86c8dbc4a19372a";
-        String clientSecret = "hCjNC6r9e9w8N6an8eOBxiWu2ZXP5en0";
-        //String redirectUri = "http://localhost:8081/oauth/kakao/callback";
-        String redirectUri = "http://localhost:8080/oauth/kakao/callback";
+        String tokenUri = "https://kauth.kakao.com/oauth/token";           // To do : 보안 처리 필요
+        String clientId = "409b3fb04dd78999f86c8dbc4a19372a";              // To do : 보안 처리 필요
+        String clientSecret = "hCjNC6r9e9w8N6an8eOBxiWu2ZXP5en0";          // To do : 보안 처리 필요
+        String redirectUri = "http://localhost:8080/oauth/kakao/callback"; // To do : 보안 처리 필요
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(tokenUri)
                 .queryParam("grant_type", "authorization_code")

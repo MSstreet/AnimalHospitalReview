@@ -1,9 +1,7 @@
 package com.msproject.pet.repository;
 
-import com.msproject.pet.entity.NoticeBoard;
 import com.msproject.pet.entity.ReportEntity;
 import com.msproject.pet.model.SearchCondition;
-import com.msproject.pet.web.dtos.ReportDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static com.msproject.pet.entity.QNoticeBoard.noticeBoard;
 import static com.msproject.pet.entity.QReportEntity.reportEntity;
 
 @RequiredArgsConstructor
