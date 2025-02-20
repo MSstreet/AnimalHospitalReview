@@ -310,8 +310,6 @@ export default {
         alert("댓글을 입력해주세요")
         return false
       }
-      console.log("!!!!!!"+this.idx)
-      console.log("@@@@@"+this.reply_idx)
 
       let apiUrl = this.$serverUrl + '/reply/join'
       this.form = {

@@ -1,6 +1,5 @@
 <template>
   <div class="mt-5 mb-3 pt-3 ">
-
     <div id="report" class="modal fade">
       <div class="modal-dialog modal-dialog-centered modal-login">
         <div class="modal-content">
@@ -548,8 +547,8 @@ export default {
       reportDetails:'',
       reportReason:'0',
       idx:this.$route.query.idx,
-      hos_score:'',
       log_id: this.$store.state.userIdx,
+      hos_score:'',
 
       requestBody: {}, //리스트 페이지 데이터전송
       list: {}, //리스트 데이터
@@ -705,9 +704,12 @@ export default {
     ,fnSubmitReport(reviewId) {
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
+        "review_num": this.idx,
+        "user_num": this.logged_idx,
         "reportReason": Number(this.reportReason), // 숫자로 변환하여 전송
         "reportDetails": this.reportDetails
       }
+
       this.$axios.post(apiUrl, this.form)
           .then(() => {
             alert('신고가 완료되었습니다.')

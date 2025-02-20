@@ -14,15 +14,17 @@ public class ReportDto {
     private Long reviewNum;
     private Long userNum;
     private int reportReason;
-    private int reportDetail;
+    private String reportDetail;
+    private int deleteFlag;
 
     public static ReportDto fromEntity(ReportEntity reportEntity) {
         return new ReportDto(
                 reportEntity.getReportIdx(),
-                reportEntity.getReviewEntity().getHospitalId(),
+                reportEntity.getReviewEntity().getReviewId(),
                 reportEntity.getUserEntity().getIdx(),
                 reportEntity.getReportReason(),
-                reportEntity.getReportDetail()
+                reportEntity.getReportDetail(),
+                reportEntity.getDeleteFlag()
         );
     }
 }

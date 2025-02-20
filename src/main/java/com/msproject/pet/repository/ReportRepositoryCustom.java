@@ -25,7 +25,7 @@ public class ReportRepositoryCustom {
     public Page<ReportEntity> findAllBySearchCondition(Pageable pageable, SearchCondition searchCondition) {
 
         JPAQuery<ReportEntity> query = queryFactory.selectFrom(reportEntity)
-                .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()),reportEntity.display_yn.eq(true));
+                .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()));
 
         long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
 
@@ -40,13 +40,13 @@ public class ReportRepositoryCustom {
     }
 
     private BooleanExpression searchKeywords(String sk, String sv) {
-        if ("title".equals(sk)) {
+        if ("reportReason".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
-                return reportEntity.title.contains(sv);
+                return reportEntity.reportReason.like(sv);
             }
-        } else if ("contents".equals(sk)) {
+        } else if ("reportDetail".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
-                return reportEntity.contents.contains(sv);
+                return reportEntity.reportDetail.like(sv);
             }
         }
         return null;

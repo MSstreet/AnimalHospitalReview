@@ -21,7 +21,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping("/insert")
-    public void insertReport(@RequestBody  ReportDto reportDto){
+    public void insertReport(@RequestBody ReportDto reportDto){
         reportService.insertReport(reportDto);
     }
 
@@ -31,4 +31,8 @@ public class ReportController {
         return reportService.getReportList(pageable, searchCondition);
     }
 
+//    @GetMapping("/{idx}")
+//    public Header<ReportDto> getReport(@PathVariable Integer idx) {
+//
+//    }
 }

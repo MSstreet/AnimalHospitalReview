@@ -18,16 +18,21 @@ public class ReportEntity {
     @Column(name = "report_idx")
     private Long reportIdx;
     @ManyToOne(fetch = FetchType.LAZY)
-    private PetHospitalEntity reviewEntity;
+    private ReviewEntity reviewEntity;
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity userEntity;
     private int reportReason;
-    private int reportDetail;
+    private String reportDetail;
+    private int deleteFlag;
 
-    public static ReportEntity of(ReportDto reportDto){
+    public static ReportEntity of(ReportDto reportDto,ReviewEntity reviewEntity,UserEntity userEntity) {
         ReportEntity reportEntity = new ReportEntity();
+        reportEntity.reviewEntity = reviewEntity;
+        reportEntity.userEntity = userEntity;
         reportEntity.setReportReason(reportDto.getReportReason());
         reportEntity.setReportDetail(reportDto.getReportDetail());
+        reportEntity.setDeleteFlag(reportDto.getDeleteFlag());
+
         return reportEntity;
     }
 

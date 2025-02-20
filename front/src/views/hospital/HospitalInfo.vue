@@ -35,7 +35,6 @@
 export default {
   data() {
     return {
-
       requestBody: this.$route.query,
       idx: this.$route.query.idx,
 
@@ -52,58 +51,18 @@ export default {
     this.fnGetView(this.settingMap)
 
   }
-    // const script = document.createElement("script")
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false"
-    //
-    // script.addEventListener("load", () => {
-    //   kakao.maps.load(this.initMap)
-    // })
-    // document.head.appendChild(script)
-    //
-
-    // if (window.kakao && window.kakao.maps) {
-    //
-    //   this.initMap();
-    //
-    // } else {
-    //   const script = document.createElement("script");
-    //   /* global kakao */
-    //   script.onload = () => kakao.maps.load(this.initMap);
-    //   script.src = "///dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false";
-    //   document.head.appendChild(script);
-    // }
-
-    // const script = document.createElement("script")
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=30dca95cc43c45bd292179e1c3fb6fd6&autoload=false"
-    // script.addEventListener("load", () => {
-    //   kakao.maps.load(this.initMap)
-    // })
-    // document.head.appendChild(script)
 
   ,methods: {
     initMap() {
-
       const map = document.getElementById("map")
 
       const options = {
-        //center: new kakao.maps.LatLng(37.83010,127.51214),
-        center: new kakao.maps.LatLng(this.hos_latitude,this.hos_longitude), //경도 위도 이렇게 받으니까 흰색화면 띄어지는거야
+        center: new kakao.maps.LatLng(this.hos_latitude,this.hos_longitude),
         level: 5
       }
 
-      //this.map = new kakao.maps.Map(this.hos_latitude, this.hos_longitude)
-
       this.map = new kakao.maps.Map(map, options)
-      //this.displayMakers(this.hos_latitude,this.hos_longitude)
       this.displayMakers(this.hos_latitude,this.hos_longitude)
-     // const marker1 = new kakao.maps.LatLng(37.82618, 127.51352)
-     //  const marker1 = new kakao.maps.LatLng(this.hos_latitude,this.hos_longitude)
-
-     //  const marker = new kakao.maps.Marker({
-     //    position : marker1
-     //  })
-
-     //  marker.setMap(this.map)
 
     }
 
@@ -137,20 +96,8 @@ export default {
         }
       })
     }
-
-    ,fnTest(){
-
-    }
   }
   ,mounted() {
-     // this.fnGetView()
-
-    // const script = document.createElement("script")
-    // script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=2eba89360677e7a9e1a8ba734e3502d8&autoload=false"
-    // script.addEventListener("load", () => {
-    //   kakao.maps.load(this.initMap)
-    // })
-    // document.head.appendChild(script)
 
   }
 }
