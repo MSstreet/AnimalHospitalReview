@@ -23,29 +23,9 @@ public class HelpfulController {
     private final HelpfulService helpfulService;
 
     @PostMapping("/")
-    public HelpfulEntity createHelpfulInfo(@RequestBody HelpfulDto helpfulDto){
-        if(checkId(helpfulDto.getUserNum(),helpfulDto.getReviewNum())){
-            return helpfulService.helpfulCreate(helpfulDto);
-        }else{
-            return update(helpfulDto);
-        }
+    public HelpfulDto createHelpfulInfo(@RequestBody HelpfulDto helpfulDto){
+            return helpfulService.createHelpful(helpfulDto);
     }
-
-    @GetMapping("/check/{uid}/{hid}")
-    public Boolean checkId(@PathVariable Long uId, @PathVariable Long rId){
-        return helpfulService.checkWish(uId,rId);
-    }
-
-    @PatchMapping("/")
-    public WishEntity update(@RequestBody HelpfulDto helpfulDto){
-        return helpfulService.update(helpfulDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        helpfulService.delete(id);
-    }
-
 
     @GetMapping("/{uid}")
     public Header<List<WishDto>> helpfulList(@PathVariable Long uid,

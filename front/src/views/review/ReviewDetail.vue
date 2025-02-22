@@ -701,12 +701,12 @@ export default {
       console.log(`리뷰 ${reviewId}가 도움이 안 됨`);
       // 서버 API 호출 또는 상태 업데이트 로직 추가
     }
-    ,fnSubmitReport(reviewId) {
+    ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
         "review_num": this.idx,
         "user_num": this.logged_idx,
-        "reportReason": Number(this.reportReason), // 숫자로 변환하여 전송
+        "reportReason": Number(this.reportReason),
         "reportDetails": this.reportDetails
       }
 

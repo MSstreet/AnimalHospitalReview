@@ -1,32 +1,5 @@
 <template>
   <div class="mt-5 mb-3 pt-3 ">
-
-<!--    <div class="boarder">-->
-<!--      <div class="row px-3">-->
-
-<!--        <div class="col-4 px-3 pt-3 pb-0" style="border-right: solid 1px #e9e9e9; background-color: #f8f8f8">-->
-<!--          <div style="letter-spacing: -1.05px; text-align: center; color: #9b9b9b; font-size: 18px" class="mb-2">-->
-<!--            평점-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="col-8 mr-3 ">-->
-<!--          <div class="align-items-center justify-content-between d-flex flex-colum">-->
-<!--            <div class="row my-1 text-nowrap">-->
-<!--              <div class="col-7 p-0">-->
-<!--                <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">-->
-<!--                <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">-->
-<!--                <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">-->
-<!--                <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">-->
-<!--                <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--      </div>-->
-<!--    </div>-->
-
     <h3 class="fs-1 fw-bold text-center mb-5"> 나의 후기 목록</h3>
 
     <div class="container">
