@@ -1,13 +1,10 @@
 package com.msproject.pet.service;
 
-import com.msproject.pet.entity.HelpfulEntity;
-import com.msproject.pet.entity.PetHospitalEntity;
 import com.msproject.pet.repository.HelpfulRepository;
 import com.msproject.pet.web.dtos.HelpfulDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +18,14 @@ public class HelpfulService {
 //        }else{
 //            helpfulRepository.save(HelpfulEntity.of(helpfulDto,helpfulDto))
 //        }
+        return helpfulDto;
     }
 
+    public Boolean checkWish(Long uid, Long rid) {
+
+        return true;
+    }
+
+    public HelpfulDto getHelpful(Long uid, Long rid) {
+    }
 }
