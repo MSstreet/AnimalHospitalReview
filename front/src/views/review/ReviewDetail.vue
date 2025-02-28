@@ -558,6 +558,9 @@ export default {
       avg_kindness_score:'',
       avg_effect_score:'',
 
+      helpfulState: 0,
+      notHelpfulState: 0,
+
       paging: {
         block: 0,
         end_page: 0,
@@ -694,13 +697,34 @@ export default {
       })
     }
     ,fnHelpful(reviewId) {
-      console.log(`리뷰 ${reviewId}가 도움이 됨`);
-      // 서버 API 호출 또는 상태 업데이트 로직 추가
+      if((this.helpfulState === 0 && this.notHelpfulState === 0) || this.helpfulState === 0 && this.notHelpfulState === 1){
+        let apiUrl = this.$serverUrl + '/help'
+
+        this.form = {
+          "review_num": this.idx,
+          "user_num" : this. log_id,
+        }
+
+        this.$axios.post(apiUrl, this.form)
+            .then((res) => {
+              this.helpfulState = res.data.helpfulState
+              this.notHelpfulState = res.data.notHelpfulState
+            }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
+      }
+
     }
     ,fnNotHelpful(reviewId) {
-      console.log(`리뷰 ${reviewId}가 도움이 안 됨`);
-      // 서버 API 호출 또는 상태 업데이트 로직 추가
+
+
     }
+
+
+
+
     ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
@@ -726,25 +750,25 @@ export default {
 <style>
 .container1 {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
+  align-items: center;
 }
 
 .test-position1 {
   display: flex;
-  align-items: center; /* 별점과 날짜를 같은 줄에 정렬 */
+  align-items: center;
   margin-left: 5px;
 }
 
 .test-position {
   display: flex;
-  align-items: center; /* 별점과 날짜를 같은 줄에 정렬 */
+  align-items: center;
 }
 
 .created-at {
   font-size: 1rem;
   color: #666;
-  white-space: nowrap; /* 줄 바꿈 방지 */
-  margin-left: 20px; /* 별점과의 거리 조정 */
+  white-space: nowrap;
+  margin-left: 20px;
 }
 
  .position_re{
