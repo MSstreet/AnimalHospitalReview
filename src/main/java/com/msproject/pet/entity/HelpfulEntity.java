@@ -22,13 +22,14 @@ public class HelpfulEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idx;
+    private Long idx;
     @ManyToOne(fetch = FetchType.LAZY)
     private ReviewEntity reviewEntity;
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity userEntity;
     private int helpFul;
+    private int notHelpFul;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -37,7 +38,7 @@ public class HelpfulEntity {
         helpfulEntity.reviewEntity = reviewEntity;
         helpfulEntity.userEntity = userEntity;
         helpfulEntity.setHelpFul(helpfulDto.getHelpFul());
-
+        helpfulEntity.setNotHelpFul(helpfulDto.getNotHelpFul());
         return helpfulEntity;
     }
 }

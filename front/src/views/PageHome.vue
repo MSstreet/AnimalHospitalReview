@@ -551,9 +551,7 @@ export default {
 .margin-b{
   margin-bottom: 7rem;
 }
-.root_cacao_roughmap {
-  margin: auto !important;
-}
+
 .container {
   padding-right: 15px;
   padding-left: 15px;

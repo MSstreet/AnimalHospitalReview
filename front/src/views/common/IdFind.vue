@@ -38,7 +38,6 @@ export default {
   }
   ,computed: {
     ...mapGetters({
-      // userIdx : "getIsUserIdx"
     })
   }
   ,data() {

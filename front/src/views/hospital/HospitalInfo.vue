@@ -2,7 +2,7 @@
   <div class="row mb-3 mt-2" style="width: 100%">
 
     <div class="col-6">
-      <div id="map" class="root_cacao_roughmap" style="width: 27rem; height: 20rem;">
+      <div id="map" style="width: 27rem; height: 20rem;">
       </div>
     </div>
 
@@ -11,7 +11,6 @@
         <div >
            <p class="text-title text-lg-start">주소</p>
         </div>
-
         <div>
           <p class="text-content text-lg-start">{{ addr }}</p>
         </div>
@@ -20,14 +19,12 @@
         <div>
           <p class="text-title text-lg-start">전화번호</p>
         </div>
-
         <div>
           <p class="text-content text-lg-start">{{number }}</p>
         </div>
 
       </div>
     </div>
-
   </div>
 </template>
 
@@ -48,8 +45,7 @@ export default {
     }
   }
   , created() {
-    this.fnGetView(this.settingMap)
-
+    this.fnGetView();
   }
 
   ,methods: {
@@ -67,9 +63,9 @@ export default {
     }
 
     ,displayMakers(latitude , longitude){
-      const marker1 = new kakao.maps.LatLng(latitude, longitude)
+       const position = new kakao.maps.LatLng(latitude, longitude)
        const marker = new kakao.maps.Marker({
-         position : marker1
+         position : position
        })
       marker.setMap(this.map)
     }

@@ -24,9 +24,6 @@
             </div>
           </div>
         </div>
-<!--        <div>-->
-<!--        <button type="button" class="mt-0 mb-4 btn btn-primary" v-on:click="fnList">목록</button>-->
-<!--        </div>-->
       </div>
 
     <div v-else>

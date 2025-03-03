@@ -23,7 +23,6 @@ public class WishController {
 
     @PostMapping("/wish")
     public WishEntity createWish(@RequestBody WishDto wishDto){
-
         if(checkId(wishDto.getUserNum(),wishDto.getPetHospitalNum())){
             return wishService.wishCreate(wishDto);
         }else{

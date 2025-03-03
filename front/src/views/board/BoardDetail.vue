@@ -429,15 +429,9 @@ export default {
 li{
   list-style: none;
 }
-.align-end{
-  align-self: flex-end;
-}
 .container{
   display: flex;
   flex-direction: column;
-}
-.test{
-  display: none;
 }
 .child:hover + test{
   display: block;

@@ -25,9 +25,9 @@ public class UserSecurityDTO  extends User implements OAuth2User {
     private String zipCode;
     private String addr;
     private String detailAddr;
-    private boolean deleteYn;
     private boolean social;
-    private Set<UserRole> roleSet = new HashSet<>();
+    private boolean deleteYn;
+    //private Set<UserRole> roleSet = new HashSet<>();
 
     private Map<String, Object> props;
 

@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -73,26 +75,26 @@ public class UserService implements UserDetailsService {
         Optional<UserEntity> user = userRepository.getWithRole(username);
 
         if(user.isEmpty()){
-
-
             throw new UsernameNotFoundException("username not found");
         }
 
         UserEntity userEntity = user.get();
 
-        UserSecurityDTO userSecurityDTO =
-                new UserSecurityDTO(
-                        userEntity.getUserId(),
-                        userEntity.getUserPw(),
-                        userEntity.getUserName(),
-                        userEntity.getPhoneNum(),
-                        userEntity.getZipCode(),
-                        userEntity.getAddr(),
-                        userEntity.getDetailAddr(),
-                        userEntity.isDeleteYn(),
-                        false,
-                        userEntity.getRoleSet()
-                                .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_"+userRole.name())).collect(Collectors.toList())
+        UserSecurityDTO userSecurityDTO = new UserSecurityDTO(
+                userEntity.getUserId(),
+                userEntity.getUserPw(),
+                userEntity.getUserName(),
+                userEntity.getPhoneNum(),
+                userEntity.getZipCode(),
+                userEntity.getAddr(),
+                userEntity.getDetailAddr(),
+                userEntity.isDeleteYn(),
+                userEntity.isSocial(), // social 정보가 있다면 이 값을 사용
+                Optional.ofNullable(userEntity.getRoleSet())
+                        .orElse(Collections.emptySet())  // null일 경우 빈 Set으로 초기화
+                        .stream()
+                        .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name()))
+                        .collect(Collectors.toList())
                 );
 
         log.info("userSecurityDTO" + userSecurityDTO);

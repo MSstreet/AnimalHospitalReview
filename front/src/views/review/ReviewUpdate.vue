@@ -208,13 +208,6 @@ export default {
 </script>
 
 <style scoped>
-.input-file-button{
-  padding: 6px 25px;
-  background-color:#FF6600;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
 
 .star-rating-1 {
   border:solid 1px #ccc;

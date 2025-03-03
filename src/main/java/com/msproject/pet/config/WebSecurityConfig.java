@@ -54,7 +54,6 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                    //.antMatchers("/oauth/kakao/login-url").permitAll() // 이 경로는 필터 체인에서 제외
                     .anyRequest().permitAll()
                 .and() // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
                 .sessionManagement()

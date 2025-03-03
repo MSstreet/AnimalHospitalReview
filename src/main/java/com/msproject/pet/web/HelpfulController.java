@@ -24,9 +24,8 @@ public class HelpfulController {
         return helpfulService.checkWish(uid,rid);
     }
 
-    @GetMapping("/one/{uid}/{rid}")
-    public HelpfulDto getHelpful(@PathVariable Long uid, @PathVariable Long rid){
-        return helpfulService.getHelpful(uid,rid);
-    }
-
+//    @GetMapping("/one/{uid}/{rid}")
+//    public HelpfulDto getHelpful(@PathVariable Long uid, @PathVariable Long rid){
+//        return helpfulService.getHelpful(uid,rid);
+//    }
 }

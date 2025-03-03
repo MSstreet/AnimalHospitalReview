@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
 
 
     @EntityGraph(attributePaths = "roleSet")
-    @Query("select u from UserEntity u where u.userId = :userId")
+    @Query("select u from UserEntity u where u.userId = :userId and u.social = false")
     Optional<UserEntity> getWithRole(@Param("userId") String userId);
 
 

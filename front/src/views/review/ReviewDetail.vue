@@ -696,9 +696,30 @@ export default {
         query: this.requestBody
       })
     }
-    ,fnHelpful(reviewId) {
+
+    ,fnHelpful() {
       if((this.helpfulState === 0 && this.notHelpfulState === 0) || this.helpfulState === 0 && this.notHelpfulState === 1){
-        let apiUrl = this.$serverUrl + '/help'
+        let apiUrl = this.$serverUrl + '/help';
+
+        this.form = {
+          "review_num": this.idx,
+          "user_num" : this. log_id,
+        }
+
+        this.$axios.post(apiUrl, this.form)
+            .then((res) => {
+              this.helpfulState = res.data.helpfulState
+              this.notHelpfulState = res.data.notHelpfulState
+            }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
+      }
+    }
+    ,fnNotHelpful(reviewId) {
+      if((this.helpfulState === 0 && this.notHelpfulState === 0) || this.helpfulState === 1 && this.notHelpfulState === 0){
+        let apiUrl = this.$serverUrl + '/help/no';
 
         this.form = {
           "review_num": this.idx,
@@ -717,13 +738,6 @@ export default {
       }
 
     }
-    ,fnNotHelpful(reviewId) {
-
-
-    }
-
-
-
 
     ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'

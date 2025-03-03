@@ -102,9 +102,6 @@ public class PetHospitalRepositoryCustom {
 
     private BooleanExpression searchKeywords(String sk, String sv) {
 
-        System.out.println("확인!!!" + sk);
-        System.out.println("확인!!!" + sv);
-
         if("author".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
                 return petHospitalEntity.hospitalName.contains(sv);
@@ -119,7 +116,6 @@ public class PetHospitalRepositoryCustom {
     }
 
     private BooleanExpression searchKeywords1( String sv) {
-        System.out.println("확인!!!" + sv);
 
             if(StringUtils.hasLength(sv)) {
                 return petHospitalEntity.hospitalAddr.contains(sv);

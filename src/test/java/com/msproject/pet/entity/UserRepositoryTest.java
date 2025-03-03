@@ -74,7 +74,6 @@ class UserRepositoryTest {
             UserEntity user = UserEntity.builder()
                     .userId("user" + i)
                     .userPw(passwordEncoder.encode("1111"))
-                    .email("email"+i+"@email.com")
                     .deleteYn(false)
                     .social(false)
                     .build();

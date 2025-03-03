@@ -39,6 +39,10 @@ public class UserEntity extends BaseEntity{
         this.roleSet.add(userRole);
     }
 
+    public void clearRoles() {
+        this.roleSet.clear();
+    }
+
     public void change(String userName, String phoneNum, String zipCode, String addr, String detailAddr){
         this.userName =userName;
         this.phoneNum = phoneNum;

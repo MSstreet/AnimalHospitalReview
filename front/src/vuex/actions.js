@@ -38,8 +38,6 @@ let processResponse = (store, loginResponse) => {
             setErrorState(store, '')
             setIsAuth(store, true)
             setIsLogin(store, true)
-            //setUserIdx(store, loginResponse.user_idx)
-            //setUserIdx(store, 5)
     }
 }
 

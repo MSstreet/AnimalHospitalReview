@@ -308,28 +308,10 @@ export default {
 .a{
   text-decoration-line:none;
 }
-.bg-light{
-  height: 1053px;
-  padding-top:55px;
-  padding-bottom:75px;
-}
 
 .container.py-4{
   margin: 0 auto;
   width : 503px;
-}
-
-.social-btn-area{
-  display: flex;
-  justify-content: center;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  margin-top: 10px;
-  cursor: pointer;
-  background-color: transparent; /* 배경을 투명하게 설정 */
-  padding: 0; /* 불필요한 여백 제거 */
-
 }
 
 .kakao-btn-container {
@@ -368,10 +350,4 @@ export default {
   transform: translateY(0); /* 원래 위치로 돌아오기 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-.kakao-btn-icon {
-  height: 30px; /* 아이콘 크기 */
-  margin-right: 8px; /* 아이콘과 텍스트 사이 여백 */
-}
-
 </style>

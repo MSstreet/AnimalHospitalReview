@@ -196,17 +196,6 @@ export default {
 </script>
 
 <style>
-.position-page2{
-  position: relative;
-  left:49rem;
-}
-
-.search-pos{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .test-position{
   display: flex;
   justify-content: center;

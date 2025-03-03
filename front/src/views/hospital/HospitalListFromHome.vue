@@ -6,17 +6,6 @@
       <h1  class="mt-3 fs-1 fw-bold" style="text-align: center; "><i class="fa-solid fa-hippo"  ></i>Animal Hospital List<i class="fa-solid fa-otter" ></i></h1>
     </div>
 
-
-<!--    <div class="card-header mt-5">-->
-<!--      <select style="height: 2rem;">-->
-<!--&lt;!&ndash;        <option value="">- 선택 -</option>&ndash;&gt;-->
-<!--        <option value="author">병원명</option>-->
-<!--        <option value="title">지역명</option>-->
-<!--      </select>-->
-<!--      <input style="height: 2rem;" type="text" class="ms-2" v-model="search_value" @keyup.enter="fnPage()">-->
-<!--      <button @click="fnPage()" class="btn btn-success ms-2">검색</button>-->
-<!--    </div>-->
-
     <div class="card-header  mt-5">
       <div class="input-group input-group-sm search-pos" >
         <select v-model="search_key">
@@ -208,11 +197,4 @@ li {
   display: inline-block;
   width: 35rem !important;;
 }
-.position-page1{
-  position: relative;
-  left:42rem;
-}
-/*.item-justify{*/
-/*  align-items: center !important;*/
-/*}*/
 </style>
