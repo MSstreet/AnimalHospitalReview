@@ -14,7 +14,6 @@ public class HelpfulDto {
     private Long reviewNum;
     private Long userNum;
     private int helpFul;
-    private int notHelpFul;
     private String createdAt;
     private String updatedAt;
 
@@ -24,7 +23,6 @@ public class HelpfulDto {
                 helpfulEntity.getReviewEntity().getReviewId(),
                 helpfulEntity.getUserEntity().getIdx(),
                 helpfulEntity.getHelpFul(),
-                helpfulEntity.getNotHelpFul(),
                 helpfulEntity.getCreatedAt().toString(),
                 helpfulEntity.getUpdatedAt().toString()
         );

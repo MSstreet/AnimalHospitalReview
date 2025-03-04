@@ -21,7 +21,6 @@ public class HelpfulService {
     private final UserRepository userRepository;
 
     public HelpfulDto createHelpful(HelpfulDto helpfulDto) {
-        HelpfulEntity helpfulEntity = helpfulRepositoryCustom.findOneHelpful(helpfulDto.getUserNum(),helpfulDto.getReviewNum());
 
         Optional<ReviewEntity> reviewEntity = reviewRepository.findById(helpfulDto.getReviewNum());
         ReviewEntity review = reviewEntity.orElseThrow();
@@ -29,9 +28,6 @@ public class HelpfulService {
         Optional<UserEntity> userEntity = userRepository.findById(helpfulDto.getUserNum());
         UserEntity user = userEntity.orElseThrow();
 
-        HelpfulDto saveHelpfulDto = HelpfulDto.fromEntity(helpfulEntity);
-        saveHelpfulDto.setHelpFul(1);
-        saveHelpfulDto.setNotHelpFul(0);
         helpfulRepository.save(HelpfulEntity.of(helpfulDto,review,user));
 
         return helpfulDto;

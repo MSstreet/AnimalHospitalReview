@@ -29,7 +29,6 @@ public class HelpfulEntity {
     @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity userEntity;
     private int helpFul;
-    private int notHelpFul;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -38,7 +37,6 @@ public class HelpfulEntity {
         helpfulEntity.reviewEntity = reviewEntity;
         helpfulEntity.userEntity = userEntity;
         helpfulEntity.setHelpFul(helpfulDto.getHelpFul());
-        helpfulEntity.setNotHelpFul(helpfulDto.getNotHelpFul());
         return helpfulEntity;
     }
 }

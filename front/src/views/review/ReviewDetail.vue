@@ -506,8 +506,8 @@
         </div>
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="mb-2">
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(row.review_id)">도움이 돼요</button>
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnNotHelpful(row.review_id)">도움이 안 돼요</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(`${helpfulState}`)">도움이 돼요</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnNotHelpful(`${helpfulState}`)">도움이 안 돼요</button>
             <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">신고하기</button>
           </div>
         </div>
@@ -559,7 +559,6 @@ export default {
       avg_effect_score:'',
 
       helpfulState: 0,
-      notHelpfulState: 0,
 
       paging: {
         block: 0,
@@ -576,7 +575,6 @@ export default {
       }, //페이징 데이터
 
       page:1,
-      //page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 10,
       search_key: this.$route.query.sk ? this.$route.query.sk : '',
       search_value: this.$route.query.sv ? this.$route.query.sv : '',
@@ -697,49 +695,55 @@ export default {
       })
     }
 
-    ,fnHelpful() {
-      if((this.helpfulState === 0 && this.notHelpfulState === 0) || this.helpfulState === 0 && this.notHelpfulState === 1){
+    ,fnHelpful(preHelpful) {
+      if(preHelpful === 0 || preHelpful === 2) {
+        this.helpfulState = 1;
+      }else if(preHelpful === 1) {
+        this.helpfulState = 0;
+      }
+
         let apiUrl = this.$serverUrl + '/help';
 
         this.form = {
           "review_num": this.idx,
           "user_num" : this. log_id,
+          "helpful" : this.helpfulState
         }
 
         this.$axios.post(apiUrl, this.form)
             .then((res) => {
               this.helpfulState = res.data.helpfulState
-              this.notHelpfulState = res.data.notHelpfulState
             }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
       }
+    , fnNotHelpful(preHelpful) {
+    if (preHelpful === 0 || preHelpful === 1) {
+      this.helpfulState = 2;
+    } else if (preHelpful === 2) {
+      this.helpfulState = 0;
     }
-    ,fnNotHelpful(reviewId) {
-      if((this.helpfulState === 0 && this.notHelpfulState === 0) || this.helpfulState === 1 && this.notHelpfulState === 0){
-        let apiUrl = this.$serverUrl + '/help/no';
 
-        this.form = {
-          "review_num": this.idx,
-          "user_num" : this. log_id,
-        }
+    let apiUrl = this.$serverUrl + '/help';
 
-        this.$axios.post(apiUrl, this.form)
-            .then((res) => {
-              this.helpfulState = res.data.helpfulState
-              this.notHelpfulState = res.data.notHelpfulState
-            }).catch((err) => {
-          if (err.message.indexOf('Network Error') > -1) {
-            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-          }
-        })
+    this.form = {
+      "review_num": this.idx,
+      "user_num": this.log_id,
+      "helpful": this.helpfulState
+    }
+
+    this.$axios.post(apiUrl, this.form)
+        .then((res) => {
+          this.helpfulState = res.data.helpfulState
+        }).catch((err) => {
+      if (err.message.indexOf('Network Error') > -1) {
+        alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
       }
-
-    }
-
-    ,fnSubmitReport() {
+    })
+  }
+  ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
         "review_num": this.idx,
