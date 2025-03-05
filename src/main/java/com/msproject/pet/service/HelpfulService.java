@@ -8,6 +8,7 @@ import com.msproject.pet.web.dtos.HelpfulDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -21,6 +22,7 @@ public class HelpfulService {
     private final UserRepository userRepository;
 
     public HelpfulDto createHelpful(HelpfulDto helpfulDto) {
+        boolean chk = checkWish(helpfulDto.getReviewNum(),helpfulDto.getUserNum());
 
         Optional<ReviewEntity> reviewEntity = reviewRepository.findById(helpfulDto.getReviewNum());
         ReviewEntity review = reviewEntity.orElseThrow();
@@ -28,7 +30,11 @@ public class HelpfulService {
         Optional<UserEntity> userEntity = userRepository.findById(helpfulDto.getUserNum());
         UserEntity user = userEntity.orElseThrow();
 
-        helpfulRepository.save(HelpfulEntity.of(helpfulDto,review,user));
+        if(chk) {
+            helpfulRepository.save(HelpfulEntity.of(helpfulDto, review, user));
+        }else{
+            updateHelpful(helpfulDto);
+        }
 
         return helpfulDto;
     }
@@ -41,5 +47,20 @@ public class HelpfulService {
         return false;
     }
 
+    public HelpfulDto updateHelpful(HelpfulDto helpfulDto) {
 
+        HelpfulEntity entity = helpfulRepositoryCustom.findOneHelpful(helpfulDto.getUserNum(),helpfulDto.getReviewNum());
+        int postHelpfulState = helpfulDto.getHelpFul();
+        int preHelpfulState = entity.getHelpFul();
+
+        if(postHelpfulState == 1){
+            // 추가
+        }else if (postHelpfulState == 2){
+            // 추가
+        }
+
+        entity.changeHelpfulState(helpfulDto.getHelpFul());
+        entity.setUpdatedAt(LocalDateTime.now());
+        return HelpfulDto.fromEntity(helpfulRepository.save(entity));
+    }
 }

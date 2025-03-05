@@ -39,4 +39,8 @@ public class HelpfulEntity {
         helpfulEntity.setHelpFul(helpfulDto.getHelpFul());
         return helpfulEntity;
     }
+
+    public void changeHelpfulState(int helpFul){
+        this.helpFul = helpFul;
+    }
 }
