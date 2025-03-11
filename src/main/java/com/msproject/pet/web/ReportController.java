@@ -30,9 +30,4 @@ public class ReportController {
                                                  SearchCondition searchCondition) {
         return reportService.getReportList(pageable, searchCondition);
     }
-
-//    @GetMapping("/{idx}")
-//    public Header<ReportDto> getReport(@PathVariable Integer idx) {
-//
-//    }
 }

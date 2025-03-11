@@ -14,13 +14,10 @@ public class HelpfulRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public HelpfulEntity findOneHelpful(Long userId, Long reviewId) {
-
+    public long getHelpfulCount(Long id) {
         JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.userEntity.idx.eq(userId).and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)));
+                .where(helpfulEntity.reviewEntity.reviewId.eq(id));
 
-        HelpfulEntity results = query.fetchOne();
-
-        return results;
+        return query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업;
     }
 }
