@@ -20,4 +20,8 @@ public class HelpfulService {
     public long getHelpfulCount(Long id) {
         return helpfulRepositoryCustom.getHelpfulCount(id);
     }
+
+    public long getUnHelpfulCount(Long id) {
+        return helpfulRepositoryCustom.getUnHelpfulCount(id);
+    }
 }

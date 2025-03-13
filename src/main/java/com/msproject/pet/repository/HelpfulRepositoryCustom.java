@@ -16,8 +16,15 @@ public class HelpfulRepositoryCustom {
 
     public long getHelpfulCount(Long id) {
         JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.reviewEntity.reviewId.eq(id));
+                .where(helpfulEntity.reviewEntity.reviewId.eq(id),helpfulEntity.helpFul.eq(1));
 
-        return query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업;
+        return query.stream().count();
+    }
+
+    public long getUnHelpfulCount(Long id) {
+        JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
+                .where(helpfulEntity.reviewEntity.reviewId.eq(id),helpfulEntity.helpFul.eq(2));
+
+        return query.stream().count();
     }
 }

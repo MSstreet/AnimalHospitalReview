@@ -19,4 +19,9 @@ public class HelpfulController {
     public long getHelpfulCount(@PathVariable Long id) {
         return helpfulService.getHelpfulCount(id);
     }
+
+    @GetMapping("/no/{id}")
+    public long getUnHelpfulCount(@PathVariable Long id) {
+        return helpfulService.getUnHelpfulCount(id);
+    }
 }
