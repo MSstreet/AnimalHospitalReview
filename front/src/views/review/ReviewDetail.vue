@@ -559,6 +559,7 @@ export default {
       avg_effect_score:'',
 
       helpfulState: 0,
+      helpfulcount : 0,
 
       paging: {
         block: 0,
@@ -591,7 +592,6 @@ export default {
   mounted() {
     this.fnGetList()
     this.fnGetReviewScore()
-    console.log(this.list)
   },
   methods: {
     fnPage(n) {
@@ -614,8 +614,6 @@ export default {
           this.paging = res.data.pagination
           this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
         }
-        console.log(res.data.pagination);
-        console.log(res.data.data);
 
         const k_sum = res.data.data.reduce((acc,obj) => {
           if(obj.hasOwnProperty("kindness_score")){

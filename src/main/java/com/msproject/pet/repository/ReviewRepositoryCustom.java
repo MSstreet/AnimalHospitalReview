@@ -2,6 +2,8 @@ package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.ReviewEntity;
 import com.msproject.pet.model.SearchCondition;
+import com.msproject.pet.web.dtos.ReviewListWithHelpfulCount;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.msproject.pet.entity.QReviewEntity.reviewEntity;
+import static com.msproject.pet.entity.QHelpfulEntity.helpfulEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -37,6 +40,43 @@ public class ReviewRepositoryCustom {
                 .fetch();
 
         return new PageImpl<>(results, pageable, total);
+    }
+
+    public Page<ReviewListWithHelpfulCount> findAllWithHelpfulCount(Pageable pageable, Long id) {
+
+        JPAQuery<ReviewEntity> query = queryFactory.selectFrom(reviewEntity)
+                .leftJoin(helpfulEntity).on(helpfulEntity.reviewEntity.eq(reviewEntity));
+
+        query.where(reviewEntity.petHospitalEntity.hospitalId.eq(id),reviewEntity.deleteYn.eq(false), reviewEntity.approveYn.eq(true));
+
+        query.groupBy(reviewEntity);
+
+        long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
+
+        JPAQuery<ReviewListWithHelpfulCount> dtoJPAQuery = query.select(Projections.bean(ReviewListWithHelpfulCount.class,
+                reviewEntity.reviewId,
+                reviewEntity.petHospitalEntity.hospitalId,
+                reviewEntity.hospitalName,
+                reviewEntity.userEntity.idx,
+                reviewEntity.content,
+                reviewEntity.hospitalName,
+                reviewEntity.priceScore,
+                reviewEntity.kindnessScore,
+                reviewEntity.effectScore,
+                reviewEntity.score,
+                reviewEntity.tmpScore,
+                reviewEntity.deleteYn,
+                reviewEntity.createdAt,
+                reviewEntity.updatedAt,
+                reviewEntity.fileName,
+                reviewEntity.originalFileName,
+                reviewEntity.approveYn,
+                reviewEntity.count().as("helpfulCount")
+                ));
+
+        List<ReviewListWithHelpfulCount> dtoList =dtoJPAQuery.fetch();
+
+        return new PageImpl<>(dtoList, pageable, total);
     }
 
 

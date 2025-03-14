@@ -12,6 +12,7 @@ import com.msproject.pet.repository.ReviewRepository;
 
 import com.msproject.pet.repository.ReviewRepositoryCustom;
 import com.msproject.pet.web.dtos.ReviewDto;
+import com.msproject.pet.web.dtos.ReviewListWithHelpfulCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -162,6 +163,39 @@ public class ReviewService {
         );
         return Header.OK(dtos, pagination);
     }
+
+    public Header<List<ReviewDto>> getReviewListWithHelpfulCount(Pageable pageable, SearchCondition searchCondition, Long id) {
+
+        List<ReviewListWithHelpfulCount> dtos = new ArrayList<>();
+        Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, id);
+
+        for (ReviewListWithHelpfulCount dto1 : reviewListWithHelpfulCount) {
+            int rounded = (int)dto.getScore();
+
+            ReviewListWithHelpfulCount dto2 = ReviewListWithHelpfulCount.builder()
+                    .reviewId(dto2.getReviewId())
+                    .petHospitalNum(dto2.getPetHospitalNum())
+                    .userNum(dto2.getUserNum()) // 수정 0207
+                    .content(dto2.getContent())
+                    .score(rounded)
+                    .priceScore(dto2.getPriceScore())
+                    .effectScore(dto2.getEffectScore())
+                    .kindnessScore(dto2.getKindnessScore())
+                    .userId(dto2.getUserEntity().getUserId())
+                    .createdAt(dto2.getCreatedAt().format(toString(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))))
+                    .updatedAt(dto2.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                    .build();
+            dtos.add(dto);
+        }
+        Pagination pagination = new Pagination(
+                (int) reviewEntities.getTotalElements()
+                , pageable.getPageNumber() + 1
+                , pageable.getPageSize()
+                , 10
+        );
+        return Header.OK(dtos, pagination);
+    }
+
     public Header<List<ReviewDto>> getUserReviewList(Pageable pageable, SearchCondition searchCondition, Long id) {
 
         List<ReviewDto> dtos = new ArrayList<>();

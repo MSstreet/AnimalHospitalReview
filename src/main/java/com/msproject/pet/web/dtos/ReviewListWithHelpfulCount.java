@@ -1,5 +1,4 @@
 package com.msproject.pet.web.dtos;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReviewDto {
+public class ReviewListWithHelpfulCount {
 
     private Long reviewId;
     private Long petHospitalNum;
@@ -30,6 +29,6 @@ public class ReviewDto {
     private MultipartFile file;
     private String fileName;
     private String originalFileName;
-    private Long helpfulCount;
     private boolean approveYn;
+    private Long helpfulCount;
 }
