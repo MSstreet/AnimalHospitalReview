@@ -740,7 +740,21 @@ export default {
         alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
       }
     })
-  }
+  },helpfulCheck(){
+      this.$axios.get(this.$serverUrl + "/helpful/" + this.log_id + "/" + this.idx,{
+      }).then((res) => {
+        console.log(res.data)
+
+        this.wish_state = res.data.wish_state1
+
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })
+    }
+
   ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {

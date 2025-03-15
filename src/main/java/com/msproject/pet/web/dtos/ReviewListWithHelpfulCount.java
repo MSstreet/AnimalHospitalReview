@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +26,8 @@ public class ReviewListWithHelpfulCount {
     private float score;
     private float tmpScore;
     private boolean deleteYn;
-    private String createdAt;
-    private String updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime  updatedAt;
     private MultipartFile file;
     private String fileName;
     private String originalFileName;

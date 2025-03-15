@@ -27,4 +27,8 @@ public class HelpfulDto {
                 helpfulEntity.getUpdatedAt().toString()
         );
     }
+
+    public void changeHelpfulState(int helpFul) {
+        this.helpFul = helpFul;
+    }
 }

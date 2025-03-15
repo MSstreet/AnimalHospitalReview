@@ -7,6 +7,7 @@ import com.msproject.pet.model.SearchCondition;
 import com.msproject.pet.service.ReviewService;
 
 import com.msproject.pet.web.dtos.ReviewDto;
+import com.msproject.pet.web.dtos.ReviewListWithHelpfulCount;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -59,20 +60,19 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/review/list/{id}")
-    public Header<List<ReviewDto>> reviewList(@PathVariable Long id,
-            @PageableDefault(sort = "review_id") Pageable pageable,
-            SearchCondition searchCondition)
-    {
-        return reviewService.getReviewList(pageable, searchCondition, id);
-    }
+//    @GetMapping("/review/list/{id}")
+//    public Header<List<ReviewDto>> reviewList(@PathVariable Long id,
+//            @PageableDefault(sort = "review_id") Pageable pageable,
+//            SearchCondition searchCondition)
+//    {
+//        return reviewService.getReviewList(pageable, searchCondition, id);
+//    }
 
     @GetMapping("/review/list/{id}")
-    public Header<List<ReviewDto>> reviewListWithHelpfulCount(@PathVariable Long id,
-                                              @PageableDefault(sort = "review_id") Pageable pageable,
-                                              SearchCondition searchCondition)
+    public Header<List<ReviewListWithHelpfulCount>> reviewListWithHelpfulCount(@PathVariable Long id,
+                                                                               @PageableDefault(sort = "review_id") Pageable pageable)
     {
-        return reviewService.getReviewListWithHelpfulCount(pageable, searchCondition, id);
+        return reviewService.getReviewListWithHelpfulCount(pageable, id);
     }
 
     @GetMapping("/review/user/{id}")

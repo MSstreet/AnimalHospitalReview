@@ -1,7 +1,6 @@
 package com.msproject.pet.entity;
 
 import com.msproject.pet.web.dtos.HelpfulDto;
-import com.msproject.pet.web.dtos.ReportDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -164,34 +164,40 @@ public class ReviewService {
         return Header.OK(dtos, pagination);
     }
 
-    public Header<List<ReviewDto>> getReviewListWithHelpfulCount(Pageable pageable, SearchCondition searchCondition, Long id) {
+    public Header<List<ReviewListWithHelpfulCount>> getReviewListWithHelpfulCount(Pageable pageable, Long id) {
 
         List<ReviewListWithHelpfulCount> dtos = new ArrayList<>();
         Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, id);
 
-        for (ReviewListWithHelpfulCount dto1 : reviewListWithHelpfulCount) {
-            int rounded = (int)dto.getScore();
 
+        for (ReviewListWithHelpfulCount dto1 : reviewListWithHelpfulCount) {
+            // 점수 반올림
+            int rounded = (int) Math.round(dto1.getScore());
+
+
+            // 새로운 DTO 객체 생성
             ReviewListWithHelpfulCount dto2 = ReviewListWithHelpfulCount.builder()
-                    .reviewId(dto2.getReviewId())
-                    .petHospitalNum(dto2.getPetHospitalNum())
-                    .userNum(dto2.getUserNum()) // 수정 0207
-                    .content(dto2.getContent())
+                    .reviewId(dto1.getReviewId())
+                    .petHospitalNum(dto1.getPetHospitalNum())
+                    .userNum(dto1.getUserNum()) // 수정 0207
+                    .content(dto1.getContent())
                     .score(rounded)
-                    .priceScore(dto2.getPriceScore())
-                    .effectScore(dto2.getEffectScore())
-                    .kindnessScore(dto2.getKindnessScore())
-                    .userId(dto2.getUserEntity().getUserId())
-                    .createdAt(dto2.getCreatedAt().format(toString(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))))
-                    .updatedAt(dto2.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                    .priceScore(dto1.getPriceScore())
+                    .effectScore(dto1.getEffectScore())
+                    .kindnessScore(dto1.getKindnessScore())
+                    .userId(dto1.getUserId())
+                    .createdAt(dto1.getCreatedAt())
+                    .updatedAt(dto1.getUpdatedAt())
                     .build();
-            dtos.add(dto);
+
+            dtos.add(dto2);
         }
+
         Pagination pagination = new Pagination(
-                (int) reviewEntities.getTotalElements()
-                , pageable.getPageNumber() + 1
-                , pageable.getPageSize()
-                , 10
+                (int) reviewListWithHelpfulCount.getTotalElements(),  // 총 아이템 개수
+                pageable.getPageNumber() + 1,  // 현재 페이지 번호
+                pageable.getPageSize(),  // 페이지 크기
+                10  // 페이지네이션에서 보여줄 페이지 수
         );
         return Header.OK(dtos, pagination);
     }
