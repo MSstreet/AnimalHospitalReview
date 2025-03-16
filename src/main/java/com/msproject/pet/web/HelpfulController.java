@@ -14,11 +14,9 @@ public class HelpfulController {
 
     private final HelpfulService helpfulService;
 
-    @PostMapping("")
+    @PostMapping("/")
     public Header<HelpfulDto> insertHelpful(@RequestBody HelpfulDto helpfulDto){
-
         return helpfulService.insertHelpful(helpfulDto);
-
     }
 
     @GetMapping("/{id}")
@@ -26,7 +24,7 @@ public class HelpfulController {
         return helpfulService.getHelpfulCount(id);
     }
 
-    @GetMapping("/helpful/{uid}/{rid}")
+    @GetMapping("/{uid}/{rid}")
     public Boolean checkHelpful(@PathVariable Long uid, @PathVariable Long rid){
         return helpfulService.checkHelpful(uid,rid);
     }
