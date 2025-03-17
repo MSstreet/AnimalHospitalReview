@@ -26,11 +26,12 @@ public class HelpfulService {
         return helpfulRepositoryCustom.getHelpfulCount(id);
     }
 
-    public Boolean checkHelpful(Long uid, Long rid) {
-        if(helpfulRepositoryCustom.helpfulChk(uid,rid)){
-            return true;
+    public Header<HelpfulDto> checkHelpful(Long uid, Long rid) {
+        HelpfulDto helpfulDto = HelpfulDto.fromEntity(helpfulRepositoryCustom.helpfulChk(uid, rid));
+        if(helpfulDto != null){
+            return Header.OK(helpfulDto);
         }else {
-            return false;
+            return null;
         }
     }
 

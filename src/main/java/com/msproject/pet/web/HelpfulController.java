@@ -9,23 +9,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RestController("/help")
+@RestController
 public class HelpfulController {
 
     private final HelpfulService helpfulService;
 
-    @PostMapping("/")
+    @PostMapping("/help")
     public Header<HelpfulDto> insertHelpful(@RequestBody HelpfulDto helpfulDto){
         return helpfulService.insertHelpful(helpfulDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/help/{id}")
     public long getHelpfulCount(@PathVariable Long id) {
         return helpfulService.getHelpfulCount(id);
     }
 
-    @GetMapping("/{uid}/{rid}")
-    public Boolean checkHelpful(@PathVariable Long uid, @PathVariable Long rid){
+    @GetMapping("/help/{uid}/{rid}")
+    public Header<HelpfulDto> checkHelpful(@PathVariable Long uid, @PathVariable Long rid){
         return helpfulService.checkHelpful(uid,rid);
     }
 }

@@ -2,6 +2,8 @@ package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.HelpfulEntity;
 import com.msproject.pet.entity.WishEntity;
+import com.msproject.pet.model.Header;
+import com.msproject.pet.web.dtos.HelpfulDto;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +32,14 @@ public class HelpfulRepositoryCustom {
         return query.stream().count();
     }
 
-    public boolean helpfulChk(Long userId, Long reviewId) {
+    public HelpfulEntity helpfulChk(Long userId, Long reviewId) {
 
         JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
                 .where(helpfulEntity.userEntity.idx.eq(userId).and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)));
 
         HelpfulEntity results = query.fetchOne();
 
-        if(results != null) {
-            return true;
-        }
-
-        return false;
+        return results;
     }
 
     public HelpfulEntity findOneHelpful(Long userId, Long reviewId) {
