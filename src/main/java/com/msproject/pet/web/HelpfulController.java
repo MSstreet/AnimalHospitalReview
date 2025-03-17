@@ -25,7 +25,7 @@ public class HelpfulController {
     }
 
     @GetMapping("/help/{uid}/{rid}")
-    public Header<HelpfulDto> checkHelpful(@PathVariable Long uid, @PathVariable Long rid){
-        return helpfulService.checkHelpful(uid,rid);
+    public Header<HelpfulDto> getHelpful(@PathVariable Long uid, @PathVariable Long rid){
+        return helpfulService.getHelpful(uid,rid);
     }
 }

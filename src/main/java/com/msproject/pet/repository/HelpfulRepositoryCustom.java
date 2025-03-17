@@ -32,14 +32,19 @@ public class HelpfulRepositoryCustom {
         return query.stream().count();
     }
 
-    public HelpfulEntity helpfulChk(Long userId, Long reviewId) {
+    public Boolean chkHelpful(Long userId, Long reviewId) {
 
         JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
                 .where(helpfulEntity.userEntity.idx.eq(userId).and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)));
 
         HelpfulEntity results = query.fetchOne();
 
-        return results;
+        if(results != null) {
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     public HelpfulEntity findOneHelpful(Long userId, Long reviewId) {

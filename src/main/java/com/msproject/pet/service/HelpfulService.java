@@ -26,8 +26,8 @@ public class HelpfulService {
         return helpfulRepositoryCustom.getHelpfulCount(id);
     }
 
-    public Header<HelpfulDto> checkHelpful(Long uid, Long rid) {
-        HelpfulDto helpfulDto = HelpfulDto.fromEntity(helpfulRepositoryCustom.helpfulChk(uid, rid));
+    public Header<HelpfulDto> getHelpful(Long uid, Long rid) {
+        HelpfulDto helpfulDto = HelpfulDto.fromEntity(helpfulRepositoryCustom.findOneHelpful(uid, rid));
         if(helpfulDto != null){
             return Header.OK(helpfulDto);
         }else {
@@ -36,7 +36,7 @@ public class HelpfulService {
     }
 
     public Header<HelpfulDto> insertHelpful(HelpfulDto helpfulDto) {
-        if(checkHelpful(helpfulDto.getUserNum(),helpfulDto.getReviewNum())){
+        if(helpfulRepositoryCustom.chkHelpful(helpfulDto.getUserNum(),helpfulDto.getReviewNum())){
             Optional<ReviewEntity> reviewEntity = reviewRepository.findById(helpfulDto.getReviewNum());
             ReviewEntity review = reviewEntity.orElseThrow();
 
