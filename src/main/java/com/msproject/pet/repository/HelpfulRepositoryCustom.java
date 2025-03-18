@@ -40,9 +40,9 @@ public class HelpfulRepositoryCustom {
         HelpfulEntity results = query.fetchOne();
 
         if(results != null) {
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
 
     }

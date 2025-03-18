@@ -506,8 +506,8 @@
         </div>
         <div class="d-flex flex-column align-items-end mt-3">
           <div class="mb-2">
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(1)">도움이 돼요</button>
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(2)">도움이 안 돼요</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(1 ,row.review_id)">도움이 돼요</button>
+            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(2 ,row.review_id)">도움이 안 돼요</button>
             <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">신고하기</button>
           </div>
         </div>
@@ -693,19 +693,17 @@ export default {
         query: this.requestBody
       })
     }
-    ,fnHelpful(preHelpful) {
-      if(preHelpful === 1) {
-         = 1;
-      }else if(preHelpful === 1) {
-        this.helpfulState = 0;
-      }
-
+    ,fnHelpful(Helpful,reviewId) {
+        if(this.helpfulState === Helpful){
+          return;
+        }
         let apiUrl = this.$serverUrl + '/help';
 
         this.form = {
-          "review_num": this.idx,
+          "review_num": reviewId,
           "user_num" : this. log_id,
-          "helpful" : this.helpfulState
+          "helpful" : Helpful,
+
         }
 
         this.$axios.post(apiUrl, this.form)
@@ -720,7 +718,7 @@ export default {
     ,helpfulCheck(){
       this.$axios.get(this.$serverUrl + "/help/" + this.log_id + "/" + this.idx,{
       }).then((res) => {
-        his.helpfulState = res.data;  t
+        his.helpfulState = res.data;
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
