@@ -164,10 +164,10 @@ public class ReviewService {
         return Header.OK(dtos, pagination);
     }
 
-    public Header<List<ReviewListWithHelpfulCount>> getReviewListWithHelpfulCount(Pageable pageable, Long id) {
+    public Header<List<ReviewListWithHelpfulCount>> getReviewListWithHelpfulCount(Pageable pageable, Long rid, Long uid) {
 
         List<ReviewListWithHelpfulCount> dtos = new ArrayList<>();
-        Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, id);
+        Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, rid, uid);
 
 
         for (ReviewListWithHelpfulCount dto1 : reviewListWithHelpfulCount) {

@@ -36,6 +36,8 @@ public class HelpfulEntity {
         helpfulEntity.reviewEntity = reviewEntity;
         helpfulEntity.userEntity = userEntity;
         helpfulEntity.setHelpFul(helpfulDto.getHelpFul());
+        helpfulEntity.setCreatedAt(LocalDateTime.now());
+        helpfulEntity.setUpdatedAt(LocalDateTime.now());
         return helpfulEntity;
     }
 

@@ -32,5 +32,6 @@ public class ReviewListWithHelpfulCount {
     private String fileName;
     private String originalFileName;
     private boolean approveYn;
+    private int helpful;
     private Long helpfulCount;
 }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.msproject.pet.entity.QReviewEntity.reviewEntity;
 import static com.msproject.pet.entity.QHelpfulEntity.helpfulEntity;
+import static com.msproject.pet.entity.QUserEntity.userEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -42,12 +43,13 @@ public class ReviewRepositoryCustom {
         return new PageImpl<>(results, pageable, total);
     }
 
-    public Page<ReviewListWithHelpfulCount> findAllWithHelpfulCount(Pageable pageable, Long id) {
+    public Page<ReviewListWithHelpfulCount> findAllWithHelpfulCount(Pageable pageable, Long rid, Long uid) {
 
         JPAQuery<ReviewEntity> query = queryFactory.selectFrom(reviewEntity)
-                .leftJoin(helpfulEntity).on(helpfulEntity.reviewEntity.eq(reviewEntity));
+                .leftJoin(helpfulEntity).on(helpfulEntity.reviewEntity.eq(reviewEntity))
+                .leftJoin(userEntity).on(helpfulEntity.userEntity.idx.eq(uid));
 
-        query.where(reviewEntity.petHospitalEntity.hospitalId.eq(id),reviewEntity.deleteYn.eq(false), reviewEntity.approveYn.eq(true));
+        query.where(reviewEntity.petHospitalEntity.hospitalId.eq(rid),reviewEntity.deleteYn.eq(false), reviewEntity.approveYn.eq(true));
 
         query.groupBy(reviewEntity);
 
@@ -71,6 +73,7 @@ public class ReviewRepositoryCustom {
                 reviewEntity.fileName,
                 reviewEntity.originalFileName,
                 reviewEntity.approveYn,
+                helpfulEntity.helpFul,
                 reviewEntity.count().as("helpfulCount")
                 ));
 

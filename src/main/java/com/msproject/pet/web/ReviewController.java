@@ -68,11 +68,11 @@ public class ReviewController {
 //        return reviewService.getReviewList(pageable, searchCondition, id);
 //    }
 
-    @GetMapping("/review/list/{id}")
-    public Header<List<ReviewListWithHelpfulCount>> reviewListWithHelpfulCount(@PathVariable Long id,
+    @GetMapping("/review/list/{rid}/{uid}")
+    public Header<List<ReviewListWithHelpfulCount>> reviewListWithHelpfulCount(@PathVariable Long rid,@PathVariable Long uid,
                                                                                @PageableDefault(sort = "review_id") Pageable pageable)
     {
-        return reviewService.getReviewListWithHelpfulCount(pageable, id);
+        return reviewService.getReviewListWithHelpfulCount(pageable, rid, uid);
     }
 
     @GetMapping("/review/user/{id}")

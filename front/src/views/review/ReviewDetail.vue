@@ -606,7 +606,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get(this.$serverUrl + '/review/list/'+ this.idx, {
+      this.$axios.get(this.$serverUrl + '/review/list/'+ this.idx + "/" + this.log_id, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -715,16 +715,16 @@ export default {
           }
         })
       }
-    ,helpfulCheck(){
-      this.$axios.get(this.$serverUrl + "/help/" + this.log_id + "/" + this.idx,{
-      }).then((res) => {
-        his.helpfulState = res.data;
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
-    }
+    // ,helpfulCheck(){
+    //   this.$axios.get(this.$serverUrl + "/help/" + this.log_id + "/" + this.idx,{
+    //   }).then((res) => {
+    //     his.helpfulState = res.data;
+    //   }).catch((err) => {
+    //     if (err.message.indexOf('Network Error') > -1) {
+    //       alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+    //     }
+    //   })
+    // }
   }
   ,fnSubmitReport() {
       let apiUrl = this.$serverUrl + '/report/insert'
