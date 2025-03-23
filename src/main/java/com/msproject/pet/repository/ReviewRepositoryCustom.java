@@ -43,15 +43,15 @@ public class ReviewRepositoryCustom {
         return new PageImpl<>(results, pageable, total);
     }
 
-    public Page<ReviewListWithHelpfulCount> findAllWithHelpfulCount(Pageable pageable, Long rid, Long uid) {
+    public Page<ReviewListWithHelpfulCount> findAllWithHelpfulCount(Pageable pageable, Long hid, Long uid) {
 
         JPAQuery<ReviewEntity> query = queryFactory.selectFrom(reviewEntity)
                 .leftJoin(helpfulEntity).on(helpfulEntity.reviewEntity.eq(reviewEntity))
-                .leftJoin(userEntity).on(helpfulEntity.userEntity.idx.eq(uid));
+                .leftJoin(userEntity).on(helpfulEntity.userEntity.eq(userEntity));
 
-        query.where(reviewEntity.petHospitalEntity.hospitalId.eq(rid),reviewEntity.deleteYn.eq(false), reviewEntity.approveYn.eq(true));
+        query.where(reviewEntity.petHospitalEntity.hospitalId.eq(hid),reviewEntity.deleteYn.eq(false), reviewEntity.approveYn.eq(true));
 
-        query.groupBy(reviewEntity);
+        query.groupBy(reviewEntity,helpfulEntity);
 
         long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
 

@@ -164,10 +164,10 @@ public class ReviewService {
         return Header.OK(dtos, pagination);
     }
 
-    public Header<List<ReviewListWithHelpfulCount>> getReviewListWithHelpfulCount(Pageable pageable, Long rid, Long uid) {
+    public Header<List<ReviewListWithHelpfulCount>> getReviewListWithHelpfulCount(Pageable pageable, Long hid, Long uid) {
 
         List<ReviewListWithHelpfulCount> dtos = new ArrayList<>();
-        Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, rid, uid);
+        Page<ReviewListWithHelpfulCount> reviewListWithHelpfulCount = reviewRepositoryCustom.findAllWithHelpfulCount(pageable, hid, uid);
 
 
         for (ReviewListWithHelpfulCount dto1 : reviewListWithHelpfulCount) {
@@ -179,13 +179,14 @@ public class ReviewService {
             ReviewListWithHelpfulCount dto2 = ReviewListWithHelpfulCount.builder()
                     .reviewId(dto1.getReviewId())
                     .petHospitalNum(dto1.getPetHospitalNum())
-                    .userNum(dto1.getUserNum()) // 수정 0207
+                    .userNum(dto1.getUserNum())
                     .content(dto1.getContent())
                     .score(rounded)
                     .priceScore(dto1.getPriceScore())
                     .effectScore(dto1.getEffectScore())
                     .kindnessScore(dto1.getKindnessScore())
                     .userId(dto1.getUserId())
+                    .helpFul(dto1.getHelpFul())
                     .createdAt(dto1.getCreatedAt())
                     .updatedAt(dto1.getUpdatedAt())
                     .build();

@@ -1,19 +1,22 @@
 <template>
   <div class="mt-5 mb-3 pt-3 ">
-    <div id="report" class="modal fade">
+    <!-- 모달 -->
+    <div v-if="isModalVisible" class="modal fade show" id="report" tabindex="-1" aria-labelledby="reportLabel" aria-hidden="true" style="display: block;">
       <div class="modal-dialog modal-dialog-centered modal-login">
         <div class="modal-content">
           <div class="modal-body">
             <div class="container my-auto">
               <div class="row">
                 <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class=" p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-danger shadow-danger border-radius-lg py-3 pe-1">
                       <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">신고하기</h4>
                     </div>
                   </div>
                   <div class="card-body">
                     <p class="text-start">신고 사유를 선택하고 추가 설명을 입력해주세요.</p>
+
+                    <!-- 신고 사유 라디오 버튼 -->
                     <div class="form-check text-start">
                       <input class="form-check-input" type="radio" name="reportReason" id="spam" value="1" v-model="reportReason">
                       <label class="form-check-label text-start" for="spam">스팸/홍보</label>
@@ -23,18 +26,20 @@
                       <label class="form-check-label" for="hateSpeech">혐오 발언</label>
                     </div>
                     <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="2" v-model="reportReason">
+                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="3" v-model="reportReason">
                       <label class="form-check-label" for="falseInfo">허위 정보</label>
                     </div>
+                    <!-- 추가 설명 입력 -->
                     <div class="input-group input-group-outline my-3">
                       <textarea id="reportDetails" class="form-control" rows="4" placeholder="추가 설명을 입력해주세요." v-model="reportDetails"></textarea>
                     </div>
+                    <!-- 신고하기 버튼 -->
                     <div class="text-center">
-                      <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2"
-                              @click="fnSubmitReport()">신고하기</button>
+                      <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2" @click="fnSubmitReport()">신고하기</button>
                     </div>
+                    <!-- 취소 버튼 -->
                     <div class="text-center">
-                      <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">취소</button>
+                      <button type="button" class="btn btn-secondary w-100" @click="closeModal" data-bs-dismiss="modal">취소</button>
                     </div>
                   </div>
                 </div>
@@ -504,13 +509,29 @@
         <div class="fs-4 fw-semibold mt-3 text-start" style="word-break: break-word">
           <p>{{ row.content }}</p>
         </div>
-        <div class="d-flex flex-column align-items-end mt-3">
-          <div class="mb-2">
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(1 ,row.review_id)">도움이 돼요</button>
-            <button class="btn btn-outline-info btn-sm me-2" @click="fnHelpful(2 ,row.review_id)">도움이 안 돼요</button>
-            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">신고하기</button>
-          </div>
+      <div class="d-flex flex-column align-items-end mt-3">
+        <div class="mb-2">
+          <button
+              class="btn btn-outline-info btn-sm me-2"
+              @click="fnHelpful(1, row)"
+              :class="{ 'text-muted': row.help_ful === 1,  'selected-btn': row.help_ful === 1}">
+            도움이 돼요
+          </button>
+          <button
+              class="btn btn-outline-info btn-sm me-2"
+              @click="fnHelpful(2, row)"
+              :class="{ 'text-muted': row.help_ful === 2,  'selected-btn': row.help_ful === 2}"  >
+            도움이 안 돼요
+          </button>
+<!--          <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">-->
+<!--            신고하기-->
+<!--          </button>-->
+          <button class="btn btn-outline-danger btn-sm" @click="openReportModal(row)">
+            신고하기
+          </button>
         </div>
+      </div>
+
     </div>
   </div>
 
@@ -561,6 +582,8 @@ export default {
       helpfulState: 0,
       helpfulCount : 0,
 
+      isModalVisible: false, // 모달이 보이는지 여부
+
       paging: {
         block: 0,
         end_page: 0,
@@ -592,7 +615,6 @@ export default {
   mounted() {
     this.fnGetList()
     this.fnGetReviewScore()
-    this.helpfulCheck()
   },
   methods: {
     fnPage(n) {
@@ -693,57 +715,60 @@ export default {
         query: this.requestBody
       })
     }
-    ,fnHelpful(Helpful,reviewId) {
-        if(this.helpfulState === Helpful){
+    ,fnHelpful(helpful,row) {
+        if(row.help_ful === helpful){
           return;
         }
         let apiUrl = this.$serverUrl + '/help';
 
         this.form = {
-          "review_num": reviewId,
+          "review_num": row.review_id,
           "user_num" : this. log_id,
-          "helpful" : Helpful,
-
+          "help_ful" : helpful,
         }
 
         this.$axios.post(apiUrl, this.form)
             .then((res) => {
-              this.helpfulState = res.data.helpfulState
+             row.help_ful = res.data.data.help_ful
             }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
       }
-    // ,helpfulCheck(){
-    //   this.$axios.get(this.$serverUrl + "/help/" + this.log_id + "/" + this.idx,{
-    //   }).then((res) => {
-    //     his.helpfulState = res.data;
-    //   }).catch((err) => {
-    //     if (err.message.indexOf('Network Error') > -1) {
-    //       alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-    //     }
-    //   })
-    // }
-  }
-  ,fnSubmitReport() {
+    , openReportModal(row) {
+      this.row = row; // row 데이터를 모달에 전달
+      this.isModalVisible = true; // 모달 열기
+      this.reportReason = null; // 신고 사유 초기화
+      this.reportDetails = ""; // 추가 설명 초기화
+    }
+    , closeModal() {
+      this.isModalVisible = false; // 모달 닫기
+    }
+    ,fnSubmitReport() {
+      if (!this.reportReason) {
+        alert("신고 사유를 선택해주세요.");
+        return;
+      }
       let apiUrl = this.$serverUrl + '/report/insert'
       this.form = {
-        "review_num": this.idx,
-        "user_num": this.logged_idx,
-        "reportReason": Number(this.reportReason),
-        "reportDetails": this.reportDetails
+        "review_num": this.row.review_id,
+        "user_num": this.log_id,
+        "report_reason": Number(this.reportReason),
+        "report_detail": this.reportDetails
       }
 
       this.$axios.post(apiUrl, this.form)
           .then(() => {
             alert('신고가 완료되었습니다.')
+            this.closeModal(); // 신고 완료 후 모달 닫기
           }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
     }
+  }
 }
 </script>
 
@@ -771,7 +796,12 @@ export default {
   margin-left: 20px;
 }
 
- .position_re{
-   text-align: left;
- }
+.selected-btn {
+  color: gray;         /* 글자 색을 회색으로 설정 */
+  border-color: gray;  /* 테두리 색을 회색으로 설정 */
+}
+
+.modal.show {
+  display: block;
+}
 </style>
