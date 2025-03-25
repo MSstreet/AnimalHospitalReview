@@ -512,20 +512,17 @@
       <div class="d-flex flex-column align-items-end mt-3">
         <div class="mb-2">
           <button
-              class="btn btn-outline-info btn-sm me-2"
+              class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
               @click="fnHelpful(1, row)"
-              :class="{ 'text-muted': row.help_ful === 1,  'selected-btn': row.help_ful === 1}">
+              :class="{ 'custom-text-muted': row.help_ful === 1, 'custom-btn-secondary': row.help_ful === 1 }">
             도움이 돼요
           </button>
           <button
-              class="btn btn-outline-info btn-sm me-2"
+              class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
               @click="fnHelpful(2, row)"
-              :class="{ 'text-muted': row.help_ful === 2,  'selected-btn': row.help_ful === 2}"  >
+              :class="{ 'custom-text-muted': row.help_ful === 2, 'custom-btn-secondary': row.help_ful === 2 }">
             도움이 안 돼요
           </button>
-<!--          <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#report">-->
-<!--            신고하기-->
-<!--          </button>-->
           <button class="btn btn-outline-danger btn-sm" @click="openReportModal(row)">
             신고하기
           </button>
@@ -796,12 +793,42 @@ export default {
   margin-left: 20px;
 }
 
-.selected-btn {
-  color: gray;         /* 글자 색을 회색으로 설정 */
-  border-color: gray;  /* 테두리 색을 회색으로 설정 */
+.custom-btn {
+  border: 2px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-btn-info {
+  background-color: transparent;
+  border-color: #17a2b8;
+  color: #17a2b8;
+}
+
+.custom-btn-secondary {
+  background-color: transparent;
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.custom-btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.custom-mr-2 {
+  margin-right: 0.5rem;
+}
+
+.custom-text-muted {
+  color: #6c757d !important;
 }
 
 .modal.show {
   display: block;
 }
+
 </style>
