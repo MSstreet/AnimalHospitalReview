@@ -4,7 +4,42 @@ gradle-wrapper.properties
 
 # Gradle 빌드 아티팩트 (빌드 아웃풋)
 build/
+.gradle/
 
 # IDE 관련 파일 (예: IntelliJ, VSCode 등)
 .idea/
 .vscode/
+*.iml
+*.iws
+*.ipr
+
+# 로그 파일
+*.log
+logs/
+
+# 로컬 설정 파일
+application-local.properties
+application-local.yml
+
+# 운영체제 관련 파일
+.DS_Store
+Thumbs.db
+
+# 임시 파일
+*.tmp
+*.temp
+*.swp
+*~
+
+# 컴파일된 클래스 파일
+*.class
+target/
+bin/
+
+# 패키지 파일
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar

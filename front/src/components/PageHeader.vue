@@ -3,7 +3,10 @@
   <header>
     <nav class="navbar">
         <div class="navbar-logo">
-          <router-link to="/"><i class="fa-solid fa-shield-cat me-2"></i></router-link>
+          <router-link to="/">
+            <i class="fa-solid fa-shield-cat me-2"></i>
+            <span class="logo-text">PetHospital</span>
+          </router-link>
         </div>
         <div class="navbar-container">
             <!-- Navigation Links -->
@@ -12,31 +15,39 @@
                 <router-link :to="item.link">{{ item.text }}</router-link>
               </li>
               <li class="navbar-item" v-if="!$store.state.isLogin">
-                <router-link to="/login">로그인</router-link>
+                <router-link to="/login" class="login-btn">로그인</router-link>
               </li>
               <li class="navbar-item" v-if="!$store.state.isLogin">
-                <router-link to="/join">회원가입</router-link>
+                <router-link to="/join" class="join-btn">회원가입</router-link>
               </li>
             </ul>
 
           <div class="navbar-user-info">
             <ul class="user-drop-button" v-if="this.$store.state.isLogin">
-              <li class="nav-item dropdown" >
-                <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >
-                  <i class="fa-solid fa-user fa-2x"></i>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-user"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li class="dropdown-item">
-                    <router-link to="/mypage" class=" text-black fw-bold" v-if="this.$store.state.isLogin" >내 정보</router-link>
+                    <router-link to="/mypage" class="dropdown-link" v-if="this.$store.state.isLogin">
+                      <i class="fa-solid fa-user-circle me-2"></i>내 정보
+                    </router-link>
                   </li>
                   <li class="dropdown-item">
-                    <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="nav-link text-black fw-bold">나의 리뷰</router-link>
+                    <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="dropdown-link">
+                      <i class="fa-solid fa-star me-2"></i>나의 리뷰
+                    </router-link>
                   </li>
                   <li class="dropdown-item">
-                    <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="nav-link text-black fw-bold">찜한 병원</router-link>
+                    <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="dropdown-link">
+                      <i class="fa-solid fa-heart me-2"></i>찜한 병원
+                    </router-link>
                   </li>
                   <li class="dropdown-item">
-                    <a v-if="this.$store.state.isLogin" class="nav-link text-black fw-bold" @click="fnLogout">로그아웃</a>
+                    <a v-if="this.$store.state.isLogin" class="dropdown-link" @click="fnLogout">
+                      <i class="fa-solid fa-sign-out-alt me-2"></i>로그아웃
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -45,6 +56,8 @@
 
           <!-- 모바일 메뉴 버튼 -->
           <div class="navbar-toggle" @click="toggleMenu">
+            <span class="navbar-toggle-icon"></span>
+            <span class="navbar-toggle-icon"></span>
             <span class="navbar-toggle-icon"></span>
           </div>
         </div>
@@ -111,9 +124,8 @@ export default {
 </script>
 
 <style scoped>
-
-.user-drop-button{
-  margin-bottom : 0;
+.user-drop-button {
+  margin-bottom: 0;
   padding-left: 0;
 }
 
@@ -132,153 +144,214 @@ a {
 /* Navbar Styles */
 .navbar {
   --bs-navbar-padding-x: unset;
-  color: white;
+  background: linear-gradient(to right, #ffffff, #f8f9fa);
+  color: #333;
   position: sticky;
-  padding-left: 35px; /* 좌측 여백 */
-  padding-right: 30px; /* 우측 여백 */
+  padding: 0 2rem;
   top: 0;
   z-index: 1000;
-  box-shadow: none; /* 그림자 제거 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 1200px;
-  margin: 0 auto; /* 중앙 정렬 */
-}
-
-.navbar::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  width: 100vw; /* 화면 전체 너비 */
-  height: 1px; /* 구분선 두께 */
-  background-color: rgba(0, 0, 0, 0.1); /* 구분선 색상 */
-  transform: translateX(-50%);
-  left: 50%;
+  margin: 0 auto;
+  border-radius: 0 0 10px 10px;
 }
 
 .navbar-container {
   display: flex;
-  justify-content: flex-end;; /* Left and right sections */
+  justify-content: space-between;
   align-items: center;
-  height: 100%;
-  padding: 15px 20px;
-
+  height: 70px;
+  padding: 0 1rem;
 }
 
 .navbar-logo {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-left: 20px;
 }
 
 .navbar-logo a {
-  color: black;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo a:hover {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  font-family: 'Dongle', serif;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+  background: linear-gradient(45deg, #2c3e50, #3498db);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navbar-links {
   list-style: none;
   display: flex;
   margin: 0;
+  gap: 1.5rem;
 }
 
 .navbar-item {
-  margin-left: 20px;
-  font-family: "Dongle", serif;
+  margin: 0;
 }
 
 .navbar-item a {
-  color: black;
-  font-size: 30px;
-  padding: 6px;
-  transition: background-color 0.3s ease;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.navbar-item a:hover {
-  background-color: lightgrey;
-  border-radius: 4px;
+.navbar-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #3498db;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
-/* User Info on the right */
+.navbar-item a:hover::after {
+  width: 80%;
+}
+
+.login-btn, .join-btn {
+  padding: 0.5rem 1.5rem !important;
+  border-radius: 25px !important;
+  font-weight: 500;
+}
+
+.login-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+.join-btn {
+  background-color: #3498db;
+  color: white !important;
+}
+
+.join-btn:hover {
+  background-color: #2980b9 !important;
+}
+
+/* User Info Styles */
 .navbar-user-info {
   display: flex;
   align-items: center;
-
-
 }
 
 .navbar-user-info a {
-  color: black !important;
-  font-size: 16px;
-  padding: 8px;
-  margin-left: 20px;
-  transition: background-color 0.3s ease;
+  color: #2c3e50 !important;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
+.navbar-user-info a:hover {
+  background-color: #f8f9fa;
+  transform: scale(1.1);
+}
 
-/* Mobile menu toggle button */
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-link {
+  color: #2c3e50 !important;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background-color: #f8f9fa;
+  transform: translateX(5px);
+}
+
+/* Mobile Menu Styles */
 .navbar-toggle {
   display: none;
   cursor: pointer;
-  flex-direction: column;
-  align-items: flex-end;
+  padding: 0.5rem;
 }
 
 .navbar-toggle-icon {
+  display: block;
   width: 25px;
   height: 3px;
-  background-color: white;
-  margin: 4px 0;
+  background-color: #2c3e50;
+  margin: 5px 0;
+  border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
-/* Mobile Menu */
-.navbar-mobile-menu {
-  background-color: #333;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 60px;
-}
-
-.navbar-mobile-menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.navbar-mobile-menu .navbar-item {
-  margin: 20px 0;
-}
-
-.navbar-mobile-menu .navbar-item a {
-  font-size: 18px;
-  padding: 10px;
-  color: white;
-}
-
-.navbar-mobile-menu .navbar-item a:hover {
-   background-color: #444;
-   border-radius: 4px;
- }
-
-/* Responsive Styles for Mobile */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
   .navbar-links {
     display: none;
   }
 
-  .navbar-toggle {
-    display: flex;
-  }
-
   .navbar-mobile-menu {
-    display: flex;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  .navbar-item a {
-    font-size: 18px;
+  .navbar-mobile-menu .navbar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-mobile-menu .navbar-item {
+    margin: 0;
+  }
+
+  .navbar-mobile-menu a {
+    font-size: 1.2rem;
+    padding: 1rem;
+    display: block;
   }
 }
-
 </style>
