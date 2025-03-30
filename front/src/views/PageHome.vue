@@ -1,403 +1,83 @@
 <!-- PageHome.vue -->
 <template>
-
-<section class="" style="margin-top: 30px">
-  <div class="container text-center mt-5 " >
-    <div id="mainslider" class="mt-3" >
-      <splide :options="options">
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home.jpg" alt="main2">
-        </splide-slide>
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home1.jpg" alt="main3">
-        </splide-slide>
-        <splide-slide>
-          <img style="border-radius: 70px" src="../assets/home2.jpg" alt="main3">
-        </splide-slide>
-      </splide>
-    </div>
-  </div>
-  <div class="search-container mt-5">
-    <form action="" method="">
-      <div class="input-area p-3 input-group input-group-lg">
-        <select class="styled-select" v-model="search_key">
-          <option value="author" selected>병원명</option>
-          <option value="title">지역명</option>
-        </select>
-        <input type="text" maxlength="50" class="form-control ms-1" placeholder="검색어 입력" aria-label="search"
-               aria-describedby="button-addon2" v-model="search_value" >
-        <button class="styled-button ms-1" id="button-addon2"  @click="fnPage1(`${search_key}`,`${search_value}`)">검색</button>
+  <div class="home-container">
+    <!-- 메인 슬라이더 섹션 -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="slider-container">
+          <splide :options="options" class="main-slider">
+            <splide-slide>
+              <img src="../assets/home.jpg" alt="동물병원 메인 이미지 1">
+            </splide-slide>
+            <splide-slide>
+              <img src="../assets/home1.jpg" alt="동물병원 메인 이미지 2">
+            </splide-slide>
+            <splide-slide>
+              <img src="../assets/home2.jpg" alt="동물병원 메인 이미지 3">
+            </splide-slide>
+          </splide>
+        </div>
       </div>
-    </form>
-  </div>
-  <div class="container-fluid pt-1" style="text-align: center">
-    <div class="" style="width: 960px; display: inline-block">
-      <div class="row text-left px-3 margin-b" style="margin-top: 48px;">
+    </section>
 
-        <div class="col-4 px-2">
-          <div class=" pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            부천시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage(`범안로`,'title')">
-                범안로
-              </div>
+    <!-- 검색 섹션 -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-box">
+          <form @submit.prevent="fnPage1(search_key, search_value)">
+            <div class="search-input-group">
+              <select class="search-select" v-model="search_key">
+                <option value="author">병원명</option>
+                <option value="title">지역명</option>
+              </select>
+              <input 
+                type="text" 
+                class="search-input" 
+                placeholder="검색어를 입력하세요" 
+                v-model="search_value"
+                maxlength="50"
+              >
+              <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+              </button>
             </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('중동로','title')">
-                중동로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('역곡로','title')">
-                역곡로
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('상일로','title')">
-                상일로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('소향로','title')">
-                소향로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('송내대로','title')">
-                송내대로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('부일로','title')">
-                부일로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('상동로','title')">
-                상동로
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
+      </div>
+    </section>
 
-        <div class="col-4 px-2">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location" >
-            </i>
-            수원시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('권선구','title')">
-                권선구
+    <!-- 지역 목록 섹션 -->
+    <section class="location-section">
+      <div class="container">
+        <div class="location-grid">
+          <div v-for="(locations, city) in groupedLocations" :key="city" class="location-card">
+            <div class="location-header">
+              <i class="fas fa-location-dot"></i>
+              <h3>{{ city }}</h3>
+            </div>
+            <div class="location-list">
+              <div 
+                v-for="location in locations" 
+                :key="location"
+                class="location-item"
+                @click="fnPage(location, 'title')"
+              >
+                {{ location }}
               </div>
             </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('영통로','title')">
-                영통구
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('장안구','title')">
-                장안구
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('팔달구','title')">
-                팔달구
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="col-4 px-2">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            성남시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('수정구','title')">
-                수정구
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('분당구','title')">
-                분당구
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('중원구','title')">
-                중원구
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location" >
-            </i>
-            용인시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('수지구','title')">
-                수지구
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            시흥시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('수인로','title')">
-                수인로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('승지로','title')">
-                승지로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('은행로','title')">
-                은행로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('함송로','title')">
-                함송로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('정왕대로','title')">
-                정왕대로
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('호현로','title')">
-                호현로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('대은로','title')">
-                대은로
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            안산시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('단원구','title')">
-                단원구
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('상록구','title')">
-                상록구
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            고양시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('덕양구','title')">
-                덕양구
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('일산동구','title')">
-                일산동구
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('일산서구','title')">
-                일산서구
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            광명시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('광덕산로','title')">
-                광덕산로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('하안로','title')">
-                하안로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('디지털로','title')">
-                디지털로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('소하로','title')">
-                소하로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('금하로','title')">
-                금하로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('오리로','title')">
-                오리로
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div class="col-4 px-2 mt-5">
-          <div class="pb-2" style="font-size: 21px; color:#494949; border-bottom: 2px solid #494949">
-            <i style="font-size: 21px;" class="fas fa-location">
-            </i>
-            평택시
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('송탄로','title')">
-                송탄로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('평택로','title')">
-                평택로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('탄현로','title')">
-                탄현로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('청북읍','title')">
-                청북읍
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('중앙로','title')">
-                중앙로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('서정역로','title')">
-                서정역로
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 px-3">
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('송탄로','title')">
-                송탄로
-              </div>
-            </div>
-
-            <div class="col-4 p-0">
-              <div class="fw-bold tt purple-link mb-1" @click="fnPage('안중읍','title')">
-                안중읍
-              </div>
-            </div>
-
-
           </div>
         </div>
       </div>
-      <div class="row text-left px-3" style="margin-top: 48px;">
-      </div>
-    </div>
+    </section>
   </div>
-</section>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import '@splidejs/vue-splide/css'
+
 export default {
   name: 'PageHome',
   components: {
@@ -412,16 +92,20 @@ export default {
         nickname: null,
       },
       options: {
-        type: 'fade',
-        rewind: true,
+        type: 'loop',
         perPage: 1,
         autoplay: true,
-        pauseOnHover: false,
-        arrows: false,
-        dots: true,
-        animatedDots: true
-      }
-      ,map: null,
+        interval: 4000,
+        pauseOnHover: true,
+        arrows: true,
+        pagination: true,
+        breakpoints: {
+          768: {
+            arrows: false
+          }
+        }
+      },
+      map: null,
       markers: [],
       latitude: 0,
       longitude: 0,
@@ -443,10 +127,19 @@ export default {
       }, //페이징 데이터
       page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 10,
-      //search_key: this.$route.query.sk ? this.$route.query.sk : '',
-      search_key:"author",
-      //search_key:this.search_key,
-      search_value: this.$route.query.sv ? this.$route.query.sv : '',
+      search_key: 'author',
+      search_value: '',
+      groupedLocations: {
+        '부천시': ['범안로', '중동로', '역곡로', '상일로', '소향로', '송내대로', '부일로', '상동로'],
+        '수원시': ['권선구', '영통구', '장안구', '팔달구'],
+        '성남시': ['수정구', '분당구', '중원구'],
+        '용인시': ['수지구'],
+        '시흥시': ['수인로', '승지로', '은행로', '함송로', '정왕대로', '호현로', '대은로'],
+        '안산시': ['단원구', '상록구'],
+        '고양시': ['덕양구', '일산동구', '일산서구'],
+        '광명시': ['광덕산로', '하안로', '디지털로', '소하로', '금하로', '오리로'],
+        '평택시': ['송탄로', '평택로', '탄현로', '청북읍', '중앙로', '서정역로', '안중읍']
+      },
       paginavigation: function () { //페이징 처리 for문 커스텀
         let pageNumber = [] //;
         let start_page = this.paging.start_page;
@@ -455,10 +148,10 @@ export default {
         return pageNumber;
       }
     }
-  }
-  ,created(){
-  }
-  ,methods: {
+  },
+  created(){
+  },
+  methods: {
     fnGetList() {
       this.requestBody = { // 데이터 전송
         sk: this.search_key,
@@ -483,7 +176,8 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }, fnGetUserInfo() {
+    },
+    fnGetUserInfo() {
       this.requestBody = { // 데이터 전송
         email: this.userInfo.userId,
         nickname: this.userInfo.nickname,
@@ -499,33 +193,17 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
-    ,fnPage(n,m) {
-      console.log(n)
-      this.search_key = m
-      this.search_value = n
-      console.log(this.search_value)
+    },
+    fnPage(location, type) {
       this.$router.push({
-        path: '/hospital/list1',
-        query:{
-          sk : this.search_key,
-          sv : this.search_value
-        }
+        path: '/board/list',
+        query: { type: type, value: location }
       })
-    }
-    ,fnPage1(n,m) {
-      console.log("@@@@@search_value@@@@@"+m)
-      console.log("@@@@@search_key@@@@@"+n)
-      this.search_value = m
-      this.search_key = n
-      console.log("!!!!!!!!!!search_value!!!!!!!!!!!"+this.search_value)
+    },
+    fnPage1(key, value) {
       this.$router.push({
-        //path: '/hospital/list',
-        path: '/hospital/list1',
-        query:{
-          sk :this.search_key,
-          sv :this.search_value
-        }
+        path: '/board/list',
+        query: { type: key, value: value }
       })
     }
   }
@@ -533,50 +211,161 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  text-align: center;
-  margin: 10px;
+.home-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
 }
-.test-position{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.hero-section {
+  padding: 2rem 0;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
-.img-container{
-  height: 200px;
+
+.slider-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.main-slider {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.main-slider img {
   width: 100%;
-  /*margin: auto;*/
+  height: 500px;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
-.margin-b{
-  margin-bottom: 7rem;
+.search-section {
+  padding: 2rem 0;
+  background-color: #ffffff;
 }
 
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+.search-box {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.tt:hover{
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: #ff9900;
-  color:#ff9900;
-  cursor: pointer
-}
-
-.input-area{
+.search-input-group {
   display: flex;
-  justify-content: center;
-  width: 600px;
+  gap: 1rem;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.search-container {
+.search-select {
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #357abd;
+}
+
+.location-section {
+  padding: 3rem 0;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.location-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.location-card:hover {
+  transform: translateY(-5px);
+}
+
+.location-header {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #4a90e2;
 }
 
+.location-header i {
+  color: #4a90e2;
+  font-size: 1.2rem;
+}
+
+.location-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.location-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.location-item {
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.location-item:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .main-slider img {
+    height: 300px;
+  }
+  
+  .search-input-group {
+    flex-direction: column;
+  }
+  
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
