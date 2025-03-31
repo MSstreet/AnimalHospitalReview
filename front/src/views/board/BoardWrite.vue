@@ -1,22 +1,51 @@
 <template>
-  <div class="mt-5 mb-5 text-center fs-1 fw-bold mb-2">
-    <b style="color: #4c1192;">게시글 작성</b>
-  </div>
-  <div class="board-detail">
-    <div class="board-contents">
-      <div class="mb-3">
+  <div class="board-write-container">
+    <div class="board-write-header">
+      <h1 class="board-write-title">게시글 작성</h1>
+
+    </div>
+    
+    <div class="board-write-content">
+      <div class="form-group">
         <label for="title">제목</label>
-        <input type="text" maxlength="200" v-model="title" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요(200자 이내).">
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            maxlength="200" 
+            v-model="title" 
+            class="form-control" 
+            name="title" 
+            id="title" 
+            placeholder="제목을 입력해주세요(200자 이내)"
+          >
+          <span class="character-count">{{ title.length }}/200</span>
+        </div>
       </div>
 
-      <div class="mb-3">
+      <div class="form-group">
         <label for="content">내용</label>
-        <textarea class="form-control" maxlength="3000" v-model="contents" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요(3000자 이내)"></textarea>
+        <div class="textarea-wrapper">
+          <textarea 
+            class="form-control" 
+            maxlength="3000" 
+            v-model="contents" 
+            rows="10" 
+            name="content" 
+            id="content" 
+            placeholder="내용을 입력해 주세요(3000자 이내)"
+          ></textarea>
+          <span class="character-count">{{ contents.length }}/3000</span>
+        </div>
       </div>
     </div>
-    <div class="common-buttons">
-      <button type="button" class="btn btn-primary " v-on:click="fnSave"><i class="fas fa-edit"></i>저장</button>&nbsp;
-      <button type="button" class="btn btn-primary " v-on:click="fnList"><i class="fas fa-edit"></i>목록</button>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-save" @click="fnSave">
+        <i class="fas fa-save"></i> 저장하기
+      </button>
+      <button type="button" class="btn btn-list" @click="fnList">
+        <i class="fas fa-list"></i> 목록으로
+      </button>
     </div>
   </div>
 </template>
@@ -37,7 +66,8 @@ export default {
       contents: '',
       created_at: '',
 
-      check:false
+      check:false,
+      form: {} // form 데이터 객체 추가
     }
   },
   mounted() {
@@ -51,17 +81,16 @@ export default {
         alert('제목을 입력하세요.')
         this.check = false
         return false
-      } else{
-        this.check = true
       }
 
       if (this.contents == '') {
         alert('내용를 입력하세요.')
         this.check = false
-        return
-      } else{
-        this.check = true
+        return false
       }
+      
+      this.check = true
+      return true
     }
     ,fnGetView() {
       if (this.idx !== undefined) {
@@ -140,5 +169,131 @@ export default {
 }
 </script>
 <style scoped>
+.board-write-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.board-write-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.board-write-title {
+  color: #4c1192;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.board-write-subtitle {
+  color: #666;
+  font-size: 1rem;
+}
+
+.board-write-content {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.input-wrapper, .textarea-wrapper {
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4c1192;
+  box-shadow: 0 0 0 3px rgba(76, 17, 146, 0.1);
+  outline: none;
+}
+
+.character-count {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-save {
+  background-color: #4c1192;
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #3a0d6f;
+  transform: translateY(-1px);
+}
+
+.btn-list {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.btn-list:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .board-write-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .board-write-title {
+    font-size: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

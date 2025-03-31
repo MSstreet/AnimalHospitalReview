@@ -1,7 +1,170 @@
 <template>
+  <div class="board-detail-wrapper">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <!-- 게시글 제목 -->
+          <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">게시글 조회</h1>
+          </div>
+
+          <!-- 게시글 내용 -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <!-- 게시글 헤더 -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="card-title h3 mb-0">{{ title }}</h2>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-outline-primary me-2" v-if="logged_idx == writer_idx" v-on:click="fnUpdate">
+                    <i class="fas fa-edit me-1"></i>수정
+                  </button>
+                  <button type="button" class="btn btn-outline-danger me-2" v-if="logged_idx == writer_idx" v-on:click="fnDelete">
+                    <i class="fas fa-trash me-1"></i>삭제
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" data-bs-target="#findPw" v-on:click="fnList">
+                    <i class="fas fa-list me-1"></i>목록
+                  </button>
+                </div>
+              </div>
+
+              <!-- 게시글 메타 정보 -->
+              <div class="d-flex align-items-center text-muted mb-4">
+                <div class="me-3">
+                  <i class="fas fa-user me-1"></i>작성자: {{ writer_id }}
+                </div>
+                <div>
+                  <i class="fas fa-calendar me-1"></i>작성일: {{ created_at }}
+                </div>
+              </div>
+
+              <!-- 게시글 본문 -->
+              <div class="content-area p-4 bg-light rounded">
+                <div v-html="contents" class="content-text"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 댓글 작성 영역 -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h5 class="card-title mb-3">댓글 작성</h5>
+              <div class="form-group">
+                <textarea v-model="coments" maxlength="500" class="form-control" rows="3" 
+                          placeholder="댓글을 입력해주세요..."></textarea>
+              </div>
+              <div class="text-end mt-3">
+                <button type="submit" class="btn btn-primary" @click="fnSave">
+                  <i class="fas fa-paper-plane me-1"></i>댓글 작성
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 댓글 목록 -->
+          <div v-if="list.length != 0" class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title mb-4">
+                댓글 목록 <span class="badge bg-primary">{{paging.total_list_cnt}}</span>
+              </h5>
+              
+              <div v-for="(row, idx) in list" :key="idx" class="comment-item mb-4">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <div class="fw-bold">{{row.user_id}}</div>
+                    <div class="text-muted small">{{row.created_at}}</div>
+                  </div>
+                  <div class="btn-group">
+                    <button v-if="logged_idx == row.user_idx" class="btn btn-sm btn-link text-primary" 
+                            data-bs-toggle="modal" data-bs-target="#findPw" @click="testUpdate(`${row.reply_idx}`)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button v-if="logged_idx == row.user_idx" class="btn btn-sm btn-link text-danger" 
+                            v-on:click="fnComentDelete(`${row.reply_idx}`)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-link text-success" 
+                            data-bs-toggle="modal" data-bs-target="#findPw1" @click="testUpdate(`${row.reply_idx}`)">
+                      <i class="fas fa-reply"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-2 comment-content" v-html="row.contents"></div>
+
+                <!-- 대댓글 -->
+                <div v-for="(row1, idx1) in filteredReplies(row.reply_idx)" :key="idx1" 
+                     class="reply-item ms-4 mt-3 p-3 bg-light rounded">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="fw-bold">{{row1.user_id}}</div>
+                      <div class="text-muted small">{{row1.created_at}}</div>
+                    </div>
+                    <div class="dropdown">
+                      <button class="btn btn-sm btn-link" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                          <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#findPw" 
+                             @click="testUpdate(`${row1.reply_idx}`)">
+                            <i class="fas fa-edit me-2"></i>수정
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item text-danger" v-on:click="fnComentDelete(`${row1.reply_idx}`)">
+                            <i class="fas fa-trash me-2"></i>삭제
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="mt-2" v-html="row1.contents"></div>
+                </div>
+              </div>
+
+              <!-- 페이지네이션 -->
+              <nav v-if="paging.total_list_cnt > 0" class="mt-4">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:;" @click="fnPage(1)">
+                      <i class="fas fa-angle-double-left"></i>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:;" v-if="paging.start_page > 10" 
+                       @click="fnPage(`${paging.start_page-1}`)">
+                      <i class="fas fa-angle-left"></i>
+                    </a>
+                  </li>
+                  <li v-for="n in paginavigation()" :key="n" :class="['page-item', { active: paging.page == n }]">
+                    <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+                       @click="fnPage(`${paging.end_page+1}`)">
+                      <i class="fas fa-angle-right"></i>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">
+                      <i class="fas fa-angle-double-right"></i>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 댓글 수정 모달 -->
     <div id="findPw" class="modal fade" ref="myModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered modal-login">
         <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">댓글 수정</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
           <div class="modal-body">
             <div class="container my-auto">
               <div class="row">
@@ -36,162 +199,54 @@
       </div>
     </div>
 
+    <!-- 대댓글 작성 모달 -->
     <div id="findPw1" class="modal fade" ref="myModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-login">
-        <div class="modal-content">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-primary">
+              <i class="fas fa-reply me-2"></i>대댓글 작성
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
           <div class="modal-body">
-            <div class="container my-auto">
-              <div class="row">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">대댓글</h4>
-                    </div>
-                  </div>
-
-                  <div class="card-body text-center">
-                    <div class="mb-2 form-group">
-                      <label class="mb-1 fw-semibold" for="comment">Comment</label>
-                      <textarea v-model="coments" class="form-control" id="comment" rows="3"></textarea>
-                    </div>
-
-                    <div>
-                      <input type="hidden" v-model="m_reply_idx">
-                    </div>
-
-                    <div class="row text-center test-position">
-                      <button type="button" class="me-1 text-center col-5 btn btn-secondary bg-gradient-primary my-4 mb-2" id="m_reply_idx"
-                              data-bs-dismiss="modal" @click="fnSave()">확인</button>
-                      <button type="button" class="col-5 btn btn-secondary bg-gradient-primary my-4 mb-2" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                  </div>
-                </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="fas fa-comment text-primary"></i>
+                </span>
+                <textarea 
+                  v-model="coments" 
+                  class="form-control border-start-0 ps-0" 
+                  rows="4"
+                  placeholder="대댓글을 입력해주세요..."
+                  style="resize: none;"
+                ></textarea>
               </div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <small class="text-muted">
+                  <i class="fas fa-info-circle me-1"></i>최대 500자까지 입력 가능합니다
+                </small>
+                <small class="text-muted">{{coments.length}}/500</small>
+              </div>
+            </div>
+
+            <input type="hidden" v-model="m_reply_idx">
+
+            <div class="d-flex gap-2 justify-content-end mt-4">
+              <button type="button" 
+                      class="btn btn-light px-4" 
+                      data-bs-dismiss="modal">
+                <i class="fas fa-times me-1"></i>취소
+              </button>
+              <button type="button" 
+                      class="btn btn-primary px-4" 
+                      @click="fnSave()">
+                <i class="fas fa-paper-plane me-1"></i>작성
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-  <div class="mt-5 text-center fs-1 fw-bold mb-2">
-    <b style="color: #4c1192;">게시글 조회</b>
-  </div>
-
-  <div class="board-detail">
-    <div class="board-contents">
-      <div class="common-buttons pt-3 mb-3">
-        <button type="button" class="btn btn-primary" v-if="logged_idx == writer_idx" v-on:click="fnUpdate">수정</button>&nbsp;
-        <button type="button" class="btn btn-primary" v-if="logged_idx == writer_idx" v-on:click="fnDelete">삭제</button>&nbsp;
-        <button type="button" class="btn btn-primary" data-bs-target="#findPw" v-on:click="fnList">목록</button>
-      </div>
-
-      <div class="border">
-        <h3 class="my-3 ms-2" id="title">{{ title }}</h3>
-         <div class="ms-2" style="font-weight: bold">작성자 : {{ writer_id }}</div>
-        <span class="my-3 ms-2 mb-2" style="font-weight: bold">작성일 : {{ created_at }}</span>
-      </div>
-    </div>
-
-    <div  class="board-contents pt-5 pb-5" >
-     <div v-html="contents" ></div>
-    </div>
-
-      <div class="ms-1 row justify-content-center mt-5">
-            <div class="card-body">
-              <button type="submit" class="mb-2 float-end btn btn-success" @click="fnSave">저장</button>
-                <div class="mb-2 form-group">
-                  <label class="mb-1 fw-semibold" for="comment">Comment</label>
-                  <textarea v-model="coments" maxlength="500" class="form-control" id="comment" rows="3"></textarea>
-                </div>
-            </div>
-      </div>
-
-    <label v-if="list.length != 0" class="mt-3 mb-2 ms-2 fw-semibold" for="comment">Comment List&nbsp({{paging.total_list_cnt}})</label>
-      <div class="row" v-for="(row, idx) in list" :key="idx">
-        <div class="col-12 mt-3 mb-2">
-            <div class="ms-3  " style="word-break: break-all">
-              <div class="row fs-5 mb-1">
-                <div style="font-size: smaller;" class="fw-semibold">{{row.user_id}}</div>
-                <div style="font-size: small;" class="fw-semibold">{{row.created_at}}</div>
-              </div>
-
-              <div>
-                <button style="font-size: smaller;" class=" float-end btn btn-link" v-if="logged_idx == row.user_idx" v-on:click="fnComentDelete(`${row.reply_idx}`)">삭제</button>
-                <button style="font-size: smaller;" class=" btn btn-link float-end"  data-bs-toggle="modal" data-bs-target="#findPw" v-if="logged_idx == row.user_idx" @click="testUpdate(`${row.reply_idx}`)">수정</button>
-                <button style="font-size: smaller;" class="btn btn-link float-end" data-bs-toggle="modal" data-bs-target="#findPw1" @click="testUpdate(`${row.reply_idx}`)">답글</button>
-              </div>
-
-              <div>
-                <div v-html="row.contents"></div>
-              </div>
-            </div>
-        </div>
-
-        <div class="row" v-for="(row1, idx1) in list1" :key="idx1">
-          <div class="col-12">
-            <div class="ms-5" style="word-break: break-all">
-              <div class="row mb-1">
-                <div v-if="row1.parent == row.reply_idx" style="font-size: medium ;" class="fw-semibold">{{row1.user_id}}</div>
-                <div v-if="row1.parent == row.reply_idx" style="font-size: smaller ;" class="fw-semibold">{{row1.created_at}}</div>
-
-                <div v-if="row1.parent == row.reply_idx" class="row">
-
-                  <div class="col-11 ">
-                    <div v-html="row1.contents"></div>
-                  </div>
-
-                  <div class="col-1" v-if="row1.parent == row.reply_idx">
-                    <li class="nav-item dropdown">
-                      <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        ***
-                       </a>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li ><a data-bs-toggle="modal" data-bs-target="#findPw" @click="testUpdate(`${row1.reply_idx}`)" class=" dropdown-item" >수정&nbsp&nbsp<i class="fa-solid fa-pen"></i></a>
-                        </li>
-
-                        <li>
-                          <a v-on:click="fnComentDelete(`${row1.reply_idx}`)" class=" dropdown-item" >삭제&nbsp&nbsp<i class="fa-solid fa-trash"></i></a>
-                        </li>
-                      </ul>
-                    </li>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    <div class="test-position">
-      <div >
-        <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
-        <span class="center">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-
-            <a href="javascript:;" class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-
-            <template v-for=" (n,index) in paginavigation()">
-                <template v-if="paging.page==n">
-                  <div v-if="n == 2">
-                  </div>
-                  <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
-                </template>
-
-                <template v-else>
-                   <li class="page-item"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
-                </template>
-            </template>
-
-             <a href="javascript:;" class="page-link" v-if="paging.total_page_cnt > paging.end_page"
-                @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
-          </ul>
-        </span>
-        </nav>
       </div>
     </div>
   </div>
@@ -416,6 +471,13 @@ export default {
     ,testUpdate(idx){
       document.getElementById("m_reply_idx").value = idx
     }
+  },
+  computed: {
+    filteredReplies() {
+      return (parentId) => {
+        return this.list1.filter(reply => reply.parent === parentId);
+      }
+    }
   }
 }
 </script>
@@ -437,4 +499,61 @@ li{
   display: block;
 }
 
+.content-area {
+  min-height: 200px;
+  border: 1px solid #e9ecef;
+}
+
+.comment-item {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.reply-item {
+  border-left: 3px solid #0d6efd;
+}
+
+.btn-link {
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-link:hover {
+  opacity: 0.8;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.pagination .page-link {
+  color: #0d6efd;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .btn-group {
+    flex-wrap: wrap;
+  }
+  
+  .btn-group .btn {
+    margin: 0.25rem;
+  }
+}
 </style>

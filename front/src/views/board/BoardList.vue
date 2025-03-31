@@ -1,90 +1,94 @@
 <template>
+  <div class="board-container">
+    <div class="board-header">
+      <h1 class="board-title" @click="fnReload">
+        <i class="fas fa-comments"></i>
+        유용한 정보를 공유해주세요
+      </h1>
+      <button class="write-btn" v-on:click="fnWrite">
+        <i class="fas fa-edit"></i> 글 작성
+      </button>
+    </div>
 
-  <div class="container mt-5 mb-5">
-    <h1  class="tt mt-1 mb-2 fs-1 fw-bold" @click="fnReload">유용한 정보를 공유해주세요</h1>
-    <div class="input-area mb-5">
-      <div class="" >
-        <select class="styled-select" v-model="search_key">
+    <div class="search-container">
+      <div class="search-box">
+        <select class="search-select" v-model="search_key">
           <option value="title">제목</option>
           <option value="contents">내용</option>
         </select>
-        <input style="border-width: 1px;" type="text" maxlength="50"  placeholder="검색어 입력" aria-label="search"
-               aria-describedby="button-addon2" class="styled-input ms-1" v-model="search_value" @keyup.enter="fnPage()">
-        <button @click="fnPage()" class="styled-button ms-1" id="button-addon2">검색</button>
+        <input 
+          type="text" 
+          maxlength="50"  
+          placeholder="검색어를 입력하세요" 
+          class="search-input" 
+          v-model="search_value" 
+          @keyup.enter="fnPage()"
+        >
+        <button @click="fnPage()" class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
     </div>
 
-    <div class="card mb-4 text-center container">
-      <div>
-        <a class="btn btn-primary float-end me-2 mt-2" v-on:click="fnWrite"><i class="fas fa-edit"></i>  글 작성</a>
+    <div class="board-content">
+      <div class="no-results" v-if="list.length==0">
+        <i class="fas fa-search"></i>
+        <h3>조회하신 글을 찾을 수 없습니다.</h3>
       </div>
 
-      <div class="card-body">
-        <div class="mb-3 test-position" v-if="list.length==0">
-          <h3>조회하신 글을 찾을 수 없습니다.</h3>
+      <div class="board-list" v-if="list.length != 0">
+        <div class="board-item" v-for="(row, idx) in list" :key="idx" @click="fnView(`${row.idx}`,`${row.user_idx}`,`${row.user_id}`)">
+          <div class="board-item-header">
+            <span class="board-number">#{{ row.idx }}</span>
+            <span class="board-date">{{row.created_at1}}</span>
+          </div>
+          <h3 class="board-item-title">{{ row.title }}</h3>
+          <div class="board-item-footer">
+            <span class="board-author">
+              <i class="fas fa-user"></i> {{ row.user_id }}
+            </span>
+            <span class="board-replies">
+              <i class="fas fa-comment"></i> {{row.reply_count}}
+            </span>
+          </div>
         </div>
-
-        <table v-if="list.length != 0" class="table table-hover table-striped">
-          <thead>
-          <tr>
-            <th>글번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-
-          </tr>
-          </thead>
-          <tbody>
-
-          <tr class="t1" v-for="(row, idx) in list" :key="idx">
-
-            <td width="10%">{{ row.idx }}</td>
-            <td class="t"><a v-on:click="fnView(`${row.idx}`,`${row.user_idx}`,`${row.user_id}`)">{{ row.title }}&nbsp({{row.reply_count}})</a></td>
-
-            <td>{{ row.user_id }}</td>
-            <td width="20%">{{row.created_at1}}</td>
-
-          </tr>
-          </tbody>
-        </table>
-
       </div>
 
-      <div class="test-position">
-        <nav aria-label="Page navigation example" v-if="paging.total_list_cnt> 0">
-    <span class="center">
-      <ul class="pagination">
+      <div class="pagination-container" v-if="paging.total_list_cnt > 0">
+        <nav class="pagination">
+          <a class="page-link" @click="fnPage(1)">
+            <i class="fas fa-angle-double-left"></i>
+          </a>
+          <a class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">
+            <i class="fas fa-angle-left"></i>
+          </a>
+          
+          <a 
+            v-for="(n,index) in paginavigation()"
+            :key="index"
+            class="page-link" 
+            :class="{ active: paging.page === n }"
+            @click="fnPage(`${n}`)"
+          >
+            {{ n }}
+          </a>
 
-        <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-
-         <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-
-        <template v-for=" (n,index) in paginavigation()">
-            <template v-if="paging.page==n">
-               <div v-if="n == 2">
-               </div>
-              <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
-            </template>
-
-            <template v-else>
-               <li class="page-item"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
-            </template>
-        </template>
-
-         <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-
-            @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-
-        <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
-      </ul>
-    </span>
+          <a 
+            class="page-link" 
+            v-if="paging.total_page_cnt > paging.end_page"
+            @click="fnPage(`${paging.end_page+1}`)"
+          >
+            <i class="fas fa-angle-right"></i>
+          </a>
+          <a class="page-link" @click="fnPage(`${paging.total_page_cnt}`)">
+            <i class="fas fa-angle-double-right"></i>
+          </a>
         </nav>
       </div>
-
     </div>
-    </div>
-
+  </div>
 </template>
+
 <script>
 export default {
   data() { //변수생성
@@ -196,34 +200,187 @@ export default {
 </script>
 
 <style>
-.test-position{
+.board-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.board-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.board-title:hover {
+  color: #3498db;
+}
+
+.write-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.write-btn:hover {
+  background-color: #2980b9;
+}
+
+.search-container {
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 600px;
+}
+
+.search-select {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-btn {
+  padding: 0.8rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #2980b9;
+}
+
+.board-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.board-item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.board-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.board-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.board-item-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0.5rem 0;
+}
+
+.board-item-footer {
+  display: flex;
+  gap: 1rem;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.board-author, .board-replies {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.no-results i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.pagination-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 2rem;
 }
 
-.t{
-  text-color: none;
-}
-
-.t:hover{
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: black;
-}
-
-.t1:hover{
-  background-color: beige;
-}
-
-.tt:hover{
-  cursor: pointer
-}
-
-.input-area{
+.pagination {
   display: flex;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  gap: 0.5rem;
+}
+
+.page-link {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #f8f9fa;
+}
+
+.page-link.active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+@media (max-width: 768px) {
+  .board-container {
+    margin: 1rem auto;
+  }
+
+  .board-title {
+    font-size: 1.5rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .board-item {
+    padding: 1rem;
+  }
 }
 </style>
 
