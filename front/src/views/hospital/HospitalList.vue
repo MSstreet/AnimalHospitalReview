@@ -1,75 +1,66 @@
 <template>
-
-<div class="text-center mt-5 mb-5 container">
-  <div class="text-start" style="margin-left: 110px">
-    <h1  class="tt mt-1 mb-3 fs-1 fw-bold" @click="fnReload">동물병원 목록</h1>
-    <div class="input-group input-group-sm" >
-      <select class="styled-select" v-model="search_key">
+<div class="hospital-list-container">
+  <div class="search-section">
+    <h1 class="page-title" @click="fnReload">동물병원 목록</h1>
+    <div class="search-box">
+      <select class="search-select" v-model="search_key">
         <option value="author">병원명</option>
         <option value="title">지역명</option>
       </select>
-      <input style="border-width: 1px;" type="text" placeholder="검색어 입력" maxlength="50" class="styled-input ms-1" v-model="search_value" @keyup.enter="fnPage()">
-      <button @click="fnPage()" class="styled-button ms-1">검색</button>
+      <input type="text" placeholder="검색어를 입력하세요" maxlength="50" class="search-input" v-model="search_value" @keyup.enter="fnPage()">
+      <button @click="fnPage()" class="search-button">
+        <i class="fas fa-search"></i> 검색
+      </button>
     </div>
   </div>
 
-  <div class="test-position mt-5" v-if="list.length==0">
+  <div class="no-results" v-if="list.length==0">
+    <i class="fas fa-search-location"></i>
     <h3>조회하신 병원을 찾을 수 없습니다.</h3>
   </div>
 
-  <div class="container px-4 test-class" v-for="(row, idx) in list" :key="idx">
-    <div  class="row mt-5">
-      <div class="col-12">
-          <div class="ttt card mb-3" style="max-width: 450px;">
-            <div class="row g-0">
-              <div class="col-md-12">
-                <div class="card-body">
-                  <h5 class="card-title"><a v-on:click="fnView(`${row.hospital_id}`)">{{ row.hospital_name}}</a></h5>
-                  <p class="card-text mb-1">{{ row.hospital_num }}</p>
-                  <p class="card-text mb-1">{{ row.hospital_sigun_name }}</p>
-                  <p class="card-text mb-1">{{ row.hospital_addr }}</p>
-                  <p class="card-text mb-1"><i class="fa-solid fa-star"></i>&nbsp{{ row.hospital_score }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="hospital-grid">
+    <div class="hospital-card" v-for="(row, idx) in list" :key="idx" @click="fnView(`${row.hospital_id}`)">
+      <div class="card-content">
+        <h3 class="hospital-name">{{ row.hospital_name }}</h3>
+        <div class="hospital-info">
+          <p v-if="row.hospital_num"><i class="fas fa-phone"></i> {{ row.hospital_num }}</p>
+          <p v-if="row.hospital_sigun_name"><i class="fas fa-map-marker-alt"></i> {{ row.hospital_sigun_name }}</p>
+          <p v-if="row.hospital_addr"><i class="fas fa-location-dot"></i> {{ row.hospital_addr }}</p>
+          <p class="rating" v-if="row.hospital_score"><i class="fas fa-star"></i> {{ row.hospital_score }}</p>
         </div>
-   </div>
-  </div>
-</div>
-
-  <div class="test-position">
-    <div >
-      <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
-        <span class="center">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-<!--             <a href="javascript:;" class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>-->
-            <a href="javascript:;" class="page-link"  @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-
-            <template v-for="(n,index) in paginavigation()">
-
-                <template v-if="paging.page==n">
-                  <div v-if="n == 2">
-                  </div>
-                  <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
-                </template>
-
-                <template v-else>
-                   <li class="page-item "> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
-                </template>
-            </template>
-
-             <a href="javascript:;" class="page-link" v-if="paging.total_page_cnt > paging.end_page"
-                @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
-
-          </ul>
-        </span>
-      </nav>
+      </div>
     </div>
   </div>
 
+  <div class="pagination-container" v-if="paging.total_list_cnt > 0">
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="javascript:;" @click="fnPage(1)"><i class="fas fa-angle-double-left"></i></a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:;" @click="fnPage(`${paging.start_page-1}`)"><i class="fas fa-angle-left"></i></a>
+        </li>
+
+        <li v-for="(n,index) in paginavigation()" :key="index" class="page-item" :class="{ active: paging.page === n }">
+          <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="javascript:;" v-if="paging.total_page_cnt > paging.end_page" @click="fnPage(`${paging.end_page+1}`)">
+            <i class="fas fa-angle-right"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">
+            <i class="fas fa-angle-double-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
 </template>
 
 <script>
@@ -101,7 +92,7 @@ export default {
       }, //페이징 데이터
 
       page: this.$route.query.page ? this.$route.query.page : 1,
-      size: this.$route.query.size ? this.$route.query.size : 10,
+      size: this.$route.query.size ? this.$route.query.size : 12,
 
       //search_key: this.$route.query.sk ? this.$route.query.sk : '',
       search_key: 'author',
@@ -181,30 +172,195 @@ export default {
 </script>
 
 <style>
-  ul {
-    list-style:none;
-    margin:0;
-    padding:0;
-  }
-
-  li {
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    border : 0;
-    float: left;
-  }
-  .test-class {
-    display: inline-block;
-    width: 35rem !important;;
-  }
-  .position-page1{
-    position: relative;
-    left:42rem;
-  }
-
-.ttt:hover{
-  background: lightgrey;
-  cursor: pointer;
+.hospital-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
+.search-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.page-title:hover {
+  color: #3498db;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-select, .search-input {
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-select {
+  min-width: 120px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-select:focus, .search-input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.search-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-button:hover {
+  background-color: #2980b9;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.no-results i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hospital-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.hospital-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.hospital-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.hospital-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.hospital-info {
+  color: #666;
+}
+
+.hospital-info p {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hospital-info i {
+  color: #3498db;
+  width: 20px;
+}
+
+.rating {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.page-item {
+  margin: 0;
+}
+
+.page-link {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  color: #3498db;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.page-item.active .page-link {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.page-link:hover {
+  background-color: #f8f9fa;
+  border-color: #3498db;
+}
+
+@media (max-width: 768px) {
+  .hospital-list-container {
+    padding: 1rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hospital-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

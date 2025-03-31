@@ -28,10 +28,10 @@
               <div class="col-md-12">
                 <div class="card-body">
                   <h5 class="card-title"><a v-on:click="fnView(`${row.hospital_id}`)">{{ row.hospital_name}}</a></h5>
-                  <p class="card-text mb-1">{{ row.hospital_num }}</p>
-                  <p class="card-text mb-1">{{ row.hospital_sigun_name }}</p>
-                  <p class="card-text mb-1">{{ row.hospital_addr }}</p>
-                  <p class="card-text mb-1"><i class="fa-solid fa-star"></i>&nbsp{{ row.hospital_score }}</p>
+                  <p class="card-text mb-1" v-if="row.hospital_num">{{ row.hospital_num }}</p>
+                  <p class="card-text mb-1" v-if="row.hospital_sigun_name">{{ row.hospital_sigun_name }}</p>
+                  <p class="card-text mb-1" v-if="row.hospital_addr">{{ row.hospital_addr }}</p>
+                  <p class="card-text mb-1" v-if="row.hospital_score"><i class="fa-solid fa-star"></i>&nbsp{{ row.hospital_score }}</p>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@ export default {
       }, //페이징 데이터
 
       page: this.$route.query.page ? this.$route.query.page : 1,
-      size: this.$route.query.size ? this.$route.query.size : 10,
+      size: this.$route.query.size ? this.$route.query.size : 12,
 
       search_key: this.$route.query.sk ? this.$route.query.sk : '',
       //search_key: '지역명',
