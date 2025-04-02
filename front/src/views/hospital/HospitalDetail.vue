@@ -1,57 +1,73 @@
 <template>
+<div class="hospital-detail-container">
+  <div class="hospital-content">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">{{ addr1[1] }}</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-item">{{ addr1[2] }}</span>
+    </div>
 
-<div class="text-center mt-5">
-  <div style="width: 960px; display: inline-block">
-      <div class="col-12 border-0">
-        <div class=" ml-3 col-20 text-left d-flex align-items-center justify-content-between pt-2">
-          <div style="font-weight: 300;">
-            {{ addr1[1] }}
-             >
-            {{ addr1[2] }}
+    <!-- Hospital Header -->
+    <div class="hospital-header">
+      <div class="hospital-title-section">
+        <h1 class="hospital-name">{{hospital_name}}</h1>
+        <div class="hospital-rating">
+          <div class="rating-score">
+            <i class="fas fa-star"></i>
+            <span class="score">{{hospital_score}}</span>
           </div>
-        </div>
-
-        <div class="hos-info">
-          <div class="hos-text">
-            <div>
-              <h1>{{hospital_name }}</h1>
-            </div>
-            <div class="hos-heart">
-              <a style="text-decoration-line: none;" id="check" @click="changeHeart(`${wish_state}`)">
-                <span style="font-size: 3rem" id="heart" class="" v-if="wish_state != 1">🤍</span>
-                <span style="font-size: 3rem" id="heart" class="" v-else-if="wish_state == 1">🧡</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="hos-review-btn">
-          <div class="hos-review" >
-            <span class="mr-1" style="font-weight: 700;">{{hospital_score}}</span>
-            | <span class="ml-1">리뷰 ({{review_count}})</span>
-          </div>
-          <div class="hos-btn" >
-            <a class="btn btn-success" v-on:click="fnHosList">목록</a>
-            <a class="btn btn-primary" v-on:click="reviewWrite(`${hospital_id}`)">리뷰</a>
+          <div class="review-count">
+            <i class="fas fa-comment"></i>
+            <span>리뷰 ({{review_count}})</span>
           </div>
         </div>
       </div>
-
-
-    <div class="row border px-3 middle-tab" style="top:72px !important;">
-      <div class="position">
-        <button class="btn fs-3" @click="changeComponent('HospitalInfo')">병원 정보
-        </button>
-        <button class="btn fs-3" @click="changeComponent('ReviewDetail')">리뷰
+      <div class="hospital-actions">
+        <button class="wish-button" @click="changeHeart(`${wish_state}`)">
+          <span class="heart-icon" :class="{ 'active': wish_state == 1 }">
+            {{ wish_state != 1 ? '🤍' : '🧡' }}
+          </span>
         </button>
       </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-outline-secondary" @click="fnHosList">
+        <i class="fas fa-list"></i> 목록
+      </button>
+      <button class="btn btn-primary" @click="reviewWrite(`${hospital_id}`)">
+        <i class="fas fa-pen"></i> 리뷰 작성
+      </button>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-navigation">
+      <button 
+        class="tab-button" 
+        :class="{ active: comp === 'HospitalInfo' }"
+        @click="changeComponent('HospitalInfo')"
+      >
+        <i class="fas fa-hospital"></i> 병원 정보
+      </button>
+      <button 
+        class="tab-button"
+        :class="{ active: comp === 'ReviewDetail' }"
+        @click="changeComponent('ReviewDetail')"
+      >
+        <i class="fas fa-comments"></i> 리뷰
+      </button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
       <keep-alive>
         <component v-bind:is="comp"></component>
       </keep-alive>
     </div>
   </div>
 </div>
-
 </template>
 
 <script>
@@ -213,43 +229,168 @@ export default {
 </script>
 
 <style>
-  .review{
-    left: 0.2rem;
-  }
-
-  .position{
-    display: flex;
-    flex-direction:row;
-    justify-content: space-evenly;
-  }
-
- .hos-info{
-   display: flex;
-   justify-content: space-between;
- }
-
-.hos-text{
-  display: flex;
-  justify-content: space-between;
+.hospital-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-  .hos-review-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.hospital-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.breadcrumb {
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: #999;
+}
+
+.hospital-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.hospital-title-section {
+  flex: 1;
+}
+
+.hospital-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.hospital-rating {
+  display: flex;
+  gap: 1rem;
+  color: #666;
+}
+
+.rating-score, .review-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-score i {
+  color: #ffc107;
+}
+
+.wish-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.wish-button:hover {
+  transform: scale(1.1);
+}
+
+.heart-icon {
+  font-size: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.heart-icon.active {
+  transform: scale(1.1);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.action-buttons .btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-button:hover {
+  color: #007bff;
+}
+
+.tab-button.active {
+  color: #007bff;
+  font-weight: 600;
+  border-bottom: 2px solid #007bff;
+  margin-bottom: -1rem;
+}
+
+.content-area {
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .hospital-detail-container {
+    padding: 1rem;
+  }
+
+  .hospital-content {
+    padding: 1rem;
+  }
+
+  .hospital-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hospital-name {
+    font-size: 1.5rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .tab-navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tab-button {
     width: 100%;
-    padding: 10px 0;
+    justify-content: center;
   }
-
-  .hos-btn {
-    display: flex;
-    gap: 10px; /* 버튼 간 간격 */
-  }
-
-  .hos-review {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
-
-
+}
 </style>
