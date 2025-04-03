@@ -1,45 +1,47 @@
 <template>
-  <div class="mt-5 mb-3 pt-3 ">
-    <!-- 모달 -->
-    <div v-if="isModalVisible" class="modal fade show" id="report" tabindex="-1" aria-labelledby="reportLabel" aria-hidden="true" style="display: block;">
-      <div class="modal-dialog modal-dialog-centered modal-login">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="container my-auto">
-              <div class="row">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-danger shadow-danger border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">신고하기</h4>
+  <div class="review-detail-container">
+    <div class="mt-5 mb-3 pt-3">
+      <!-- 모달 -->
+      <div v-if="isModalVisible" class="modal fade show" id="report" tabindex="-1" aria-labelledby="reportLabel" aria-hidden="true" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered modal-login">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="container my-auto">
+                <div class="row">
+                  <div class="card z-index-0 fadeIn3 fadeInBottom">
+                    <div class="p-0 position-relative mt-n4 mx-3 z-index-2">
+                      <div class="bg-gradient-danger shadow-danger border-radius-lg py-3 pe-1">
+                        <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">신고하기</h4>
+                      </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <p class="text-start">신고 사유를 선택하고 추가 설명을 입력해주세요.</p>
+                    <div class="card-body">
+                      <p class="text-start">신고 사유를 선택하고 추가 설명을 입력해주세요.</p>
 
-                    <!-- 신고 사유 라디오 버튼 -->
-                    <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="spam" value="1" v-model="reportReason">
-                      <label class="form-check-label text-start" for="spam">스팸/홍보</label>
-                    </div>
-                    <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="hateSpeech" value="2" v-model="reportReason">
-                      <label class="form-check-label" for="hateSpeech">혐오 발언</label>
-                    </div>
-                    <div class="form-check text-start">
-                      <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="3" v-model="reportReason">
-                      <label class="form-check-label" for="falseInfo">허위 정보</label>
-                    </div>
-                    <!-- 추가 설명 입력 -->
-                    <div class="input-group input-group-outline my-3">
-                      <textarea id="reportDetails" class="form-control" rows="4" placeholder="추가 설명을 입력해주세요." v-model="reportDetails"></textarea>
-                    </div>
-                    <!-- 신고하기 버튼 -->
-                    <div class="text-center">
-                      <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2" @click="fnSubmitReport()">신고하기</button>
-                    </div>
-                    <!-- 취소 버튼 -->
-                    <div class="text-center">
-                      <button type="button" class="btn btn-secondary w-100" @click="closeModal" data-bs-dismiss="modal">취소</button>
+                      <!-- 신고 사유 라디오 버튼 -->
+                      <div class="form-check text-start">
+                        <input class="form-check-input" type="radio" name="reportReason" id="spam" value="1" v-model="reportReason">
+                        <label class="form-check-label text-start" for="spam">스팸/홍보</label>
+                      </div>
+                      <div class="form-check text-start">
+                        <input class="form-check-input" type="radio" name="reportReason" id="hateSpeech" value="2" v-model="reportReason">
+                        <label class="form-check-label" for="hateSpeech">혐오 발언</label>
+                      </div>
+                      <div class="form-check text-start">
+                        <input class="form-check-input" type="radio" name="reportReason" id="falseInfo" value="3" v-model="reportReason">
+                        <label class="form-check-label" for="falseInfo">허위 정보</label>
+                      </div>
+                      <!-- 추가 설명 입력 -->
+                      <div class="input-group input-group-outline my-3">
+                        <textarea id="reportDetails" class="form-control" rows="4" placeholder="추가 설명을 입력해주세요." v-model="reportDetails"></textarea>
+                      </div>
+                      <!-- 신고하기 버튼 -->
+                      <div class="text-center">
+                        <button type="button" class="btn btn-danger bg-gradient-danger w-100 my-4 mb-2" @click="fnSubmitReport()">신고하기</button>
+                      </div>
+                      <!-- 취소 버튼 -->
+                      <div class="text-center">
+                        <button type="button" class="btn btn-secondary w-100" @click="closeModal" data-bs-dismiss="modal">취소</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -48,95 +50,93 @@
           </div>
         </div>
       </div>
-    </div>
 
-
-    <div class="boarder">
-      <div class="row px-3">
-        <div class="col-12 px-3 pt-3 pb-0 mb-3" style="text-align: center; border-right: solid 1px #e9e9e9; background-color: #f8f8f8">
-          <div style="letter-spacing: -1.05px; text-align: center; color: #9b9b9b; font-size: 18px" class="mb-2">
-            평점 {{hos_score}}
-          </div>
-          <span v-if="hos_score < 0.5">
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 0.5 && hos_score < 1)">
-            <i class="fa-solid fa-star-half-stroke fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-            <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 1 && hos_score < 1.5)">
+      <div class="boarder">
+        <div class="row px-3">
+          <div class="col-12 px-3 pt-3 pb-0 mb-3" style="text-align: center; border-right: solid 1px #e9e9e9; background-color: #f8f8f8">
+            <div style="letter-spacing: -1.05px; text-align: center; color: #9b9b9b; font-size: 18px" class="mb-2">
+              평점 {{hos_score}}
+            </div>
+            <span v-if="hos_score < 0.5">
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 0.5 && hos_score < 1)">
+              <i class="fa-solid fa-star-half-stroke fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+              <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 1 && hos_score < 1.5)">
+                  <i class="fa-solid fa-star fa-lg"></i>
+                  <i class="fa-regular fa-star fa-lg"></i>
+                  <i class="fa-regular fa-star fa-lg"></i>
+                  <i class="fa-regular fa-star fa-lg"></i>
+                  <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 1.5 && hos_score < 2)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star-half-stroke fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 2 && hos_score < 2.5)">
+                 <i class="fa-solid fa-star fa-lg"></i>
+                 <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 2.5 && hos_score < 3)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star-half-stroke fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+                <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 3 && hos_score < 3.5)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 3.5 && hos_score < 4)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star-half-stroke fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 4 && hos_score < 4.5)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 1.5 && hos_score < 2)">
+            </span>
+            <span v-if="(hos_score >= 4.5 && hos_score < 5)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star-half-stroke fa-lg"></i>
+            </span>
+            <span v-if="(hos_score >= 4.8 && hos_score <= 5)">
               <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star-half-stroke fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 2 && hos_score < 2.5)">
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
+                <i class="fa-solid fa-star fa-lg"></i>
                <i class="fa-solid fa-star fa-lg"></i>
-               <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 2.5 && hos_score < 3)">
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star-half-stroke fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 3 && hos_score < 3.5)">
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 3.5 && hos_score < 4)">
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star-half-stroke fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 4 && hos_score < 4.5)">
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-regular fa-star fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 4.5 && hos_score < 5)">
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star-half-stroke fa-lg"></i>
-          </span>
-          <span v-if="(hos_score >= 4.8 && hos_score <= 5)">
-            <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-              <i class="fa-solid fa-star fa-lg"></i>
-             <i class="fa-solid fa-star fa-lg"></i>
-         </span>
-          <div class="row mt-3">
-          <div class="col-4">
-            <div>
+           </span>
+            <div class="row mt-3">
+            <div class="col-4">
+              <div>
               가격 평점
             </div>
             <div v-if="avg_price_score < 0.5">
@@ -416,145 +416,138 @@
           </div>
         </div>
       </div>
+
+      <div class="mt-5 border-top border-bottom py-3" v-for="(row, idx) in list" :key="idx">
+        <div class="row fw-semibold">
+          <div class="col-3 mb-2" style="background-color: #4c1192;  border-radius: 15px; color: white">
+            <i class="fa-solid fa-check fa-lg"></i> 영수증 인증
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="text-lg-start ">{{row.user_id}}</h3>
+          <!-- 삭제 / 수정 버튼 (오른쪽 하단) -->
+          <div>
+            <button class="btn btn-secondary me-2 btn-sm" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
+            <button class="btn btn-secondary btn-sm" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
+          </div>
+        </div>
+
+        <div class="container1">
+            <div v-if="row.score == 1" class="test-position1">
+              <div class="align-items-center justify-content-between d-flex flex-colum">
+                <div class="row my-1 text-nowrap">
+                  <div class="col-7 p-0">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="row.score == 2" class="test-position1">
+              <div class="align-items-center justify-content-between d-flex flex-colum">
+                <div class="row my-1 text-nowrap">
+                  <div class="col-7 p-0">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="row.score == 3" class="test-position1">
+              <div class="align-items-center justify-content-between d-flex flex-colum">
+                <div class="row my-1 text-nowrap">
+                  <div class="col-7 p-0">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="row.score == 4" class="test-position1">
+              <div class="align-items-center justify-content-between d-flex flex-colum">
+                <div class="row my-1 text-nowrap">
+                  <div class="col-7 p-0">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="row.score == 5" class="test-position1">
+              <div class="align-items-center justify-content-between d-flex flex-colum">
+                <div class="row my-1 text-nowrap">
+                  <div class="col-7 p-0">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="ms-4 created-at">
+            {{ new Date(row.created_at).toISOString().split('T')[0].replace(/-/g, '-')}}
+          </div>
+        </div>
+          <div class="fs-4 fw-semibold mt-3 text-start" style="word-break: break-word">
+            <p>{{ row.content }}</p>
+          </div>
+        <div class="d-flex flex-column align-items-end mt-3">
+          <div class="mb-2">
+            <button
+                class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
+                @click="fnHelpful(1, row)"
+                :class="{ 'custom-text-muted': row.help_ful === 1, 'custom-btn-secondary': row.help_ful === 1 }">
+              도움이 돼요
+            </button>
+            <button
+                class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
+                @click="fnHelpful(2, row)"
+                :class="{ 'custom-text-muted': row.help_ful === 2, 'custom-btn-secondary': row.help_ful === 2 }">
+              도움이 안 돼요
+            </button>
+            <button class="btn btn-outline-danger btn-sm" @click="openReportModal(row)">
+              신고하기
+            </button>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-
-
-    <div class="mt-5 border-top border-bottom py-3" v-for="(row, idx) in list" :key="idx">
-      <div class="row fw-semibold">
-        <div class="col-3 mb-2" style="background-color: #4c1192;  border-radius: 15px; color: white">
-          <i class="fa-solid fa-check fa-lg"></i> 영수증 인증
-        </div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="text-lg-start ">{{row.user_id}}</h3>
-        <!-- 삭제 / 수정 버튼 (오른쪽 하단) -->
-        <div>
-          <button class="btn btn-secondary me-2 btn-sm" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
-          <button class="btn btn-secondary btn-sm" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
-        </div>
-      </div>
-
-      <div class="container1">
-          <div v-if="row.score == 1" class="test-position1">
-            <div class="align-items-center justify-content-between d-flex flex-colum">
-              <div class="row my-1 text-nowrap">
-                <div class="col-7 p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="row.score == 2" class="test-position1">
-            <div class="align-items-center justify-content-between d-flex flex-colum">
-              <div class="row my-1 text-nowrap">
-                <div class="col-7 p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="row.score == 3" class="test-position1">
-            <div class="align-items-center justify-content-between d-flex flex-colum">
-              <div class="row my-1 text-nowrap">
-                <div class="col-7 p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="row.score == 4" class="test-position1">
-            <div class="align-items-center justify-content-between d-flex flex-colum">
-              <div class="row my-1 text-nowrap">
-                <div class="col-7 p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="row.score == 5" class="test-position1">
-            <div class="align-items-center justify-content-between d-flex flex-colum">
-              <div class="row my-1 text-nowrap">
-                <div class="col-7 p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-        <div class="ms-4 created-at">
-          {{ new Date(row.created_at).toISOString().split('T')[0].replace(/-/g, '-')}}
-        </div>
-      </div>
-        <div class="fs-4 fw-semibold mt-3 text-start" style="word-break: break-word">
-          <p>{{ row.content }}</p>
-        </div>
-      <div class="d-flex flex-column align-items-end mt-3">
-        <div class="mb-2">
-          <button
-              class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
-              @click="fnHelpful(1, row)"
-              :class="{ 'custom-text-muted': row.help_ful === 1, 'custom-btn-secondary': row.help_ful === 1 }">
-            도움이 돼요
-          </button>
-          <button
-              class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
-              @click="fnHelpful(2, row)"
-              :class="{ 'custom-text-muted': row.help_ful === 2, 'custom-btn-secondary': row.help_ful === 2 }">
-            도움이 안 돼요
-          </button>
-          <button class="btn btn-outline-danger btn-sm" @click="openReportModal(row)">
-            신고하기
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="test-position">
+    <div class="test-position">
       <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
         <span class="center">
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-            <!--             <a href="javascript:;" class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>-->
-            <a href="javascript:;" class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-            <template v-for=" (n,index) in paginavigation()">
-                <template v-if="paging.page==n">
-                  <div v-if="n == 2">
-                  </div>
-                  <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
-                </template>
-                <template v-else>
-                   <li class="page-item"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
-                </template>
-            </template>
-             <a href="javascript:;" class="page-link" v-if="paging.total_page_cnt > paging.end_page"
-                @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">처음</a></li>
+            <a href="javascript:;" class="page-link" @click="fnPage(`${paging.start_page-1}`)">이전</a>
+
+            <li v-for="(n,index) in paginavigation()" :key="index" class="page-item" :class="{ active: paging.page === n }">
+              <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
+            </li>
+
+            <a href="javascript:;" class="page-link" v-if="paging.total_page_cnt > paging.end_page"
+               @click="fnPage(`${paging.end_page+1}`)">다음</a>
+            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">마지막</a></li>
           </ul>
         </span>
       </nav>
+    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -636,33 +629,33 @@ export default {
         }
 
         const k_sum = res.data.data.reduce((acc,obj) => {
-          if(obj.hasOwnProperty("kindness_score")){
+          if("kindness_score" in obj){
             return acc + obj.kindness_score;
           }else{
             return acc;
           }
         },0);
-        const k_count = res.data.data.filter(obj => obj.hasOwnProperty("kindness_score")).length;
+        const k_count = res.data.data.filter(obj => "kindness_score" in obj).length;
         this.avg_kindness_score = k_sum / k_count
 
         const p_sum = res.data.data.reduce((acc,obj) => {
-          if(obj.hasOwnProperty("price_score")){
+          if("price_score" in obj){
             return acc + obj.price_score;
           }else{
             return acc;
           }
         },0);
-        const p_count = res.data.data.filter(obj => obj.hasOwnProperty("price_score")).length;
+        const p_count = res.data.data.filter(obj => "price_score" in obj).length;
         this.avg_price_score = p_sum / p_count
 
         const e_sum = res.data.data.reduce((acc,obj) => {
-          if(obj.hasOwnProperty("effect_score")){
+          if("effect_score" in obj){
             return acc + obj.effect_score;
           }else{
             return acc;
           }
         },0);
-        const e_count = res.data.data.filter(obj => obj.hasOwnProperty("effect_score")).length;
+        const e_count = res.data.data.filter(obj => "effect_score" in obj).length;
         this.avg_effect_score = e_sum / e_count
 
         this.avg_effect_score = this.avg_effect_score.toFixed(1)

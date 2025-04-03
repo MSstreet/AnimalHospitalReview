@@ -1,231 +1,223 @@
 <template>
-  <div class="mt-5 mb-3 pt-3 ">
-    <h3 class="fs-1 fw-bold text-center mb-5"> 나의 후기 목록</h3>
+  <div class="review-container">
+    <div class="mt-5 mb-3 pt-3">
+      <h3 class="fs-1 fw-bold text-center mb-5">나의 후기 목록</h3>
 
-    <div class="container">
-    <div class="row mt-3 border border-bottom-0" style="text-align: center" v-if="list.length > 0" v-for="(row, idx) in list" :key="idx">
+      <div class="container">
+        <template v-if="list.length > 0">
+          <div class="row mt-3 border border-bottom-0" style="text-align: center" v-for="(row, idx) in list" :key="idx">
+            <div class="col-5 text-center">
+              <h3>{{row.hos_name}}</h3>
 
-      <div  class="col-5 text-center">
-        <h3>{{row.hos_name}}</h3>
-
-        <div class="star-position">
-          <div v-if="row.score == 1 && row.approve_yn == 1" class="star-position" >
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div v-if="row.score == 2 && row.approve_yn == 1">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div v-if="row.score == 3 && row.approve_yn == 1">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="row.score == 4 && row.approve_yn == 1">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">>
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div v-if="row.score == 5 && row.approve_yn == 1">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="row.tmp_score == 1 && row.approve_yn == 0">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="row.tmp_score == 2 && row.approve_yn == 0">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="row.tmp_score == 3 && row.approve_yn == 0">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="row.tmp_score == 4 && row.approve_yn == 0">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="row.tmp_score == 5 && row.approve_yn == 0">
-            <div class="text-center">
-              <div class="row  ">
-                <div class=" p-0">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                  <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-      </div>
-
-
-      </div>
-      <div class="col-5 position_re">
-        <div  class="mb-0 fw-semibold">
-          <p>{{row.created_at}}</p>
-        </div>
-
-        <div class="fs-5" style="word-break: break-all">
-          <div v-if="row.approve_yn==1" class="col-6 mb-1" style="size:1.5rem; background-color: #4c1192; width: 8rem; border-radius: 15px; color: white"> <i class="ms-1 fa-solid fa-check fa-lg"></i>
-            <b>인증 완료</b>
-          </div>
-          <p>{{row.content}}</p>
-
-        </div>
-
-      </div>
-
-      <div class="col-2 mt-3 text-end">
-        <div class="mb-2">
-          <button class="btn btn-success" v-on:click="fnDelete(`${row.review_id}`)">삭제</button>
-        </div>
-        <div class="mb-2">
-          <button class="btn btn-success" v-on:click="fnUpdate(`${row.pet_hospital_num}`,`${row.review_id}`)">수정</button>
-        </div>
-      </div>
-
-    </div>
-
-    <div v-else>
-<!--      <img :src="imageUrl" alt="My Image">-->
-      <div class="text-center">
-        <img  class="mt-5" src="../../assets/aaaaaa.png" alt="main3">
-        <h3 class="mt-5">작성한 후기가 아직 없습니다.</h3>
-      </div>
-    </div>
-</div>
-  </div>
-
-
-  <div class="test-position mt-5">
-    <div >
-      <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
-        <span class="center">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-            <a href="javascript:;" class="page-link" v-if="paging.start_page > 10"  @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-            <template v-for=" (n,index) in paginavigation()">
-                <template v-if="paging.page==n">
-                  <div v-if="n == 2">
+              <div class="star-position">
+                <div v-if="row.score == 1 && row.approve_yn == 1" class="star-position" >
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
                   </div>
-                  <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
-                </template>
+                </div>
 
-                <template v-else>
-                   <li class="page-item"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
-                </template>
-            </template>
 
-             <a href="javascript:;" class="page-link" v-if="paging.total_page_cnt > paging.end_page"
-                @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-            <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a></li>
-          </ul>
-        </span>
-      </nav>
+                <div v-if="row.score == 2 && row.approve_yn == 1">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div v-if="row.score == 3 && row.approve_yn == 1">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="row.score == 4 && row.approve_yn == 1">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div v-if="row.score == 5 && row.approve_yn == 1">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="row.tmp_score == 1 && row.approve_yn == 0">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="row.tmp_score == 2 && row.approve_yn == 0">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="row.tmp_score == 3 && row.approve_yn == 0">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="row.tmp_score == 4 && row.approve_yn == 0">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="row.tmp_score == 5 && row.approve_yn == 0">
+                  <div class="text-center">
+                    <div class="row  ">
+                      <div class=" p-0">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_22_11_25/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image-middle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+
+            </div>
+            <div class="col-5 position_re">
+              <div class="mb-0 fw-semibold">
+                <p>{{row.created_at}}</p>
+              </div>
+
+              <div class="fs-5" style="word-break: break-all">
+                <div v-if="row.approve_yn==1" class="col-6 mb-1" style="size:1.5rem; background-color: #4c1192; width: 8rem; border-radius: 15px; color: white"> <i class="ms-1 fa-solid fa-check fa-lg"></i>
+                  <b>인증 완료</b>
+                </div>
+                <p>{{row.content}}</p>
+              </div>
+            </div>
+
+            <div class="col-2 mt-3 text-end">
+              <div class="mb-2">
+                <button class="btn btn-success" v-on:click="fnDelete(`${row.review_id}`)">삭제</button>
+              </div>
+              <div class="mb-2">
+                <button class="btn btn-success" v-on:click="fnUpdate(`${row.pet_hospital_num}`,`${row.review_id}`)">수정</button>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="text-center">
+            <img class="mt-5" src="../../assets/aaaaaa.png" alt="main3">
+            <h3 class="mt-5">작성한 후기가 아직 없습니다.</h3>
+          </div>
+        </template>
+      </div>
     </div>
+
+      <div class="test-position mt-5">
+        <div>
+          <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
+            <span class="center">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
+                <li v-if="paging.start_page > 10" class="page-item">
+                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
+                </li>
+                <li v-for="(n,index) in paginavigation()" :key="index" class="page-item" :class="{ active: paging.page === n }">
+                  <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
+                </li>
+                <li v-if="paging.total_page_cnt > paging.end_page" class="page-item">
+                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a>
+                </li>
+              </ul>
+            </span>
+          </nav>
+        </div>
+      </div>
   </div>
-
-
 </template>
 
-<script>
 
 
 export default {
