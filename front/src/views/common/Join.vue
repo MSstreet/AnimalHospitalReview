@@ -2,69 +2,65 @@
   <!--  배경색-->
 
   <div class="join-body">
-    <div class="container py-4 ">
+    <div class="container py-5">
+      <div class="join-container">
+        <h1 class="join-title">회원가입</h1>
+        <p class="join-subtitle">반려동물 병원 서비스 이용을 위한 회원가입을 진행해주세요.</p>
 
-      <h1 class="fs-1 fw-bold text-center mb-1"><b>회원가입</b> </h1>
+        <form @submit.prevent="fnJoin" ref="form" class="join-form">
+          <div class="form-group">
+            <label for="email" class="form-label">이메일</label>
+            <div class="input-group">
+              <input type="text" maxlength="50" class="form-control" id="email" v-model="user_id" @change="validEmailCheck" placeholder="이메일을 입력해주세요">
+              <button type="button" class="btn btn-outline-primary check-btn" @click="validDuplicationEmailCheck">중복확인</button>
+            </div>
+            <div id="checkEmail" class="validation-message"></div>
+          </div>
 
-      <form @submit.prevent="fnJoin" ref="form">
+          <div class="form-group">
+            <label class="form-label" for="password">비밀번호</label>
+            <input type="password" maxlength="20" class="form-control" id="password" v-model="user_pw" @change="validPasswordCheck" placeholder="비밀번호를 입력해주세요">
+            <div id="checkPwd" class="validation-message"></div>
+          </div>
 
-        <div class="form-group">
-          <label for="exampleInputEmail1" class="fw-bold form-label mt-4">이메일</label>
-          <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" v-model="user_id" @change="validEmailCheck">
-          <div id="checkEmail" class="mt-1"></div>
-        </div>
+          <div class="form-group">
+            <label class="form-label" for="password-confirm">비밀번호 재확인</label>
+            <input type="password" maxlength="20" class="form-control" id="password-confirm" v-model="pwd_check" @change="validSamePasswordCheck" placeholder="비밀번호를 다시 입력해주세요">
+            <div id="doubleCheckPwd" class="validation-message"></div>
+          </div>
 
+          <div class="form-group">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" maxlength="20" class="form-control" id="name" v-model="user_name" @change="validNameCheck" placeholder="이름을 입력해주세요">
+            <div id="nameCheck" class="validation-message"></div>
+          </div>
 
-        <div class="form-group has-success">
-          <label class="fw-bold form-label mt-4" for="inputValid">비밀번호</label>
-          <input type="password" maxlength="20" class="form-control" id="inputValid" v-model="user_pw" @change="validPasswordCheck">
-          <div id="checkPwd" class="mt-1"></div>
-        </div>
+          <div class="form-group">
+            <label for="phone" class="form-label">전화번호</label>
+            <input type="text" maxlength="20" class="form-control" id="phone" v-model="user_num" @change="validNumCheck" placeholder="전화번호를 입력해주세요">
+            <div id="numberCheck" class="validation-message"></div>
+          </div>
 
+          <div class="form-group">
+            <label class="form-label">주소</label>
+            <div class="address-group">
+              <div class="input-group mb-2">
+                <input type="text" maxlength="20" v-model="postcode" class="form-control" id="zipInput" placeholder="우편번호" readonly>
+                <button type="button" class="btn btn-outline-primary" @click="execDaumPostcode()">
+                  <i class="fas fa-search"></i> 우편번호 찾기
+                </button>
+              </div>
+              <input type="text" maxlength="50" class="form-control mb-2" id="addressInput" v-model="address" placeholder="주소" readonly>
+              <input type="text" class="form-control" id="detailAddressInput" v-model="extra_address" placeholder="상세주소">
+            </div>
+          </div>
 
-        <div class="form-group has-danger" id="inputInvalid">
-          <label class="fw-bold form-label mt-4" for="inputInvalid">비밀번호 재확인</label>
-          <input type="password" maxlength="20" class="form-control"  v-model="pwd_check" @change="validSamePasswordCheck">
-          <div id="doubleCheckPwd" class="mt-1"></div>
-        </div>
-
-
-        <div class="form-group">
-          <label for="exampleInputName" class="fw-bold form-label mt-4">이름</label>
-          <input type="text" maxlength="20" class="form-control" id="exampleInputName" v-model="user_name" @change="validNameCheck">
-          <div id="nameCheck" class="mt-1"></div>
-        </div>
-
-
-        <div class="form-group">
-          <label for="exampleInputNum" class="fw-bold form-label mt-4">전화번호</label>
-          <input type="text" maxlength="20" class="form-control" id="exampleInputNum" v-model="user_num" @change="validNumCheck">
-          <div id="numberCheck" class="mt-1"></div>
-        </div>
-
-
-        <div class="form-group">
-          <label for="exampleInputZip" class="fw-bold form-label mt-4">우편번호</label>
-          <input type="text" maxlength="20" v-model="postcode"  class="form-control mb-1" id="exampleInputZip">
-        </div>
-
-        <input type="button" class="btn btn-secondary" @click="execDaumPostcode()" value="우편번호 찾기"><br>
-
-
-        <div class="form-group">
-          <label for="exampleInputAddr" class="fw-bold form-label mt-4">주소</label>
-          <input type="text" maxlength="50" class="form-control mb-4" id="exampleInputAddr" v-model="address">
-        </div>
-
-        <div class="form-group">
-          <label for="exampleInputAddr" maxlength="50" class="fw-bold form-label mt-4">상세주소</label>
-          <input type="text" class="form-control mb-4" id="exampleInputAddr" v-model="extra_address">
-        </div>
-
-        <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-lg" type="submit">가입하기</button>
-        </div>
-      </form>
+          <div class="d-grid gap-2 mt-4">
+            <button class="btn btn-primary btn-lg join-btn" type="submit">회원가입</button>
+            <button class="btn btn-outline-secondary btn-lg" type="button" @click="goToPages1">취소</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -477,38 +473,120 @@ export default {
 </script>
 
 <style scoped>
-.join-body{
-  background-color: rgba(245, 245, 245, 0.8) !important; /* 부드러운 배경 색상 */
-}
-.bg-light {
-  height: 1053px;
-  padding-top: 55px;
-  padding-bottom: 75px;
+.join-body {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2rem 0;
 }
 
-.flex-fill.mx-xl-5.mb-2 {
+.join-container {
+  max-width: 600px;
   margin: 0 auto;
-  width: 700px;
-  padding-right: 7rem;
-  padding-left: 7rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.container.py-4 {
-  margin: 0 auto;
-  width: 503px;
-  padding-top: 0;
+.join-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
-.d-grid.gap-2 {
-  padding-top: 30px;
+.join-subtitle {
+  color: #6c757d;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.bir_yy, .bir_mm, .bir_dd {
-  width: 160px;
-  display: table-cell;
+.join-form {
+  padding: 1rem;
 }
 
-.bir_mm + .bir_dd, .bir_yy + .bir_mm {
-  padding-left: 10px;
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.check-btn {
+  white-space: nowrap;
+}
+
+.validation-message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  color: #dc3545;
+}
+
+.address-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.join-btn {
+  background-color: #0d6efd;
+  border: none;
+  padding: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.join-btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+  border: 1px solid #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .join-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .join-title {
+    font-size: 1.75rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .check-btn {
+    width: 100%;
+  }
 }
 </style>
