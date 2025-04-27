@@ -2,29 +2,31 @@
 
   <div class="container text-center mt-5 mb-5">
     <h3 class="fs-1 fw-bold text-center mb-5"> 나의 찜 목록</h3>
-      <div class="container px-4 test-class" v-if="list.length > 0" v-for="(row, idx) in list" :key="idx">
-        <div  class="row mt-5">
+      <template v-if="list.length > 0">
+        <div class="container px-4 test-class" v-for="(row, idx) in list" :key="idx">
+          <div class="row mt-5">
 
-          <div class="col-12">
-            <div class="card mb-3" style="max-width: 450px;">
-              <div class="row g-0">
+            <div class="col-12">
+              <div class="card mb-3" style="max-width: 450px;">
+                <div class="row g-0">
 
-                <div class="col-md-12">
-                  <div class="card-body">
-                    <h5 class="card-title"><a v-on:click="fnView(`${row.pet_hospital_num}`)">{{ row.hospital_name}}</a></h5>
-                    <p class="card-text mb-1">{{ row.hospital_num }}</p>
-                    <p class="card-text mb-1">{{ row.hospital_sigun_name }}</p>
-                    <p class="card-text mb-1">{{ row.hospital_addr }}</p>
-                    <p class="card-text mb-1"><i class="fa-solid fa-star"></i>&nbsp{{ row.hospital_score }}</p>
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <h5 class="card-title"><a v-on:click="fnView(`${row.pet_hospital_num}`)">{{ row.hospital_name}}</a></h5>
+                      <p class="card-text mb-1">{{ row.hospital_num }}</p>
+                      <p class="card-text mb-1">{{ row.hospital_sigun_name }}</p>
+                      <p class="card-text mb-1">{{ row.hospital_addr }}</p>
+                      <p class="card-text mb-1"><i class="fa-solid fa-star"></i>&nbsp;{{ row.hospital_score }}</p>
 
-                    <button type="button" class="mt-0 mb-1 btn btn-success" @click="fnDeleteWish(`${row.wish_id}`)">찜삭제</button>
+                      <button type="button" class="mt-0 mb-1 btn btn-success" @click="fnDeleteWish(`${row.wish_id}`)">찜삭제</button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
 
     <div v-else>
       <div class="text-center">
@@ -42,15 +44,15 @@
 
             <!--             <a href="javascript:;" class="page-link" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>-->
             <a href="javascript:;" class="page-link" v-if="paging.start_page > 10"  @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-            <template v-for=" (n,index) in paginavigation()">
+            <template v-for="(n,index) in paginavigation()">
                 <template v-if="paging.page==n">
-                  <div v-if="n == 2">
+                  <div v-if="n == 2" :key="'div-'+index">
                   </div>
-                  <li class="page-item active" :key="index"> <a class="page-link"> {{ n }}</a> </li>
+                  <li class="page-item active" :key="'active-'+index"> <a class="page-link"> {{ n }}</a> </li>
                 </template>
 
                 <template v-else>
-                   <li class="page-item"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)" :key="index"> {{ n }} </a> </li>
+                   <li class="page-item" :key="'inactive-'+index"> <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)"> {{ n }} </a> </li>
                 </template>
             </template>
 
