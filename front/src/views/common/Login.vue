@@ -1,59 +1,59 @@
-
 <template>
-
-  <div id="findId" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-login">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="container my-auto">
-            <div class="row">
-              <div class="card z-index-0 fadeIn3 fadeInBottom">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                  <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                    <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">ID 찾기</h4>
+  <div class="login-root">
+    <div id="findId" class="modal fade">
+      <div class="modal-dialog modal-dialog-centered modal-login">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container my-auto">
+              <div class="row">
+                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">ID 찾기</h4>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                      <p>가입 시 입력한 이름과 Email을 입력해주세요.</p>
+                    <div class="input-group input-group-outline my-3">
+                      <input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="이름" v-model="user_name" required>
+                    </div>
+                    <div class="input-group input-group-outline my-3">
+                        <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required>
+                      </div>
+                      <div class="text-center">
+                        <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2"
+                                id="checkEmail" @click="fnFind">확인</button>
+                      </div>
                   </div>
                 </div>
-                <div class="card-body">
-                    <p>가입 시 입력한 이름과 Email을 입력해주세요.</p>
-                  <div class="input-group input-group-outline my-3">
-                    <input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="이름" v-model="user_name" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="findPw" class="modal fade">
+      <div class="modal-dialog modal-dialog-centered modal-login">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container my-auto">
+              <div class="row">
+                <div class="card z-index-0 fadeIn3 fadeInBottom">
+                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">비밀번호 찾기</h4>
+                    </div>
                   </div>
-                  <div class="input-group input-group-outline my-3">
+                  <div class="card-body">
+                    <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
+                    <div class="input-group input-group-outline my-3">
                       <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required>
                     </div>
                     <div class="text-center">
                       <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2"
-                              id="checkEmail" @click="fnFind">확인</button>
+                              id="checkEmail" @click="checkEmail">비밀번호 발송</button>
                     </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="findPw" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-login">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="container my-auto">
-            <div class="row">
-              <div class="card z-index-0 fadeIn3 fadeInBottom">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                  <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                    <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">비밀번호 찾기</h4>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
-                  <div class="input-group input-group-outline my-3">
-                    <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required>
-                  </div>
-                  <div class="text-center">
-                    <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2"
-                            id="checkEmail" @click="checkEmail">비밀번호 발송</button>
                   </div>
                 </div>
               </div>
@@ -62,57 +62,56 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <section class="login-body">
-
-    <div class="login-container">
-      <div class="site-title">
-        <h1>ANIMAL HOSPITA</h1>
-        <p class="intro-text ">신뢰할 수 있는 리뷰로 동물병원을 선택하세요.</p>
-      </div>
-
-      <div class="kakao-btn-container">
-        <button class="kakao-btn" @click="kakaoLogin">
-          <span>카카오로 시작하기</span>
-        </button>
-      </div>
-
-      <div class="divider">
-        <hr />
-        <span class="divider-text">이메일 로그인</span>
-      </div>
-
-      <div class="container py-4">
-        <form @submit.prevent="fnLogin">
-          <div class="form-group">
-            <label for="exampleInputEmail1" class="fw-bold mb-1">이메일</label>
-            <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
-          </div>
-
-          <div class="form-group">
-            <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
-            <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw">
-          </div>
-
-         <div class="">
-          <div class="d-grid gap-2 mt-2">
-             <button type="submit" class="btn btn-primary mt-3 fw-bold">로그인</button>
-          </div>
-          <div class="d-grid gap-2 mt-2">
-            <router-link to="/join" type="button" class="btn btn-secondary mt-1 fw-bold">회원가입</router-link>
-          </div>
-          <div class="mt-2 ">
-            <span type="button" class="btn btn-link a" data-bs-toggle="modal"
-                  data-bs-target="#findId">ID를 잊으셨나요?</span>
-           <span type="button" class="btn btn-link a" data-bs-toggle="modal"
-                 data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
-          </div>
+    <section class="login-body">
+      <div class="login-container">
+        <div class="site-title">
+          <h1>ANIMAL HOSPITA</h1>
+          <p class="intro-text ">신뢰할 수 있는 리뷰로 동물병원을 선택하세요.</p>
         </div>
-        </form>
+
+        <div class="kakao-btn-container">
+          <button class="kakao-btn" @click="kakaoLogin">
+            <span>카카오로 시작하기</span>
+          </button>
+        </div>
+
+        <div class="divider">
+          <hr />
+          <span class="divider-text">이메일 로그인</span>
+        </div>
+
+        <div class="container py-4">
+          <form @submit.prevent="fnLogin">
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="fw-bold mb-1">이메일</label>
+              <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id">
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
+              <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw">
+            </div>
+
+           <div class="">
+            <div class="d-grid gap-2 mt-2">
+               <button type="submit" class="btn btn-primary mt-3 fw-bold">로그인</button>
+            </div>
+            <div class="d-grid gap-2 mt-2">
+              <router-link to="/join" type="button" class="btn btn-secondary mt-1 fw-bold">회원가입</router-link>
+            </div>
+            <div class="mt-2 ">
+              <span type="button" class="btn btn-link a" data-bs-toggle="modal"
+                    data-bs-target="#findId">ID를 잊으셨나요?</span>
+             <span type="button" class="btn btn-link a" data-bs-toggle="modal"
+                   data-bs-target="#findPw">비밀번호를 잊으셨나요?</span>
+            </div>
+          </div>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -234,6 +233,10 @@ export default {
 
 
 <style>
+.login-root {
+  width: 100%;
+}
+
 .site-title {
   margin-top: 15px;
   margin-bottom: 30px; /* 제목과 로그인 폼 사이 간격 */

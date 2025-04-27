@@ -12,7 +12,6 @@
             <label for="email" class="form-label">이메일</label>
             <div class="input-group">
               <input type="text" maxlength="50" class="form-control" id="email" v-model="user_id" @change="validEmailCheck" placeholder="이메일을 입력해주세요">
-              <button type="button" class="btn btn-outline-primary check-btn" @click="validDuplicationEmailCheck">중복확인</button>
             </div>
             <div id="checkEmail" class="validation-message"></div>
           </div>
@@ -154,11 +153,10 @@ export default {
     //Email 체크
     ,validEmailCheck(){
       const emailCheck = new RegExp("^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
-      if (this.user_email !== '' && !emailCheck.test(this.user_email)) {
-        //alert('비밀번호 정규식에 맞지 않습니다.\n 최소 8 자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자가 포함되어야 합니다.')
+      if (this.user_id !== '' && !emailCheck.test(this.user_id)) {
         alert("올바른 이메일 형식이 아닙니다.")
         document.getElementById('checkEmail').style.color="red"
-        document.getElementById('checkEmail').innerHTML = " 올바른 이메일 형식이 아닙니다.";
+        document.getElementById('checkEmail').innerHTML = "올바른 이메일 형식이 아닙니다.";
         this.check = false
         return
       }else{
@@ -171,6 +169,11 @@ export default {
     }
     //Email 중복 체크
     ,validDuplicationEmailCheck(){
+      if(this.user_id === '') {
+        alert("이메일을 입력해주세요.")
+        return
+      }
+
       let apiUrl = this.$serverUrl + '/user/check/mail?email=' + this.user_id
 
       this.$axios.get(apiUrl, {
@@ -188,6 +191,8 @@ export default {
           document.getElementById('checkEmail').style.color="black"
           document.getElementById('checkEmail').innerHTML = "";
           this.duplicated_check = true
+          document.getElementById('checkEmail').style.color="green"
+          document.getElementById('checkEmail').innerHTML = "사용 가능한 이메일입니다.";
         }
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1){

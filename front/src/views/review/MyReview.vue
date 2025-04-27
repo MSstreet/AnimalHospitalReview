@@ -157,9 +157,6 @@
 
 
             </div>
-
-
-            </div>
             <div class="col-5 position_re">
               <div class="mb-0 fw-semibold">
                 <p>{{row.created_at}}</p>
@@ -192,33 +189,34 @@
       </div>
     </div>
 
-      <div class="test-position mt-5">
-        <div>
-          <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
-            <span class="center">
-              <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
-                <li v-if="paging.start_page > 10" class="page-item">
-                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
-                </li>
-                <li v-for="(n,index) in paginavigation()" :key="index" class="page-item" :class="{ active: paging.page === n }">
-                  <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
-                </li>
-                <li v-if="paging.total_page_cnt > paging.end_page" class="page-item">
-                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a>
-                </li>
-              </ul>
-            </span>
-          </nav>
-        </div>
+    <div class="test-position mt-5">
+      <div>
+        <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
+          <span class="center">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="javascript:;" @click="fnPage(1)">&lt;&lt;</a></li>
+              <li v-if="paging.start_page > 10" class="page-item">
+                <a class="page-link" href="javascript:;" @click="fnPage(`${paging.start_page-1}`)">&lt;</a>
+              </li>
+              <li v-for="(n,index) in paginavigation()" :key="index" class="page-item" :class="{ active: paging.page === n }">
+                <a class="page-link" href="javascript:;" @click="fnPage(`${n}`)">{{ n }}</a>
+              </li>
+              <li v-if="paging.total_page_cnt > paging.end_page" class="page-item">
+                <a class="page-link" href="javascript:;" @click="fnPage(`${paging.end_page+1}`)">&gt;</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)">&gt;&gt;</a>
+              </li>
+            </ul>
+          </span>
+        </nav>
       </div>
+    </div>
   </div>
 </template>
 
 
+<script>
 
 export default {
   data() { //변수생성
