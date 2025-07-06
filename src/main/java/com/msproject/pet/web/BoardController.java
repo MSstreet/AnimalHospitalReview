@@ -17,12 +17,13 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/board")
 @RestController
 public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/board/list")
+    @GetMapping("/list")
     public Header<List<BoardListWithReplyCountDto>> boardList(
             @PageableDefault(sort = {"idx"}) Pageable pageable,
             SearchCondition searchCondition)
@@ -30,22 +31,22 @@ public class BoardController {
         return boardService.getBoardListWithReplyCount(pageable,searchCondition);
     }
 
-    @GetMapping("/board/{id}")
+    @GetMapping("/{id}")
     public BoardDto getBoard(@PathVariable Long id) {
         return boardService.getBoard(id);
     }
 
-    @PostMapping("/board")
+    @PostMapping("")
     public BoardEntity create(@RequestBody BoardDto boardDto) {
         return boardService.create(boardDto);
     }
 
-    @PatchMapping("/board")
+    @PatchMapping("")
     public BoardEntity update(@RequestBody BoardDto boardDto) {
         return boardService.update(boardDto);
     }
 
-    @DeleteMapping("/board/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         boardService.delete(id);
     }

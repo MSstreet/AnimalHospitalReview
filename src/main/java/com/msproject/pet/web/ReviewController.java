@@ -23,13 +23,14 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/review")
 @RestController
 public class ReviewController {
 
     private String path = "C:\\upload\\";
     private final ReviewService reviewService;
 
-    @PostMapping("/review/join")
+    @PostMapping("/join")
     public ReviewEntity create(ReviewDto reviewDto) throws Exception{
 
         isImageFile(reviewDto.getFile());
@@ -68,14 +69,14 @@ public class ReviewController {
 //        return reviewService.getReviewList(pageable, searchCondition, id);
 //    }
 
-    @GetMapping("/review/list/{hid}/{uid}")
+    @GetMapping("/list/{hid}/{uid}")
     public Header<List<ReviewListWithHelpfulCount>> reviewListWithHelpfulCount(@PathVariable Long hid,@PathVariable Long uid,
                                                                                @PageableDefault(sort = "review_id") Pageable pageable)
     {
         return reviewService.getReviewListWithHelpfulCount(pageable, hid, uid);
     }
 
-    @GetMapping("/review/user/{id}")
+    @GetMapping("/user/{id}")
     public Header<List<ReviewDto>> userReviewList(@PathVariable Long id,
                                               @PageableDefault(sort = {"idx"}) Pageable pageable,
                                               SearchCondition searchCondition)
@@ -84,12 +85,12 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/review/{id}")
+    @GetMapping("/{id}")
     public ReviewDto getReview(@PathVariable Long id){
         return reviewService.getReview(id);
     }
 
-    @PatchMapping("/review")
+    @PatchMapping("/")
     public ReviewEntity update(ReviewDto reviewDto){
 
         reviewService.deleteImage(reviewDto.getReviewId());
@@ -116,7 +117,7 @@ public class ReviewController {
         return null;
     }
 
-    @DeleteMapping("/review/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id)
     {
         reviewService.deleteImage(id);
@@ -127,7 +128,7 @@ public class ReviewController {
         reviewService.deleteImage(id);
     }
 
-    @GetMapping("/review/hos/{id}")
+    @GetMapping("/hos/{id}")
     public double GetReviewAvg(@PathVariable Long id){
         return reviewService.GetReviewAvg(id);
     }

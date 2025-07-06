@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="hospital-actions">
-        <button class="wish-button" @click="changeHeart(`${wish_state}`)">
+        <button class="wish-button" @click="changeHeart()">
           <span class="heart-icon" :class="{ 'active': wish_state == 1 }">
             {{ wish_state != 1 ? '🤍' : '🧡' }}
           </span>
@@ -62,9 +62,14 @@
 
     <!-- Content Area -->
     <div class="content-area">
-      <keep-alive>
-        <component v-bind:is="comp"></component>
-      </keep-alive>
+      <!-- <keep-alive>
+        <component 
+          v-bind:is="comp" 
+          :idx="idx"
+          :requestBody="requestBody"
+        ></component>
+      </keep-alive> -->
+      <HospitalInfo :idx="idx" :requestBody="requestBody" />
     </div>
   </div>
 </div>
@@ -75,157 +80,137 @@ import ReviewDetail from "@/views/review/ReviewDetail";
 import HospitalInfo from "@/views/hospital/HospitalInfo";
 
 export default {
-  components:{
+  components: {
     ReviewDetail,
     HospitalInfo
   },
-  data(){
+  data() {
     return {
-      comp:'HospitalInfo',
-
+      comp: HospitalInfo,
       requestBody: this.$route.query,
-
       idx: this.$route.query.idx,
-      user_idx : this.$store.state.userIdx,
-
-      heartval: 0,
-      clicked : 0,
-      wish_check:0,
-
-      addr1:'',
-      hospital_id:'',
+      user_idx: this.$store.state.userIdx,
+      addr1: '',
+      hospital_id: '',
       hospital_name: '',
       hospital_num: '',
-      hospital_addr:'',
+      hospital_addr: '',
       sigun_name: '',
       oper_state: '',
-      hospital_score:'',
-      review_count:'',
-
+      hospital_score: '',
+      review_count: '',
       wish_state: ''
     }
-  }
-  , mounted() {
-    this.wishCheck()
-    this.fnGetView()
   },
-  methods:{
-    changeComponent: function (componentName){
-      this.comp = componentName
-    }
-    ,fnGetReviewAvg(){
-      this.$axios.get(this.$serverUrl + '/review/avg/' +this.idx)
-          .then((res) => {
-
-            this.hospital_score = res.data
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
-    }
-    ,changeHeart(heart){
-      if(heart == 1){
-        this.heartval = 0
-        document.getElementById("heart").innerText = "🤍";
-
-      }else{
-        this.heartval = 1
-        document.getElementById("heart").innerText = "🧡"
-      }
-
-      let apiUrl = this.$serverUrl + '/wish'
-
-      this.form = {
-        "user_num" : this. user_idx,
+  mounted() {
+    console.log('=== HospitalDetail 컴포넌트 로드 시작 ===');
+    console.log('HospitalDetail mounted - idx:', this.idx, 'user_idx:', this.user_idx);
+    console.log('현재 컴포넌트:', this.comp);
+    console.log('requestBody:', this.requestBody);
+    console.log('$route.query:', this.$route.query);
+    console.log('$route.path:', this.$route.path);
+    console.log('=== HospitalDetail 컴포넌트 로드 완료 ===');
+    
+    this.wishCheck();
+    this.fnGetView();
+  },
+  methods: {
+    changeComponent(componentName) {
+      this.comp = componentName === 'HospitalInfo' ? HospitalInfo : ReviewDetail;
+    },
+    fnGetReviewAvg() {
+      this.$axios.get('/review/avg/' + this.idx)
+        .then((res) => {
+          this.hospital_score = res.data;
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.');
+          }
+        });
+    },
+    changeHeart() {
+      // wish_state가 1이면 0으로, 아니면 1로 토글
+      const newWishState = this.wish_state == 1 ? 0 : 1;
+      const apiUrl = '/wish';
+      const form = {
+        "user_num": this.user_idx,
         "pet_hospital_num": this.idx,
-        "wish_state1" : this.heartval
-      }
-
-      this.$axios.post(apiUrl, this.form)
-          .then((res) => {
-            this.wish_state = res.data.wish_state1
-
-          }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
-      })
-    }
-    ,fnView(idx) {
-      this.requestBody.idx = idx
+        "wish_state1": newWishState
+      };
+      this.$axios.post(apiUrl, form)
+        .then((res) => {
+          this.wish_state = res.data.wish_state1;
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.');
+          }
+        });
+    },
+    fnView(idx) {
+      this.requestBody.idx = idx;
       this.$router.push({
         path: '/review/detail',
         query: this.requestBody
-      })
-    }
-    ,fnGetView() {
-      this.$axios.get(this.$serverUrl + '/hospital/' + this.idx, {
+      });
+    },
+    fnGetView() {
+      this.$axios.get('/hospital/' + this.idx, {
         params: this.requestBody
       }).then((res) => {
-
-        this.hospital_id = res.data.hospital_id
-        this.hospital_name = res.data.hospital_name
-        this.hospital_num = res.data.hospital_num
-        this.hospital_addr = res.data.hospital_addr
-        this.hospital_score = res.data.hospital_score
-        this.sigun_name = res.data.sigun_name
-        this.oper_state = res.data.oper_state
-        this.review_count = res.data.review_count
-
-        this.addr1 = this.hospital_addr.split(' ',3)
-
-        console.log(this.hospital_name)
-        console.log(this.hospital_id )
-
+        this.hospital_id = res.data.hospital_id;
+        this.hospital_name = res.data.hospital_name;
+        this.hospital_num = res.data.hospital_num;
+        this.hospital_addr = res.data.hospital_addr;
+        this.hospital_score = res.data.hospital_score;
+        this.sigun_name = res.data.sigun_name;
+        this.oper_state = res.data.oper_state;
+        this.review_count = res.data.review_count;
+        this.addr1 = this.hospital_addr.split(' ', 3);
+        console.log(this.hospital_name);
+        console.log(this.hospital_id);
+        
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.');
         }
-      })
-    },fnList() {
-      delete this.requestBody.idx
-
+      });
+    },
+    fnList() {
+      delete this.requestBody.idx;
       this.$router.push({
         path: './list',
         query: this.requestBody
-      })
-    },reviewWrite(idx){
-      this.requestBody.idx = idx
-
+      });
+    },
+    reviewWrite(idx) {
+      this.requestBody.idx = idx;
       this.$router.push({
         path: '/review/write',
         query: this.requestBody
-      })
-    }
-    ,wishCheck(){
-
-      this.$axios.get(this.$serverUrl + "/wish/one/" + this.user_idx + "/" + this.idx,{
+      });
+    },
+    wishCheck() {
+      this.$axios.get("/wish/one/" + this.user_idx + "/" + this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
-            console.log(res.data)
-
-        this.wish_state = res.data.wish_state1
-
-          }).catch((err) => {
+        console.log(res.data);
+        this.wish_state = res.data.wish_state1;
+      }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
-
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.');
         }
-      })
-    }
-    ,fnHosList(){
-      delete this.requestBody.idx
-
+      });
+    },
+    fnHosList() {
+      delete this.requestBody.idx;
       this.$router.push({
         path: './list',
         query: this.requestBody
-      })
+      });
     }
   }
 }
-
 </script>
 
 <style>

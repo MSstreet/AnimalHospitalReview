@@ -94,7 +94,7 @@ export default {
     }
     ,fnGetView() {
       if (this.idx !== undefined) {
-        this.$axios.get(this.$serverUrl + '/board/' + this.idx, {
+        this.$axios.get('/board/' + this.idx, {
           params: this.requestBody
         }).then((res) => {
           this.title = res.data.title
@@ -131,7 +131,7 @@ export default {
         return false
       }
 
-      let apiUrl = this.$serverUrl + '/board'
+      let apiUrl = '/board'
       this.form = {
         "idx": this.idx,
         "title": this.title,

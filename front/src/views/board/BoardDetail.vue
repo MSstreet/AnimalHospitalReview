@@ -318,7 +318,7 @@ export default {
   }
   ,methods: {
     fnGetView() {
-      this.$axios.get(this.$serverUrl + '/board/' + this.idx, {
+      this.$axios.get('/board/' + this.idx, {
         params: this.requestBody
       }).then((res) => {
         this.title = res.data.title
@@ -349,7 +349,7 @@ export default {
     ,fnDelete() {
       if (!confirm("삭제하시겠습니까?")) return
 
-      this.$axios.delete(this.$serverUrl + '/board/' + this.idx, {})
+      this.$axios.delete('/board/' + this.idx, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnList();
@@ -366,7 +366,7 @@ export default {
         return false
       }
 
-      let apiUrl = this.$serverUrl + '/reply/join'
+      let apiUrl = '/reply/join'
       this.form = {
         "parent" : this.reply_idx,
         "board_idx": this.idx,
@@ -391,7 +391,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get(this.$serverUrl + '/reply/list/' + this.idx, {
+      this.$axios.get('/reply/list/' + this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -411,7 +411,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get(this.$serverUrl + '/reply/list1/' + this.idx, {
+      this.$axios.get('/reply/list1/' + this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -436,7 +436,7 @@ export default {
 
       this.reply_idx = input
 
-      let apiUrl = this.$serverUrl + '/reply'
+      let apiUrl = '/reply'
       this.form = {
         "reply_idx":this.reply_idx,
         "board_idx": this.idx,
@@ -459,7 +459,7 @@ export default {
     ,fnComentDelete(idx){
       console.log(idx)
       if (!confirm("삭제하시겠습니까?")) return
-      this.$axios.delete(this.$serverUrl + '/reply/' + idx, {})
+      this.$axios.delete('/reply/' + idx, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnGetComent()

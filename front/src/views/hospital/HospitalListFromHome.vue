@@ -118,7 +118,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get(this.$serverUrl + "/hospital/list", {
+      this.$axios.get("/hospital/list", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {

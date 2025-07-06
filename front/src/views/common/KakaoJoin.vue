@@ -64,7 +64,7 @@ export default {
   }
   ,methods: {
     fnUpdate(){
-      let apiUrl = this.$serverUrl + '/user/'
+      let apiUrl = '/user/'
       this.updateCheck()
       if(!(this.check)){
         return false

@@ -141,7 +141,7 @@ export default {
     }
 
     ,fnDelete(){
-      this.$axios.delete(this.$serverUrl + '/user/' + this.user_idx, {})
+      this.$axios.delete('/user/' + this.user_idx, {})
           .then(() => {
             alert('회원탈퇴 되었습니다.')
 
@@ -156,7 +156,7 @@ export default {
     }
 
     ,fnGetView() {
-      this.$axios.get(this.$serverUrl + '/user/' + this.user_idx, {
+      this.$axios.get('/user/' + this.user_idx, {
         params: this.requestBody
       }).then((res) => {
         this.user_id = res.data.user_id

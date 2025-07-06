@@ -22,7 +22,7 @@ export default {
       this.requestBody = { // 데이터 전송
         code: this.code
       }
-      this.$axios.get(this.$serverUrl + "/oauth/kakao/user-info", {
+      this.$axios.get("/oauth/kakao/user-info", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {

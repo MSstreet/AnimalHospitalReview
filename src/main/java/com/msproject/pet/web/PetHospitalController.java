@@ -16,17 +16,18 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/api/hospital")
 @RestController
 public class PetHospitalController {
 
     private final PetHospitalService petHospitalService;
 
-    @PostMapping("/hospitals/join")
+    @PostMapping("/join")
     public PetHospitalEntity create(@RequestBody PetHospitalDto petHospitalDto) throws Exception{
         return petHospitalService.create(petHospitalDto);
     }
 
-    @GetMapping("/hospital/list")
+    @GetMapping("/list")
     public Header<List<PetHospitalListReviewCountDto>> hospitalList(
             @PageableDefault(sort = {"idx"}, size = 12) Pageable pageable,
             SearchCondition searchCondition)
@@ -34,7 +35,7 @@ public class PetHospitalController {
         return petHospitalService.getHospitalListWithReviewCount(pageable, searchCondition);
     }
 
-    @GetMapping("/hospital/list1")
+    @GetMapping("/list1")
     public Header<List<PetHospitalListReviewCountDto>> hospitalList1(
             @PageableDefault(sort = {"idx"}, size = 12) Pageable pageable,
             SearchCondition searchCondition)
@@ -42,17 +43,17 @@ public class PetHospitalController {
         return petHospitalService.getHospitalListWithReviewCount1(pageable, searchCondition);
     }
 
-    @GetMapping("/hospital/{id}")
+    @GetMapping("/{id}")
     public PetHospitalListReviewCountDto getPetHospital(@PathVariable Long id){
         return petHospitalService.getPetHospitalWithReviewCount(id);
     }
 
-    @PatchMapping("/hospital")
+    @PatchMapping("/")
     public PetHospitalEntity update(@RequestBody PetHospitalDto petHospitalDto){
         return petHospitalService.update(petHospitalDto);
     }
 
-    @DeleteMapping("/hospital/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         petHospitalService.delete(id);
     }

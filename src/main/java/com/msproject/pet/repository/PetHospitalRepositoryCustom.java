@@ -60,8 +60,13 @@ public class PetHospitalRepositoryCustom {
     public PetHospitalListReviewCountDto findWithReviewCountById(Long id){
 
         JPAQuery<PetHospitalEntity> query = queryFactory.selectFrom(petHospitalEntity)
-                .leftJoin(reviewEntity).on(reviewEntity.petHospitalEntity.eq(petHospitalEntity))
-                .where(petHospitalEntity.hospitalId.eq(id).and(reviewEntity.deleteYn.eq(false)).and(reviewEntity.approveYn.eq(true)));
+                .leftJoin(reviewEntity)
+                .on(
+                        reviewEntity.petHospitalEntity.eq(petHospitalEntity)
+                                .and(reviewEntity.deleteYn.eq(false))
+                                .and(reviewEntity.approveYn.eq(true))
+                )
+                .where(petHospitalEntity.hospitalId.eq(id));
 
         JPAQuery<PetHospitalListReviewCountDto> dtoJPAQuery = query.select(Projections.bean(PetHospitalListReviewCountDto.class,
                 petHospitalEntity.hospitalId,

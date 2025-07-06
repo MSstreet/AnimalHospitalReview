@@ -48,7 +48,7 @@ export default {
   }
   ,methods: {
     fnGetView() {
-      this.$axios.get(this.$serverUrl + '/notice/' + this.idx, {
+      this.$axios.get('/notice/' + this.idx, {
         params: this.requestBody
       }).then((res) => {
         this.title = res.data.title

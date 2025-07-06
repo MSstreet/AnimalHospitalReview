@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../utils/axios'
 
 const getUserInfo = (userId, userPw) => {
     const reqData = {
@@ -6,9 +6,7 @@ const getUserInfo = (userId, userPw) => {
         'user_pw': userPw
     }
 
-    let serverUrl = '//localhost:8081'
-
-    return axios.post(serverUrl + '/user/login', reqData, {
+    return axios.post('/user/login', reqData, {
         headers: {
             'Content-type': 'application/json'
         }

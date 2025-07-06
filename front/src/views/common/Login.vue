@@ -177,7 +177,7 @@ export default {
       })
     }
     ,checkEmail(){
-      let apiUrl = this.$serverUrl + '/user/find/pw?userEmail=' + this.user_email
+      let apiUrl = '/user/find/pw?userEmail=' + this.user_email
 
       this.$axios.post(apiUrl, {
         params: {
@@ -198,7 +198,7 @@ export default {
         })
     }
     , fnFind(){
-      let apiUrl = this.$serverUrl + '/user/find'
+      let apiUrl = '/user/find'
 
       this.form = {
         "user_name": this.user_name,

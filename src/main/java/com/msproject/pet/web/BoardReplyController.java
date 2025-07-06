@@ -16,41 +16,42 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/reply")
 @RestController
 public class BoardReplyController {
 
     private final BoardReplyService boardReplyService;
 
-    @PostMapping("/reply/join")
+    @PostMapping("/join")
     public BoardReply create (@RequestBody BoardReplyDto boardReplyDto) throws Exception{
         return boardReplyService.BoardReplyCreate(boardReplyDto);
     }
 
-    @GetMapping("/reply/list/{id}")
+    @GetMapping("/list/{id}")
     public Header<List<BoardReplyDto>> reviewList(@PathVariable Long id,
                                               @PageableDefault(sort = "reply_idx") Pageable pageable)
     {
         return boardReplyService.getReplyList(pageable, id);
     }
 
-    @GetMapping("/reply/list1/{id}")
+    @GetMapping("/list1/{id}")
     public Header<List<BoardReplyDto>> reviewList1(@PathVariable Long id,
                                                   @PageableDefault(sort = "reply_idx") Pageable pageable)
     {
         return boardReplyService.getReplyList1(pageable, id);
     }
 
-    @GetMapping("/reply/{id}")
+    @GetMapping("/{id}")
     public BoardReplyDto getReply(@PathVariable Long id){
         return boardReplyService.getReply(id);
     }
 
-    @PatchMapping("/reply")
+    @PatchMapping("/")
     public BoardReply update(@RequestBody BoardReplyDto boardReplyDto) {
         return boardReplyService.update(boardReplyDto);
     }
 
-    @DeleteMapping("reply/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         boardReplyService.delete(id);
     }

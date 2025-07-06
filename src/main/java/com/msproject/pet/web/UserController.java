@@ -24,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final JwtUtil jwtUtil;

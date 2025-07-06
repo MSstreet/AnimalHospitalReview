@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,12 +19,13 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/notice")
 @RestController
 public class NoticeBoardController {
 
     private final NoticeBoardService noticeBoardService;
 
-    @GetMapping("/notice/list")
+    @GetMapping("/list")
     public Header<List<NoticeBoardDto>> boardList(
             @PageableDefault(sort = {"idx"}) Pageable pageable,
             SearchCondition searchCondition)
@@ -31,7 +33,7 @@ public class NoticeBoardController {
         return noticeBoardService.getNoticeBoardList(pageable, searchCondition);
     }
 
-    @GetMapping("/notice/{id}")
+    @GetMapping("/{id}")
     public NoticeBoardDto getBoard(@PathVariable Long id) {
         return noticeBoardService.getNoticeBoard(id);
     }

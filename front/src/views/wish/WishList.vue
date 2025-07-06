@@ -119,7 +119,7 @@ export default {
 
       console.log(wish_idx)
 
-      this.$axios.get(this.$serverUrl + "/wish/change/" + wish_idx,{
+      this.$axios.get("/wish/change/" + wish_idx,{
         //params: this.requestBody,
         //headers: {}
       }).then((res) => {
@@ -141,7 +141,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get(this.$serverUrl + "/wish/list/" + this.user_idx, {
+      this.$axios.get("/wish/list/" + this.user_idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {

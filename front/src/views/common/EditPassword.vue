@@ -54,7 +54,7 @@ export default {
   }
   ,methods:{
     fnUpdate() {
-      let apiUrl = this.$serverUrl + '/user/change-pw'
+      let apiUrl = '/user/change-pw'
 
       this.updateCheck()
       if(!(this.check)){

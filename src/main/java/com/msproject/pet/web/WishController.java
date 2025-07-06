@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/wish")
 @RestController
 public class WishController {
 
@@ -30,7 +31,7 @@ public class WishController {
         }
     }
 
-    @GetMapping("/wish/check/{uid}/{hid}")
+    @GetMapping("/check/{uid}/{hid}")
     public Boolean checkId(@PathVariable Long uid, @PathVariable Long hid){
         return wishService.checkWish(uid,hid);
     }
@@ -46,24 +47,24 @@ public class WishController {
     }
 
 
-    @GetMapping("/wish/list/{uid}")
+    @GetMapping("/list/{uid}")
     public Header<List<WishDto>> wishList(@PathVariable Long uid,
                                           @PageableDefault(sort = {"idx"}) Pageable pageable)
     {
         return wishService.getWishList(pageable,uid);
     }
 
-    @GetMapping("/wish/{id}")
+    @GetMapping("/{id}")
     public WishDto getWish(@PathVariable Long id){
         return wishService.getWish(id);
     }
 
-    @GetMapping("/wish/one/{uid}/{hid}")
+    @GetMapping("/one/{uid}/{hid}")
     public WishDto getWish1(@PathVariable Long uid,@PathVariable Long hid){
         return wishService.getWish1(uid,hid);
     }
 
-    @GetMapping("/wish/change/{wid}")
+    @GetMapping("/change/{wid}")
     public WishEntity changeStateZero(@PathVariable Long wid){
         return  wishService.changeStateZero(wid);
     }

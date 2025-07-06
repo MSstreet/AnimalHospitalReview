@@ -23,7 +23,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.math.BigDecimal;
 
+import com.msproject.pet.util.CoordinateConverter;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -75,8 +77,22 @@ public class PetHospitalService {
     }
 
     public PetHospitalListReviewCountDto getPetHospitalWithReviewCount(Long id) {
-
         PetHospitalListReviewCountDto petHospitalListReviewCountDto = petHospitalRepositoryCustom.findWithReviewCountById(id);
+
+        // 좌표 변환 적용
+        try {
+            if (petHospitalListReviewCountDto.getHosLatitude() != null && petHospitalListReviewCountDto.getHosLongitude() != null) {
+                double[] latlng = CoordinateConverter.convertTMToWGS84(
+                    petHospitalListReviewCountDto.getHosLongitude().doubleValue(), // x
+                    petHospitalListReviewCountDto.getHosLatitude().doubleValue()   // y
+                );
+                petHospitalListReviewCountDto.setHosLatitude(BigDecimal.valueOf(latlng[0])); // 위도
+                petHospitalListReviewCountDto.setHosLongitude(BigDecimal.valueOf(latlng[1])); // 경도
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Optional<PetHospitalEntity> petHospitalEntity = petHospitalRepository.findById(id);
 
         PetHospitalEntity result = petHospitalEntity.orElseThrow();
@@ -85,7 +101,6 @@ public class PetHospitalService {
         if (reviewEntities.size() == 0) {
             petHospitalListReviewCountDto.setHospitalScore(0);
         } else {
-
             double avg = reviewRepositoryCustom.getReviewAvg(petHospitalListReviewCountDto.getHospitalId());
             DecimalFormat df = new DecimalFormat("0.0");
             avg = Double.parseDouble(df.format(avg));

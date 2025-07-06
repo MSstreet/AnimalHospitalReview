@@ -56,7 +56,7 @@ export default {
   }
   ,methods:{
     fnFind(){
-      let apiUrl = this.$serverUrl + '/user/find'
+      let apiUrl = '/user/find'
 
       console.log(this.email)
       console.log(this.user_name)

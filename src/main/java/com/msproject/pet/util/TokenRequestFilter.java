@@ -29,55 +29,50 @@ public class TokenRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+            String uri = request.getRequestURI();
 
-            if("/oauth/kakao/user-info".equals(request.getRequestURI())){
-                filterChain.doFilter(request, response);
-                return;
+            // 인증이 필요 없는 엔드포인트 화이트리스트
+            String[] whiteList = {
+                "/api/oauth/kakao/user-info",
+                "/api/user/login",
+                "/api/user/join",
+                "/api/user/check",
+                "/api/user/check/mail",
+                "/api/user/find/pw",
+                "/api/user/find",
+                "/api/board/list",
+                "/api/hospital/list",
+                "/api/hospital/detail",
+                "/api/hospital/list1",
+                "/api/notice/list"
+            };
+
+            for (String white : whiteList) {
+                if (uri.equals(white)) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
             }
 
-            if ("/user/login".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/user/join".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/board/list".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/hospital/list".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/hospital/detail".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/user/check".equals(request.getRequestURI())) {
-            doFilter(request, response, filterChain);
-            }else if ("/user/check/mail".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/user/find/pw".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/user/find".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/hospital/list1".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }else if ("/notice/list".equals(request.getRequestURI())) {
-                doFilter(request, response, filterChain);
-            }
-            else {
-                String token = parseJwt(request);
-                if (token == null) {
-                    response.sendError(403);    //accessDenied
+            // 인증이 필요한 엔드포인트
+            String token = parseJwt(request);
+            if (token == null) {
+                response.sendError(403);    //accessDenied
+            } else {
+                DecodedJWT tokenInfo = jwtUtil.decodeToken(token);
+                if (tokenInfo != null) {
+                    String userId = tokenInfo.getClaim("userId").asString();
+                    UserDetails loginUser = userService.loadUserByUsername(userId);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            loginUser, null, loginUser.getAuthorities()
+                    );
+
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    filterChain.doFilter(request, response);
+
                 } else {
-                    DecodedJWT tokenInfo = jwtUtil.decodeToken(token);
-                    if (tokenInfo != null) {
-                        String userId = tokenInfo.getClaim("userId").asString();
-                        UserDetails loginUser = userService.loadUserByUsername(userId);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                loginUser, null, loginUser.getAuthorities()
-                        );
-
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        doFilter(request, response, filterChain);
-
-                    } else {
-                        log.error("### TokenInfo is Null");
-                    }
+                    log.error("### TokenInfo is Null");
                 }
             }
         } catch (Exception e) {

@@ -115,9 +115,6 @@ export default {
     fnGetList() {
       console.log(this.search_key)
       console.log("벨류확인" + this.search_value)
-
-
-
       this.requestBody = { // 데이터 전송
         sk: this.search_key,
         sv: this.search_value,
@@ -125,7 +122,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get(this.$serverUrl + "/hospital/list", {
+      this.$axios.get("/hospital/list", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {

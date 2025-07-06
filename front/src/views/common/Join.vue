@@ -174,7 +174,7 @@ export default {
         return
       }
 
-      let apiUrl = this.$serverUrl + '/user/check/mail?email=' + this.user_id
+      let apiUrl = '/user/check/mail?email=' + this.user_id
 
       this.$axios.get(apiUrl, {
         params:{
@@ -202,7 +202,7 @@ export default {
     }
     //ID 중복 체크
     ,validIdDuplicationCheck(){
-      let apiUrl = this.$serverUrl + '/user/check?userId=' + this.user_id
+      let apiUrl = '/user/check?userId=' + this.user_id
 
       this.$axios.get(apiUrl, {
         params:{

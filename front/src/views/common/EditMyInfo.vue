@@ -91,7 +91,7 @@ export default {
   }
   ,methods:{
     fnGetView() {
-      this.$axios.get(this.$serverUrl + '/user/' + this.user_idx, {
+      this.$axios.get('/user/' + this.user_idx, {
         params: this.requestBody
       }).then((res) => {
         this.user_id = res.data.user_id
@@ -154,7 +154,7 @@ export default {
       }).open();
     }
     ,fnUpdate() {
-      let apiUrl = this.$serverUrl + '/user/'
+      let apiUrl = '/user/'
       this.updateCheck()
       if(!(this.check)){
         return false

@@ -618,7 +618,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get(this.$serverUrl + '/review/list/'+ this.idx + "/" + this.log_id, {
+      this.$axios.get('/review/list/'+ this.idx + "/" + this.log_id, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -673,7 +673,7 @@ export default {
       })
     }
     ,fnGetReviewScore() {
-      this.$axios.get(this.$serverUrl + '/review/hos/'+ this.idx, {
+      this.$axios.get('/review/hos/'+ this.idx, {
         headers: {}
       }).then((res) => {
         this.hos_score = res.data;
@@ -686,7 +686,7 @@ export default {
     ,fnDelete(idx){
       if (!confirm("삭제하시겠습니까?")) return
 
-      this.$axios.delete(this.$serverUrl + '/review/' + idx, {})
+      this.$axios.delete('/review/' + idx, {})
           .then(() => {
             alert('삭제되었습니다.')
 
@@ -709,7 +709,7 @@ export default {
         if(row.help_ful === helpful){
           return;
         }
-        let apiUrl = this.$serverUrl + '/help';
+        let apiUrl = '/help';
 
         this.form = {
           "review_num": row.review_id,
@@ -740,7 +740,7 @@ export default {
         alert("신고 사유를 선택해주세요.");
         return;
       }
-      let apiUrl = this.$serverUrl + '/report/insert'
+      let apiUrl = '/report/insert'
       this.form = {
         "review_num": this.row.review_id,
         "user_num": this.log_id,

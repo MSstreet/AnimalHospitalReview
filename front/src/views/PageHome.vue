@@ -159,7 +159,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get(this.$serverUrl + "/hospital/list", {
+      this.$axios.get("/hospital/list", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -182,7 +182,7 @@ export default {
         email: this.userInfo.userId,
         nickname: this.userInfo.nickname,
       }
-      this.$axios.get(this.$serverUrl + "/oauth/kakao/user-info", {
+      this.$axios.get("/oauth/kakao/user-info", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {

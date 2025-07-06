@@ -277,7 +277,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get(this.$serverUrl + '/review/user/'+ this.idx, {
+      this.$axios.get('/review/user/'+ this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -301,7 +301,7 @@ export default {
     ,fnDelete(n) {
       if (!confirm("삭제하시겠습니까?")) return
       console.log(this.review_id)
-      this.$axios.delete(this.$serverUrl + '/review/' + n, {})
+      this.$axios.delete('/review/' + n, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnGetList();

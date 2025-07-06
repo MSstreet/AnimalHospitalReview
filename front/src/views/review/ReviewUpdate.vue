@@ -142,7 +142,7 @@ export default {
       formData.append('petHospitalNum',this.pet_hospital_num)
       formData.append('userNum',this.user_idx)
       formData.append('reviewId',this.review_idx)
-      let apiUrl = this.$serverUrl + '/review'
+      let apiUrl = '/review'
       if (this.idx === undefined) {
         //INSERT
         this.$axios.patch(apiUrl, formData)
@@ -179,7 +179,7 @@ export default {
       })
     }
     ,fnGetView() {
-      this.$axios.get(this.$serverUrl + '/review/' + this.review_idx, {
+      this.$axios.get('/review/' + this.review_idx, {
         params: this.requestBody
       }).then((res) => {
 

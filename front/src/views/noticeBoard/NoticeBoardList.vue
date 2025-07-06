@@ -148,7 +148,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get(this.$serverUrl + "/noticeBoard/list", {
+      this.$axios.get("/noticeBoard/list", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
