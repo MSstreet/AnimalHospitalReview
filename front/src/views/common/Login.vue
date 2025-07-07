@@ -188,7 +188,7 @@ export default {
               if(res.data == '') {
                 alert('일치하는 정보가 없습니다.')
               }else{
-                alert("회원님의 Email로 임시 비밀번호를 전송하였습니다.")
+                alert("임시 비밀번호가 이메일로 전송되었습니다.\n로그인 후 반드시 비밀번호를 변경해주세요.")
               }
 
             }).catch((err) => {

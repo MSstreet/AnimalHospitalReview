@@ -8,6 +8,7 @@ import com.msproject.pet.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,14 +26,16 @@ public class KakaoAuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    private static final String CLIENT_ID = "409b3fb04dd78999f86c8dbc4a19372a"; // 카카오 REST API 키
-    private static final String REDIRECT_URI = "http://localhost:8081/oauth/kakao/callback"; // 리디렉션 URI
+    @Value("${kakao.client-id}")
+    private String clientId;
+    @Value("${kakao.redirect-uri}")
+    private String redirectUri;
 
     @GetMapping("/login-url")
     public String getKakaoLoginUrl() {
         String authorizationUri = String.format(
                 "https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code",
-                CLIENT_ID, REDIRECT_URI
+                clientId, redirectUri
         );
         return authorizationUri;
     }

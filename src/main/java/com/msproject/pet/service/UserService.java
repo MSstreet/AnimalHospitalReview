@@ -227,36 +227,62 @@ public class UserService implements UserDetailsService {
     }
 
     public MailDto createMailAndChangePassword(UserEntity userEntity) {
-
-        String str = getTempPassword();
+        String tempPassword = generateSecureTempPassword();
         MailDto dto = new MailDto();
 
-        dto.setTitle("AnimalH 임시비밀번호 안내 이메일 입니다.");
-        dto.setMessage("안녕하세요. AnimalH 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
-                + str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
+        dto.setTitle("[AnimalH] 임시 비밀번호 발급 안내");
+        dto.setMessage(createPasswordResetEmailTemplate(userEntity.getUserName(), tempPassword));
 
-        userEntity.changePw(passwordEncoder.encode(str));
-
+        userEntity.changePw(passwordEncoder.encode(tempPassword));
         userRepository.save(userEntity);
-
 
         return dto;
     }
 
-    private String getTempPassword() {
-
-        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-
-        String str = "";
-
-        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            idx = (int) (charSet.length * Math.random());
-            str += charSet[idx];
+    private String generateSecureTempPassword() {
+        // 보안성 높은 임시 비밀번호 생성 (대문자, 소문자, 숫자, 특수문자 포함)
+        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String specialChars = "!@#$%^&*";
+        
+        StringBuilder password = new StringBuilder();
+        
+        // 각 카테고리에서 최소 1개씩 포함
+        password.append(upperCase.charAt((int) (Math.random() * upperCase.length())));
+        password.append(lowerCase.charAt((int) (Math.random() * lowerCase.length())));
+        password.append(numbers.charAt((int) (Math.random() * numbers.length())));
+        password.append(specialChars.charAt((int) (Math.random() * specialChars.length())));
+        
+        // 나머지 6자리는 모든 문자에서 랜덤 선택
+        String allChars = upperCase + lowerCase + numbers + specialChars;
+        for (int i = 0; i < 6; i++) {
+            password.append(allChars.charAt((int) (Math.random() * allChars.length())));
         }
-        return str;
+        
+        // 문자열을 섞어서 더 랜덤하게 만듦
+        char[] passwordArray = password.toString().toCharArray();
+        for (int i = passwordArray.length - 1; i > 0; i--) {
+            int j = (int) (Math.random() * (i + 1));
+            char temp = passwordArray[i];
+            passwordArray[i] = passwordArray[j];
+            passwordArray[j] = temp;
+        }
+        
+        return new String(passwordArray);
+    }
+
+    private String createPasswordResetEmailTemplate(String userName, String tempPassword) {
+        return String.format(
+            "안녕하세요, %s님!\n\n" +
+            "AnimalH에서 임시 비밀번호 발급 요청을 받았습니다.\n\n" +
+            "▣ 임시 비밀번호: %s\n\n" +
+            "보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.\n" +
+            "임시 비밀번호는 24시간 후 만료됩니다.\n\n" +
+            "감사합니다.\n" +
+            "AnimalH 팀",
+            userName, tempPassword
+        );
     }
 
     public void mailSend(MailDto mailDTO) {

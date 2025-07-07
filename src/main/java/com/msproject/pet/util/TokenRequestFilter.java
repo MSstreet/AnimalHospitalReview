@@ -33,6 +33,7 @@ public class TokenRequestFilter extends OncePerRequestFilter {
 
             // 인증이 필요 없는 엔드포인트 화이트리스트
             String[] whiteList = {
+                // /api/로 시작하는 경로들
                 "/api/oauth/kakao/user-info",
                 "/api/user/login",
                 "/api/user/join",
@@ -44,7 +45,20 @@ public class TokenRequestFilter extends OncePerRequestFilter {
                 "/api/hospital/list",
                 "/api/hospital/detail",
                 "/api/hospital/list1",
-                "/api/notice/list"
+                "/api/notice/list",
+                // /api/ 없이 시작하는 경로들 (실제 요청 경로)
+                "/oauth/kakao/user-info",
+                "/user/login",
+                "/user/join",
+                "/user/check",
+                "/user/check/mail",
+                "/user/find/pw",
+                "/user/find",
+                "/board/list",
+                "/hospital/list",
+                "/hospital/detail",
+                "/hospital/list1",
+                "/notice/list"
             };
 
             for (String white : whiteList) {
@@ -57,7 +71,10 @@ public class TokenRequestFilter extends OncePerRequestFilter {
             // 인증이 필요한 엔드포인트
             String token = parseJwt(request);
             if (token == null) {
-                response.sendError(403);    //accessDenied
+                // Authorization 헤더가 없으면 필터 체인을 계속 진행
+                // (Spring Security의 다른 필터들이 처리하도록 함)
+                filterChain.doFilter(request, response);
+                return;
             } else {
                 DecodedJWT tokenInfo = jwtUtil.decodeToken(token);
                 if (tokenInfo != null) {
@@ -73,10 +90,14 @@ public class TokenRequestFilter extends OncePerRequestFilter {
 
                 } else {
                     log.error("### TokenInfo is Null");
+                    // 토큰이 유효하지 않으면 필터 체인을 계속 진행
+                    filterChain.doFilter(request, response);
                 }
             }
         } catch (Exception e) {
             log.error("### Filter Exception {}", e.getMessage());
+            // 예외 발생 시에도 필터 체인을 계속 진행
+            filterChain.doFilter(request, response);
         }
     }
 

@@ -50,34 +50,41 @@ export default {
       user_pw: '',
       pwd_check: '',
       user_num: '',
-      user_addr: '',
       postcode:'',
       address: '',
       extra_address: '',
-      user_idx:''
-
+      user_idx:'',
+      passwordError: '',
+      doubleCheckPwdError: '',
+      numberError: '',
+      form: {
+        idx: '',
+        phone_num: '',
+        zip_code: '',
+        addr: '',
+        detail_addr: '',
+        email: ''
+      }
     }
   },
   mounted() {
     console.log("User ID:", this.getUserId);  // 사용자 ID 가져오기
     this.user_idx = this.getIsUserIdx;
-  }
-  ,methods: {
+    this.form.idx = this.user_idx;
+  },
+  methods: {
     fnUpdate(){
       let apiUrl = '/user/'
       this.updateCheck()
       if(!(this.check)){
         return false
       }
-      this.form = {
-        "idx": this.user_idx,
-        "phone_num": this.user_num,
-        "zip_code": this.postcode,
-        "addr": this.address,
-        "detail_addr" : this.extra_address,
-        "email" : this.email
-      }
-      //UPDATE
+      this.form.idx = this.user_idx;
+      this.form.phone_num = this.user_num;
+      this.form.zip_code = this.postcode;
+      this.form.addr = this.address;
+      this.form.detail_addr = this.extra_address;
+      // email은 필요시 할당
       this.$axios.patch(apiUrl, this.form)
           .then((res) => {
             alert('정보가 수정되었습니다.')
@@ -87,9 +94,9 @@ export default {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+    },
     //비밀번호 유효성 체크
-    ,validPasswordCheck(){
+    validPasswordCheck(){
       const pwCheck = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{10,20}$");
       if (this.user_pw !== '' && !pwCheck.test(this.user_pw)) {
         alert('비밀번호 정규식에 맞지 않습니다.\n 10 ~ 20자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자가 포함되어야 합니다.')
@@ -103,9 +110,9 @@ export default {
         this.check = true
         return
       }
-    }
+    },
     //비밀번호 확인 체크
-    ,validSamePasswordCheck(){
+    validSamePasswordCheck(){
       if (this.user_pw !== '' && this.pwd_check !== '' && this.user_pw !== this.pwd_check) {
         alert('비밀번호와 비밀번호 확인이 서로 맞지 않습니다.')
         document.getElementById('doubleCheckPwd').style.color="red"
@@ -118,9 +125,9 @@ export default {
         this.check = true
         return
       }
-    }
+    },
     //전화번호 유효성
-    ,validNumCheck(){
+    validNumCheck(){
       const numCheck = new RegExp("^(?:(010\\d{4})|(01[1|6|7|8|9]\\d{3,4}))(\\d{4})$")
 
       if (this.user_num !== '' && !numCheck.test(this.user_num)) {
@@ -135,9 +142,9 @@ export default {
         this.check = true
         return
       }
-    }
+    },
     //서브밋 체크
-    ,updateCheck() {
+    updateCheck() {
       //const idCheck = new RegExp("^[A-Za-z0-9]{5,20}$")
       const pwCheck = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{10,}$");
       const numCheck = new RegExp("^(?:(010\\d{4})|(01[1|6|7|8|9]\\d{3,4}))(\\d{4})$")
@@ -222,9 +229,9 @@ export default {
       }else{
         this.check = true
       }
-    }
+    },
 
-    ,execDaumPostcode() {
+    execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
           if (this.extra_address !== "") {
@@ -268,8 +275,8 @@ export default {
           this.postcode = data.zonecode;
         },
       }).open();
-    }
-    ,goToLogin() {
+    },
+    goToLogin() {
       this.$router.push({
         name: 'Login'
       })

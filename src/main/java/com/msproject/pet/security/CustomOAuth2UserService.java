@@ -54,17 +54,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Optional<UserEntity> result = userRepository.findByUserId(email);
 
         if (result.isEmpty()) {
+            String tempPassword = generateSecureTempPassword();
+            
             UserEntity user = UserEntity.builder()
                     .userId(email)
-                    .userPw(passwordEncoder.encode("1111"))
-
+                    .userPw(passwordEncoder.encode(tempPassword))
                     .social(true)
                     .deleteYn(false)
                     .build();
             user.addRole(UserRole.USER);
             userRepository.save(user);
 
-            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, "1111", false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            UserSecurityDTO userSecurityDTO = new UserSecurityDTO(email, tempPassword, false, true, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             userSecurityDTO.setProps(params);
 
             return userSecurityDTO;
@@ -85,6 +86,39 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             .stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.name())).collect(Collectors.toList())
             );
         }
+    }
+
+    private String generateSecureTempPassword() {
+        // 보안성 높은 임시 비밀번호 생성 (대문자, 소문자, 숫자, 특수문자 포함)
+        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String specialChars = "!@#$%^&*";
+        
+        StringBuilder password = new StringBuilder();
+        
+        // 각 카테고리에서 최소 1개씩 포함
+        password.append(upperCase.charAt((int) (Math.random() * upperCase.length())));
+        password.append(lowerCase.charAt((int) (Math.random() * lowerCase.length())));
+        password.append(numbers.charAt((int) (Math.random() * numbers.length())));
+        password.append(specialChars.charAt((int) (Math.random() * specialChars.length())));
+        
+        // 나머지 6자리는 모든 문자에서 랜덤 선택
+        String allChars = upperCase + lowerCase + numbers + specialChars;
+        for (int i = 0; i < 6; i++) {
+            password.append(allChars.charAt((int) (Math.random() * allChars.length())));
+        }
+        
+        // 문자열을 섞어서 더 랜덤하게 만듦
+        char[] passwordArray = password.toString().toCharArray();
+        for (int i = passwordArray.length - 1; i > 0; i--) {
+            int j = (int) (Math.random() * (i + 1));
+            char temp = passwordArray[i];
+            passwordArray[i] = passwordArray[j];
+            passwordArray[j] = temp;
+        }
+        
+        return new String(passwordArray);
     }
 
     private String getKakaoEmail(Map<String, Object> attributes){
