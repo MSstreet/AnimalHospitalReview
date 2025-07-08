@@ -1,16 +1,11 @@
 package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.HelpfulEntity;
-import com.msproject.pet.entity.WishEntity;
-import com.msproject.pet.model.Header;
-import com.msproject.pet.web.dtos.HelpfulDto;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import static com.msproject.pet.entity.QHelpfulEntity.helpfulEntity;
-import static com.msproject.pet.entity.QWishEntity.wishEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -18,41 +13,37 @@ public class HelpfulRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public long getHelpfulCount(Long id) {
-        JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.reviewEntity.reviewId.eq(id),helpfulEntity.helpFul.eq(1));
-
-        return query.stream().count();
+    public long getHelpfulCount(Long reviewId) {
+        return queryFactory
+                .select(helpfulEntity.count())
+                .from(helpfulEntity)
+                .where(helpfulEntity.reviewEntity.reviewId.eq(reviewId)
+                        .and(helpfulEntity.helpFul.eq(1)))
+                .fetchOne();
     }
 
-    public long getUnHelpfulCount(Long id) {
-        JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.reviewEntity.reviewId.eq(id),helpfulEntity.helpFul.eq(2));
-
-        return query.stream().count();
+    public long getUnHelpfulCount(Long reviewId) {
+        return queryFactory
+                .select(helpfulEntity.count())
+                .from(helpfulEntity)
+                .where(helpfulEntity.reviewEntity.reviewId.eq(reviewId)
+                        .and(helpfulEntity.helpFul.eq(2)))
+                .fetchOne();
     }
 
-    public Boolean chkHelpful(Long userId, Long reviewId) {
-
-        JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.userEntity.idx.eq(userId).and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)));
-
-        HelpfulEntity results = query.fetchOne();
-
-        if(results != null) {
-            return false;
-        }else{
-            return true;
-        }
-
+    public boolean isHelpfulExists(Long userId, Long reviewId) {
+        return queryFactory
+                .selectFrom(helpfulEntity)
+                .where(helpfulEntity.userEntity.idx.eq(userId)
+                        .and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)))
+                .fetchFirst() != null;
     }
 
-    public HelpfulEntity findOneHelpful(Long userId, Long reviewId) {
-        JPAQuery<HelpfulEntity> query = queryFactory.selectFrom(helpfulEntity)
-                .where(helpfulEntity.userEntity.idx.eq(userId).and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)));
-
-        HelpfulEntity results = query.fetchOne();
-
-        return results;
+    public HelpfulEntity findHelpfulByUserAndReview(Long userId, Long reviewId) {
+        return queryFactory
+                .selectFrom(helpfulEntity)
+                .where(helpfulEntity.userEntity.idx.eq(userId)
+                        .and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)))
+                .fetchOne();
     }
 }

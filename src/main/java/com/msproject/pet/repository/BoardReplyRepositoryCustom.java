@@ -1,7 +1,6 @@
 package com.msproject.pet.repository;
 
 import com.msproject.pet.entity.BoardReply;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,14 +15,26 @@ import static com.msproject.pet.entity.QBoardReply.boardReply;
 @RequiredArgsConstructor
 @Repository
 public class BoardReplyRepositoryCustom {
+    
     private final JPAQueryFactory queryFactory;
-    public Page<BoardReply> findAllBySearchCondition(Pageable pageable, Long id) {
-        JPAQuery<BoardReply> query = queryFactory.selectFrom(boardReply)
-                .where(boardReply.boardEntity.idx.eq(id), boardReply.deleteYn.eq(false),boardReply.parent.isNull());
+    
+    public Page<BoardReply> findAllByBoardIdAndParentIsNull(Pageable pageable, Long boardId) {
+        // 기본 조건 설정
+        var baseCondition = boardReply.boardEntity.idx.eq(boardId)
+                .and(boardReply.deleteYn.eq(false))
+                .and(boardReply.parent.isNull());
+        
+        // 전체 카운트 쿼리 (성능 최적화)
+        long total = queryFactory
+                .select(boardReply.count())
+                .from(boardReply)
+                .where(baseCondition)
+                .fetchOne();
 
-        long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
-
-        List<BoardReply> results = query
+        // 메인 쿼리
+        List<BoardReply> results = queryFactory
+                .selectFrom(boardReply)
+                .where(baseCondition)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(boardReply.replyIdx.desc())
@@ -31,13 +42,24 @@ public class BoardReplyRepositoryCustom {
 
         return new PageImpl<>(results, pageable, total);
     }
-    public Page<BoardReply> findAllBySearchCondition1(Pageable pageable, Long id) {
-        JPAQuery<BoardReply> query = queryFactory.selectFrom(boardReply)
-                .where(boardReply.boardEntity.idx.eq(id), boardReply.deleteYn.eq(false),boardReply.parent.isNotNull());
+    
+    public Page<BoardReply> findAllByBoardIdAndParentIsNotNull(Pageable pageable, Long boardId) {
+        // 기본 조건 설정
+        var baseCondition = boardReply.boardEntity.idx.eq(boardId)
+                .and(boardReply.deleteYn.eq(false))
+                .and(boardReply.parent.isNotNull());
+        
+        // 전체 카운트 쿼리
+        long total = queryFactory
+                .select(boardReply.count())
+                .from(boardReply)
+                .where(baseCondition)
+                .fetchOne();
 
-        long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
-
-        List<BoardReply> results = query
+        // 메인 쿼리
+        List<BoardReply> results = queryFactory
+                .selectFrom(boardReply)
+                .where(baseCondition)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(boardReply.replyIdx.desc())
