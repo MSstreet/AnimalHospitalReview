@@ -25,22 +25,22 @@
           <div class="navbar-user-info">
             <ul class="user-drop-button" v-if="this.$store.state.isLogin">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" @click.prevent="toggleDropdown">
                   <i class="fa-solid fa-user"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end" :class="{ 'show': dropdownOpen }">
                   <li class="dropdown-item">
-                    <router-link to="/mypage" class="dropdown-link" v-if="this.$store.state.isLogin">
+                    <router-link to="/mypage" class="dropdown-link" v-if="this.$store.state.isLogin" @click="closeDropdown">
                       <i class="fa-solid fa-user-circle me-2"></i>내 정보
                     </router-link>
                   </li>
                   <li class="dropdown-item">
-                    <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="dropdown-link">
+                    <router-link v-if="this.$store.state.isLogin" to="/review/myreview" class="dropdown-link" @click="closeDropdown">
                       <i class="fa-solid fa-star me-2"></i>나의 리뷰
                     </router-link>
                   </li>
                   <li class="dropdown-item">
-                    <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="dropdown-link">
+                    <router-link v-if="this.$store.state.isLogin" to="/wish/mywish" class="dropdown-link" @click="closeDropdown">
                       <i class="fa-solid fa-heart me-2"></i>찜한 병원
                     </router-link>
                   </li>
@@ -55,19 +55,27 @@
           </div>
 
           <!-- 모바일 메뉴 버튼 -->
-          <div class="navbar-toggle" @click="toggleMenu">
+          <div class="navbar-toggle" @click="toggleMenu" :class="{ 'active': menuOpen }">
             <span class="navbar-toggle-icon"></span>
             <span class="navbar-toggle-icon"></span>
             <span class="navbar-toggle-icon"></span>
           </div>
         </div>
     </nav>
-    <div class="navbar-mobile-menu" v-if="menuOpen">
-      <ul class="navbar-links">
-        <li class="navbar-item" v-for="item in menuItems" :key="item.text">
-          <router-link :to="item.link">{{ item.text }}</router-link>
-        </li>
-      </ul>
+    <div class="navbar-mobile-menu" v-if="menuOpen" @click="closeMenu">
+      <div class="mobile-menu-content" @click.stop>
+        <ul class="navbar-links">
+          <li class="navbar-item" v-for="item in menuItems" :key="item.text">
+            <router-link :to="item.link" @click="closeMenu">{{ item.text }}</router-link>
+          </li>
+          <li class="navbar-item" v-if="!$store.state.isLogin">
+            <router-link to="/login" class="login-btn" @click="closeMenu">로그인</router-link>
+          </li>
+          <li class="navbar-item" v-if="!$store.state.isLogin">
+            <router-link to="/join" class="join-btn" @click="closeMenu">회원가입</router-link>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
 </template>
@@ -75,7 +83,6 @@
 <script>
 import {IS_LOGIN} from '@/vuex/mutation_types'
 import store from "@/vuex/store";
-
 
 let setIsLogin = ({commit}, data) => {
   commit(IS_LOGIN, data)
@@ -85,6 +92,7 @@ export default {
   data() {
     return {
       menuOpen: false,
+      dropdownOpen: false,
       menuItems: [
         {text: '동물병원', link: '/hospital/list'},
         {text: '소통창구', link: '/board/list'},
@@ -92,35 +100,49 @@ export default {
       ]
     };
   },
+  mounted() {
+    // 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
+  },
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
+      this.dropdownOpen = false; // 모바일 메뉴 열 때 드롭다운 닫기
+    },
+    closeMenu() {
+      this.menuOpen = false;
+    },
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    },
+    closeDropdown() {
+      this.dropdownOpen = false;
+    },
+    handleClickOutside(event) {
+      if (!event.target.closest('.dropdown')) {
+        this.dropdownOpen = false;
+      }
     },
     fnLogout() {
       if (!confirm("로그아웃 하시겠습니까?")) return;
       localStorage.removeItem("user_token");
       localStorage.removeItem("user_role");
-      //location.reload()
-      //setTimeout(()=>  {this.goToPages1(),1000})
       this.$store.state.isLogin = false;
       setIsLogin(store, false);
+      this.closeDropdown();
+      this.closeMenu();
       this.goToPages1();
     },
     goToPages1() {
       this.$router.push({
-        // path: './write',
         name: 'PageHome'
       })
-    },
-    goToMyPage(){
-
     }
   }
-
-
 }
-
-
 </script>
 
 <style scoped>
@@ -131,7 +153,7 @@ export default {
 
 /* Global styles for body and font */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -147,7 +169,7 @@ a {
   background: linear-gradient(to right, #ffffff, #f8f9fa);
   color: #333;
   position: sticky;
-  padding: 0 2rem;
+  padding: 0 1rem;
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -174,10 +196,13 @@ a {
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .navbar-logo a:hover {
   transform: scale(1.05);
+  background-color: rgba(52, 152, 219, 0.1);
 }
 
 .logo-text {
@@ -203,10 +228,14 @@ a {
 .navbar-item a {
   color: #2c3e50;
   font-size: 1.2rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   transition: all 0.3s ease;
   position: relative;
+  display: block;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-item a::after {
@@ -225,10 +254,17 @@ a {
   width: 80%;
 }
 
+.navbar-item a:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
 .login-btn, .join-btn {
-  padding: 0.5rem 1.5rem !important;
+  padding: 0.75rem 1.5rem !important;
   border-radius: 25px !important;
   font-weight: 500;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .login-btn {
@@ -243,6 +279,7 @@ a {
 
 .join-btn:hover {
   background-color: #2980b9 !important;
+  transform: translateY(-1px);
 }
 
 /* User Info Styles */
@@ -254,9 +291,14 @@ a {
 .navbar-user-info a {
   color: #2c3e50 !important;
   font-size: 1.2rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border-radius: 50%;
   transition: all 0.3s ease;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-user-info a:hover {
@@ -271,6 +313,11 @@ a {
   border-radius: 12px;
   padding: 0.5rem;
   margin-top: 0.5rem;
+  min-width: 200px;
+}
+
+.dropdown-menu.show {
+  display: block;
 }
 
 .dropdown-item {
@@ -287,9 +334,10 @@ a {
   color: #2c3e50 !important;
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border-radius: 8px;
   transition: all 0.3s ease;
+  min-height: 44px;
 }
 
 .dropdown-link:hover {
@@ -302,6 +350,11 @@ a {
   display: none;
   cursor: pointer;
   padding: 0.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .navbar-toggle-icon {
@@ -309,33 +362,67 @@ a {
   width: 25px;
   height: 3px;
   background-color: #2c3e50;
-  margin: 5px 0;
+  margin: 3px 0;
   border-radius: 3px;
   transition: all 0.3s ease;
 }
 
+.navbar-toggle.active .navbar-toggle-icon:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar-toggle.active .navbar-toggle-icon:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggle.active .navbar-toggle-icon:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.navbar-mobile-menu {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 70px);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.mobile-menu-content {
+  background: white;
+  height: 100%;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
 @media (max-width: 768px) {
   .navbar {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .navbar-container {
+    padding: 0 0.5rem;
   }
 
   .navbar-toggle {
-    display: block;
+    display: flex;
   }
 
   .navbar-links {
     display: none;
-  }
-
-  .navbar-mobile-menu {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 70px);
-    background: white;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-mobile-menu .navbar-links {
@@ -352,6 +439,40 @@ a {
     font-size: 1.2rem;
     padding: 1rem;
     display: block;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar-mobile-menu a:hover {
+    background-color: #e9ecef;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .navbar-user-info {
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    height: 60px;
+  }
+
+  .navbar-mobile-menu {
+    top: 60px;
+    height: calc(100vh - 60px);
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .navbar-logo {
+    font-size: 1.2rem;
   }
 }
 </style>

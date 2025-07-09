@@ -20,7 +20,7 @@
   </div>
 
   <div class="hospital-grid">
-    <div class="hospital-card" v-for="(row, idx) in list" :key="idx" @click="fnView(`${row.hospital_id}`)">
+    <div class="hospital-card" v-for="(row, idx) in list" :key="idx" @click="fnView(`${row.hospital_id}`)" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
       <div class="card-content">
         <h3 class="hospital-name">{{ row.hospital_name }}</h3>
         <div class="hospital-info">
@@ -77,11 +77,7 @@ export default {
         block: 0,
         end_page: 0,
         next_block: 0,
-
         page: 0,
-
-        // test:this.$store.state.userIdx,
-
         page_size: 0,
         prev_block: 0,
         start_index: 0,
@@ -94,7 +90,6 @@ export default {
       page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 12,
 
-      //search_key: this.$route.query.sk ? this.$route.query.sk : '',
       search_key: 'author',
       search_value: this.$route.query.sv ? this.$route.query.sv : '',
 
@@ -106,12 +101,20 @@ export default {
         return pageNumber;
       }
     }
-  }
-  ,mounted() {
+  },
+  mounted() {
     this.fnGetList()
     console.log(this.paging.page)
-  }
-  ,methods: {
+  },
+  methods: {
+    handleTouchStart(event) {
+      // 터치 시작 시 피드백
+      event.currentTarget.style.transform = 'scale(0.98)';
+    },
+    handleTouchEnd(event) {
+      // 터치 종료 시 원래 크기로 복원
+      event.currentTarget.style.transform = 'scale(1)';
+    },
     fnGetList() {
       console.log(this.search_key)
       console.log("벨류확인" + this.search_value)
@@ -134,33 +137,31 @@ export default {
         }
 
         console.log(res.data.pagination);
-
-         console.log(res.data.data.length);
-        // console.log(res.data.pagination);
+        console.log(res.data.data.length);
 
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
         }
       })
-    }
+    },
 
-    ,fnView(idx) {
+    fnView(idx) {
       this.requestBody.idx = idx
       this.$router.push({
         path: './detail',
         query: this.requestBody
       })
-    }
+    },
 
-    ,fnPage(n) {
+    fnPage(n) {
       if (this.page !== n) {
         this.page = n
         console.log(this.page)
       }
       this.fnGetList()
-    }
-    ,fnReload(){
+    },
+    fnReload(){
       location.reload()
     }
   }
@@ -168,7 +169,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .hospital-list-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -199,38 +200,42 @@ export default {
   gap: 1rem;
   max-width: 600px;
   margin: 0 auto;
-}
-
-.search-select, .search-input {
-  padding: 0.8rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  flex-wrap: wrap;
 }
 
 .search-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  min-height: 48px;
   min-width: 120px;
 }
 
 .search-input {
   flex: 1;
-}
-
-.search-select:focus, .search-input:focus {
-  border-color: #3498db;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-height: 48px;
 }
 
 .search-button {
-  padding: 0.8rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-height: 48px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -238,38 +243,51 @@ export default {
 
 .search-button:hover {
   background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+.search-button:active {
+  transform: translateY(0);
 }
 
 .no-results {
   text-align: center;
-  padding: 3rem;
-  color: #7f8c8d;
+  padding: 4rem 2rem;
+  color: #666;
 }
 
 .no-results i {
-  font-size: 3rem;
+  font-size: 4rem;
+  color: #ddd;
   margin-bottom: 1rem;
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
 }
 
 .hospital-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
 }
 
 .hospital-card {
-  background: white;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: all 0.3s ease;
   overflow: hidden;
+  border: 1px solid #f0f0f0;
 }
 
 .hospital-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-content {
@@ -277,31 +295,42 @@ export default {
 }
 
 .hospital-name {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #2c3e50;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
 }
 
 .hospital-info {
-  color: #666;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .hospital-info p {
-  margin: 0.5rem 0;
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  line-height: 1.4;
 }
 
 .hospital-info i {
   color: #3498db;
-  width: 20px;
+  width: 16px;
+  text-align: center;
 }
 
 .rating {
-  color: #f39c12;
-  font-weight: 600;
+  color: #f39c12 !important;
+  font-weight: 500;
+}
+
+.rating i {
+  color: #f39c12 !important;
 }
 
 .pagination-container {
@@ -312,10 +341,10 @@ export default {
 
 .pagination {
   display: flex;
-  gap: 0.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
+  gap: 0.25rem;
 }
 
 .page-item {
@@ -323,12 +352,26 @@ export default {
 }
 
 .page-link {
-  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  color: #3498db;
+  background-color: #fff;
+  color: #333;
   text-decoration: none;
+  border-radius: 8px;
   transition: all 0.3s ease;
+  min-height: 44px;
+  min-width: 44px;
+  font-weight: 500;
+}
+
+.page-link:hover {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+  transform: translateY(-1px);
 }
 
 .page-item.active .page-link {
@@ -337,27 +380,112 @@ export default {
   border-color: #3498db;
 }
 
-.page-link:hover {
-  background-color: #f8f9fa;
-  border-color: #3498db;
-}
-
+/* 모바일 최적화 */
 @media (max-width: 768px) {
   .hospital-list-container {
     padding: 1rem;
   }
-
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
   .search-box {
     flex-direction: column;
+    gap: 0.5rem;
   }
-
+  
+  .search-select,
+  .search-input,
   .search-button {
     width: 100%;
-    justify-content: center;
+    min-width: auto;
   }
-
+  
   .hospital-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .hospital-card {
+    margin-bottom: 0;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .hospital-name {
+    font-size: 1.2rem;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .page-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hospital-list-container {
+    padding: 0.5rem;
+  }
+  
+  .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .search-section {
+    margin-bottom: 2rem;
+  }
+  
+  .hospital-info p {
+    font-size: 0.9rem;
+  }
+  
+  .pagination {
+    gap: 0.125rem;
+  }
+  
+  .page-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* 터치 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .hospital-card:hover {
+    transform: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hospital-card:active {
+    transform: scale(0.98);
+  }
+  
+  .search-button:hover {
+    transform: none;
+  }
+  
+  .search-button:active {
+    transform: scale(0.95);
+  }
+  
+  .page-link:hover {
+    transform: none;
+  }
+  
+  .page-link:active {
+    transform: scale(0.95);
   }
 }
 </style>

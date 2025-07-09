@@ -7,13 +7,13 @@
         <div class="slider-container">
           <splide :options="options" class="main-slider">
             <splide-slide>
-              <img src="../assets/home.jpg" alt="동물병원 메인 이미지 1">
+              <img src="../assets/home.jpg" alt="동물병원 메인 이미지 1" loading="lazy">
             </splide-slide>
             <splide-slide>
-              <img src="../assets/home1.jpg" alt="동물병원 메인 이미지 2">
+              <img src="../assets/home1.jpg" alt="동물병원 메인 이미지 2" loading="lazy">
             </splide-slide>
             <splide-slide>
-              <img src="../assets/home2.jpg" alt="동물병원 메인 이미지 3">
+              <img src="../assets/home2.jpg" alt="동물병원 메인 이미지 3" loading="lazy">
             </splide-slide>
           </splide>
         </div>
@@ -36,6 +36,7 @@
                 placeholder="검색어를 입력하세요" 
                 v-model="search_value"
                 maxlength="50"
+                autocomplete="off"
               >
               <button type="submit" class="search-button">
                 <i class="fas fa-search"></i>
@@ -61,6 +62,8 @@
                 :key="location"
                 class="location-item"
                 @click="fnPage(location, 'title')"
+                @touchstart="handleTouchStart"
+                @touchend="handleTouchEnd"
               >
                 {{ location }}
               </div>
@@ -101,7 +104,8 @@ export default {
         pagination: true,
         breakpoints: {
           768: {
-            arrows: false
+            arrows: false,
+            pagination: true
           }
         }
       },
@@ -149,9 +153,26 @@ export default {
       }
     }
   },
-  created(){
+  mounted() {
+    // 터치 이벤트 최적화
+    this.optimizeTouchEvents();
   },
   methods: {
+    optimizeTouchEvents() {
+      // 터치 스크롤 최적화
+      const sliders = document.querySelectorAll('.splide');
+      sliders.forEach(slider => {
+        slider.style.touchAction = 'pan-y';
+      });
+    },
+    handleTouchStart(event) {
+      // 터치 시작 시 피드백
+      event.target.style.transform = 'scale(0.95)';
+    },
+    handleTouchEnd(event) {
+      // 터치 종료 시 원래 크기로 복원
+      event.target.style.transform = 'scale(1)';
+    },
     fnGetList() {
       this.requestBody = { // 데이터 전송
         sk: this.search_key,
@@ -168,9 +189,7 @@ export default {
           this.paging = res.data.pagination
           this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
         }
-        // this.fnView()
         console.log(res.data.data);
-        // console.log(res.data.pagination);
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -187,7 +206,6 @@ export default {
         headers: {}
       }).then((res) => {
         console.log(res.data);
-
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -221,6 +239,12 @@ export default {
   background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .slider-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -238,6 +262,11 @@ export default {
   height: 500px;
   object-fit: cover;
   border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.main-slider img:hover {
+  transform: scale(1.02);
 }
 
 .search-section {
@@ -268,6 +297,8 @@ export default {
   color: #333;
   background-color: #ffffff;
   cursor: pointer;
+  min-height: 48px;
+  min-width: 120px;
 }
 
 .search-input {
@@ -276,6 +307,7 @@ export default {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
+  min-height: 48px;
 }
 
 .search-button {
@@ -285,11 +317,21 @@ export default {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-button:hover {
   background-color: #357abd;
+  transform: translateY(-1px);
+}
+
+.search-button:active {
+  transform: translateY(0);
 }
 
 .location-section {
@@ -308,11 +350,12 @@ export default {
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s;
+  transition: all 0.3s ease;
 }
 
 .location-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .location-header {
@@ -333,6 +376,7 @@ export default {
   margin: 0;
   color: #333;
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .location-list {
@@ -342,30 +386,130 @@ export default {
 }
 
 .location-item {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   background-color: #f8f9fa;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border: 1px solid transparent;
 }
 
 .location-item:hover {
   background-color: #4a90e2;
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
+.location-item:active {
+  transform: translateY(0);
+}
+
+/* 모바일 최적화 */
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 1rem 0;
+  }
+  
   .main-slider img {
     height: 300px;
   }
   
   .search-input-group {
     flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .search-select,
+  .search-input,
+  .search-button {
+    width: 100%;
+    min-width: auto;
   }
   
   .location-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .location-list {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .location-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    min-height: 40px;
+  }
+  
+  .location-card {
+    padding: 1rem;
+  }
+  
+  .location-header h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  .slider-container {
+    padding: 0 0.5rem;
+  }
+  
+  .search-box {
+    padding: 0 0.5rem;
+  }
+  
+  .location-grid {
+    padding: 0 0.5rem;
+  }
+  
+  .main-slider img {
+    height: 250px;
+  }
+  
+  .location-list {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  }
+  
+  .location-item {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* 터치 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .location-item:hover {
+    background-color: #f8f9fa;
+    color: inherit;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .location-item:active {
+    background-color: #4a90e2;
+    color: white;
+    transform: scale(0.95);
+  }
+  
+  .search-button:hover {
+    transform: none;
+  }
+  
+  .search-button:active {
+    transform: scale(0.95);
   }
 }
 </style>
