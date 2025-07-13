@@ -54,7 +54,7 @@
       <button 
         class="tab-button"
         :class="{ active: comp === 'ReviewDetail' }"
-        @click="changeComponent('ReviewDetail')"
+        @click="goToReviewList"
       >
         <i class="fas fa-comments"></i> 리뷰
       </button>
@@ -118,8 +118,14 @@ export default {
     changeComponent(componentName) {
       this.comp = componentName === 'HospitalInfo' ? HospitalInfo : ReviewDetail;
     },
+    goToReviewList() {
+      this.$router.push({
+        path: '/review/detail',
+        query: { idx: this.idx }
+      });
+    },
     fnGetReviewAvg() {
-      this.$axios.get('/review/avg/' + this.idx)
+              this.$axios.get('/review/avg/' + this.idx)
         .then((res) => {
           this.hospital_score = res.data;
         }).catch((err) => {
@@ -154,7 +160,7 @@ export default {
       });
     },
     fnGetView() {
-      this.$axios.get('/hospital/' + this.idx, {
+              this.$axios.get('/hospital/' + this.idx, {
         params: this.requestBody
       }).then((res) => {
         this.hospital_id = res.data.hospital_id;

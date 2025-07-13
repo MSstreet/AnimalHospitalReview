@@ -71,7 +71,7 @@ export default {
 
     ,fnGetView() {
       if (this.idx !== undefined) {
-        this.$axios.get('/board/' + this.idx, {
+                 this.$axios.get('/board/' + this.idx, {
           params: this.requestBody
         }).then((res) => {
           this.title = res.data.title

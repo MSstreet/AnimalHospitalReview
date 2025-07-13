@@ -42,12 +42,10 @@ public class ReviewService {
     private final ReviewRepositoryCustom reviewRepositoryCustom;
 
     public double GetReviewAvg(Long id) {
-
-        double reviewAvg = reviewRepositoryCustom.getReviewAvg(id);
-
-        DecimalFormat df = new DecimalFormat("#");
-        reviewAvg = Integer.parseInt(df.format(reviewAvg));
-        return  reviewAvg;
+        double reviewAvg = reviewRepositoryCustom.getReviewAverageScore(id);
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
+        reviewAvg = Double.parseDouble(df.format(reviewAvg));
+        return reviewAvg;
     }
 
     public ReviewEntity ReviewCreate(ReviewDto reviewDto) throws Exception{

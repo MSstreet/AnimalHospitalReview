@@ -22,3 +22,34 @@ app
     .use(store)   //2. store 등록
     .use(VueSplide)
     .mount('#app')
+
+// Service Worker 등록
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
+
+// PWA 설치 프롬프트
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  console.log('PWA install prompt available');
+});
+
+// PWA 설치 완료 이벤트
+window.addEventListener('appinstalled', (evt) => {
+  console.log('PWA installed successfully');
+  deferredPrompt = null;
+});

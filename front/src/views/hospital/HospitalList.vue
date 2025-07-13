@@ -90,7 +90,7 @@ export default {
       page: this.$route.query.page ? this.$route.query.page : 1,
       size: this.$route.query.size ? this.$route.query.size : 12,
 
-      search_key: 'author',
+      search_key: this.$route.query.sk ? this.$route.query.sk : 'author',
       search_value: this.$route.query.sv ? this.$route.query.sv : '',
 
       paginavigation: function () { //페이징 처리 for문 커스텀
@@ -197,36 +197,46 @@ export default {
 .search-box {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  max-width: 600px;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 500px;
   margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .search-select {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
   background-color: #fff;
   color: #333;
   cursor: pointer;
-  min-height: 48px;
-  min-width: 120px;
+  min-width: 90px;
+  width: 110px;
+  height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.75rem 1rem;
+  flex: 1 1 220px;
+  min-width: 120px;
+  padding: 0.6rem 1rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
-  min-height: 48px;
+  height: 40px;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.1rem;
   background-color: #3498db;
   color: white;
   border: none;
@@ -235,7 +245,8 @@ export default {
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  min-height: 48px;
+  min-width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -393,13 +404,13 @@ export default {
   .search-box {
     flex-direction: column;
     gap: 0.5rem;
+    max-width: 98vw;
   }
   
-  .search-select,
-  .search-input,
-  .search-button {
+  .search-select, .search-input, .search-button {
     width: 100%;
-    min-width: auto;
+    min-width: 0;
+    margin: 0;
   }
   
   .hospital-grid {

@@ -181,9 +181,10 @@
           </div>
         </template>
         <template v-else>
-          <div class="text-center">
-            <img class="mt-5" src="../../assets/aaaaaa.png" alt="main3">
-            <h3 class="mt-5">작성한 후기가 아직 없습니다.</h3>
+          <div class="empty-review-container">
+            <h3 class="empty-review-title">작성한 후기가 아직 없습니다.</h3>
+            <p class="empty-review-desc">첫 후기를 남기고 <span style='color:#ff5a5f;'>포인트</span>를 받아보세요!</p>
+            <button class="btn btn-outline-primary mt-3" @click="$router.push('/hospital/list')">동물병원 후기 쓰러가기</button>
           </div>
         </template>
       </div>
@@ -277,7 +278,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get('/review/user/'+ this.idx, {
+              this.$axios.get('/review/user/'+ this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -301,7 +302,7 @@ export default {
     ,fnDelete(n) {
       if (!confirm("삭제하시겠습니까?")) return
       console.log(this.review_id)
-      this.$axios.delete('/review/' + n, {})
+              this.$axios.delete('/review/' + n, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnGetList();
@@ -341,5 +342,27 @@ export default {
 .position-re{
   position: relative;
   left:50rem;
+}
+.empty-review-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 8rem;
+  min-height: 40vh;
+}
+.empty-review-title, .empty-review-desc, .btn {
+  text-align: center;
+}
+.empty-review-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+.empty-review-desc {
+  font-size: 1.1rem;
+  color: #888;
 }
 </style>

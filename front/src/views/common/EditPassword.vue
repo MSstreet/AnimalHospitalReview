@@ -3,7 +3,7 @@
 
     <div class="container py-4">
 
-      <h3 class="fs-2 fw-bold text-center mb-3">Change password</h3>
+      <h3 class="fs-2 fw-bold text-center mb-3">비밀번호 변경</h3>
 
         <div class="form-group has-success">
           <label class="form-label mt-4" for="inputValid">현재 비밀번호</label>
@@ -23,8 +23,8 @@
             <div id="doubleCheckPwd" class="mt-1"></div>
           </div>
 
-      <div>
-        <a class="btn btn-success float-end me-2 mt-3" v-on:click="fnUpdate"><i class="fas fa-edit"></i> Confirm</a>
+      <div class="d-flex justify-content-center">
+        <a class="btn btn-success mt-3" v-on:click="fnUpdate"><i class="fas fa-edit"></i> 확인</a>
       </div>
 
     </div>

@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/report")
+@RequestMapping("/api/report")
 @RestController
 public class ReportController {
 

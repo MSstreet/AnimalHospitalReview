@@ -1,5 +1,6 @@
 package com.msproject.pet.web.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.msproject.pet.entity.HelpfulEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +12,11 @@ import lombok.NoArgsConstructor;
 public class HelpfulDto {
 
     private Long idx;
+    @JsonProperty("reviewNum")
     private Long reviewNum;
+    @JsonProperty("userNum")
     private Long userNum;
+    @JsonProperty("helpFul")
     private int helpFul;
     private String createdAt;
     private String updatedAt;

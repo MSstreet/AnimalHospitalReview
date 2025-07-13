@@ -576,6 +576,10 @@ export default {
   color: white;
 }
 
+.btn-outline-secondary.btn-lg {
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .join-container {
     padding: 1rem;

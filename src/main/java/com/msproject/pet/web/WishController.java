@@ -22,7 +22,7 @@ public class WishController {
 
     private final WishService wishService;
 
-    @PostMapping("/wish")
+    @PostMapping("")
     public WishEntity createWish(@RequestBody WishDto wishDto){
         if(checkId(wishDto.getUserNum(),wishDto.getPetHospitalNum())){
             return wishService.wishCreate(wishDto);
@@ -36,12 +36,12 @@ public class WishController {
         return wishService.checkWish(uid,hid);
     }
 
-    @PatchMapping("/wish")
+    @PatchMapping("")
     public WishEntity update(@RequestBody WishDto wishDto){
         return wishService.update(wishDto);
     }
 
-    @DeleteMapping("/wish/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         wishService.delete(id);
     }

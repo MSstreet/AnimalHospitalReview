@@ -152,6 +152,46 @@ public class PetHospitalRepositoryCustom {
         return new PageImpl<>(results, pageable, total);
     }
 
+    public Page<PetHospitalListReviewCountDto> findAllBySearchConditionWithReviewCount1(Pageable pageable, SearchCondition searchCondition) {
+        // 기본 조건 설정
+        BooleanExpression baseCondition = petHospitalEntity.operState.contains("정상");
+        BooleanExpression searchExpr = buildSearchCondition(searchCondition.getSk(), searchCondition.getSv());
+        
+        // 전체 카운트 쿼리 (성능 최적화)
+        long total = queryFactory
+                .select(petHospitalEntity.count())
+                .from(petHospitalEntity)
+                .where(baseCondition, searchExpr)
+                .fetchOne();
+
+        // 메인 쿼리 - 평균 점수도 함께 계산
+        List<PetHospitalListReviewCountDto> results = queryFactory
+                .select(Projections.bean(PetHospitalListReviewCountDto.class,
+                        petHospitalEntity.hospitalId,
+                        petHospitalEntity.hospitalName,
+                        petHospitalEntity.sigunName,
+                        petHospitalEntity.operState,
+                        petHospitalEntity.hospitalNum,
+                        petHospitalEntity.hospitalAddr,
+                        reviewEntity.count().as("reviewCount"),
+                        reviewEntity.score.avg().as("hospitalScore")
+                ))
+                .from(petHospitalEntity)
+                .leftJoin(reviewEntity).on(reviewEntity.petHospitalEntity.eq(petHospitalEntity)
+                        .and(reviewEntity.deleteYn.eq(false))
+                        .and(reviewEntity.approveYn.eq(true)))
+                .where(baseCondition, searchExpr)
+                .groupBy(petHospitalEntity.hospitalId, petHospitalEntity.hospitalName, 
+                        petHospitalEntity.sigunName, petHospitalEntity.operState, 
+                        petHospitalEntity.hospitalNum, petHospitalEntity.hospitalAddr)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(reviewEntity.score.avg().desc().nullsLast())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, total);
+    }
+
     private BooleanExpression buildSearchCondition(String searchKey, String searchValue) {
         if (!StringUtils.hasLength(searchValue)) {
             return null;

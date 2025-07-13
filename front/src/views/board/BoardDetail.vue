@@ -44,22 +44,6 @@
             </div>
           </div>
 
-          <!-- 댓글 작성 영역 -->
-          <div class="card shadow-sm mb-4">
-            <div class="card-body">
-              <h5 class="card-title mb-3">댓글 작성</h5>
-              <div class="form-group">
-                <textarea v-model="coments" maxlength="500" class="form-control" rows="3" 
-                          placeholder="댓글을 입력해주세요..."></textarea>
-              </div>
-              <div class="text-end mt-3">
-                <button type="submit" class="btn btn-primary" @click="fnSave">
-                  <i class="fas fa-paper-plane me-1"></i>댓글 작성
-                </button>
-              </div>
-            </div>
-          </div>
-
           <!-- 댓글 목록 -->
           <div v-if="list.length != 0" class="card shadow-sm">
             <div class="card-body">
@@ -73,17 +57,14 @@
                     <div class="fw-bold">{{row.user_id}}</div>
                     <div class="text-muted small">{{row.created_at}}</div>
                   </div>
-                  <div class="btn-group">
-                    <button v-if="logged_idx == row.user_idx" class="btn btn-sm btn-link text-primary" 
-                            data-bs-toggle="modal" data-bs-target="#findPw" @click="testUpdate(`${row.reply_idx}`)">
+                  <div class="comment-action-group">
+                    <button v-if="logged_idx == row.user_idx" class="comment-action-btn edit" data-bs-toggle="modal" data-bs-target="#findPw" @click="testUpdate(`${row.reply_idx}`)">
                       <i class="fas fa-edit"></i>
                     </button>
-                    <button v-if="logged_idx == row.user_idx" class="btn btn-sm btn-link text-danger" 
-                            v-on:click="fnComentDelete(`${row.reply_idx}`)">
+                    <button v-if="logged_idx == row.user_idx" class="comment-action-btn delete" v-on:click="fnComentDelete(`${row.reply_idx}`)">
                       <i class="fas fa-trash"></i>
                     </button>
-                    <button class="btn btn-sm btn-link text-success" 
-                            data-bs-toggle="modal" data-bs-target="#findPw1" @click="testUpdate(`${row.reply_idx}`)">
+                    <button class="comment-action-btn reply" data-bs-toggle="modal" data-bs-target="#findPw1" @click="testUpdate(`${row.reply_idx}`)">
                       <i class="fas fa-reply"></i>
                     </button>
                   </div>
@@ -104,8 +85,7 @@
                       </button>
                       <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                          <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#findPw" 
-                             @click="testUpdate(`${row1.reply_idx}`)">
+                          <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#findPw" @click="testUpdate(`${row1.reply_idx}`)">
                             <i class="fas fa-edit me-2"></i>수정
                           </a>
                         </li>
@@ -153,46 +133,35 @@
               </nav>
             </div>
           </div>
+
+          <!-- 댓글 작성 영역 -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body comment-write-area">
+              <div class="textarea-row">
+                <textarea v-model="coments" maxlength="500" class="form-control" rows="3" placeholder="내용을 입력하세요."></textarea>
+                <button type="submit" class="btn btn-primary" @click="fnSave">
+                  등록
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- 댓글 수정 모달 -->
     <div id="findPw" class="modal fade" ref="myModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-login">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">댓글 수정</h5>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-edit-comment">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title modal-edit-title">댓글 수정</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-          <div class="modal-body">
-            <div class="container my-auto">
-              <div class="row">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0">댓글 수정</h4>
-                    </div>
-                  </div>
-
-                  <div class="card-body text-center">
-                    <div class="mb-2 form-group">
-                      <label class="mb-1 fw-semibold" for="comment">Comment</label>
-                      <textarea v-model="update_coments" class="form-control" id="comment" rows="3"></textarea>
-                    </div>
-
-                    <div>
-                      <input type="hidden" v-model="m_reply_idx">
-                    </div>
-
-                    <div class="row text-center test-position">
-                      <button type="button" class="me-1 text-center col-5 btn btn-secondary bg-gradient-primary my-4 mb-2" id="m_reply_idx"
-                              data-bs-dismiss="modal" @click="fnComentUpdate()">확인</button>
-                      <button type="button" class=" col-5 btn btn-secondary bg-gradient-primary my-4 mb-2" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="modal-body pt-2 pb-4 px-4">
+            <textarea v-model="update_coments" class="modal-edit-textarea" rows="4" placeholder="댓글을 입력하세요."></textarea>
+            <div class="modal-edit-btn-group">
+              <button type="button" class="modal-edit-btn confirm" data-bs-dismiss="modal" @click="fnComentUpdate()">확인</button>
+              <button type="button" class="modal-edit-btn cancel" data-bs-dismiss="modal">닫기</button>
             </div>
           </div>
         </div>
@@ -202,48 +171,22 @@
     <!-- 대댓글 작성 모달 -->
     <div id="findPw1" class="modal fade" ref="myModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
+        <div class="modal-content modal-edit-comment">
           <div class="modal-header border-0 pb-0">
-            <h5 class="modal-title fw-bold text-primary">
-              <i class="fas fa-reply me-2"></i>대댓글 작성
-            </h5>
+            <h5 class="modal-title modal-edit-title">대댓글 작성</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                  <i class="fas fa-comment text-primary"></i>
-                </span>
-                <textarea 
-                  v-model="coments" 
-                  class="form-control border-start-0 ps-0" 
-                  rows="4"
-                  placeholder="대댓글을 입력해주세요..."
-                  style="resize: none;"
-                ></textarea>
-              </div>
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                <small class="text-muted">
-                  <i class="fas fa-info-circle me-1"></i>최대 500자까지 입력 가능합니다
-                </small>
-                <small class="text-muted">{{coments.length}}/500</small>
-              </div>
+          <div class="modal-body pt-2 pb-4 px-4">
+            <textarea v-model="coments" class="modal-edit-textarea" rows="4" placeholder="대댓글을 입력하세요."></textarea>
+            <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+              <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>최대 500자까지 입력 가능합니다
+              </small>
+              <small class="text-muted">{{coments.length}}/500</small>
             </div>
-
-            <input type="hidden" v-model="m_reply_idx">
-
-            <div class="d-flex gap-2 justify-content-end mt-4">
-              <button type="button" 
-                      class="btn btn-light px-4" 
-                      data-bs-dismiss="modal">
-                <i class="fas fa-times me-1"></i>취소
-              </button>
-              <button type="button" 
-                      class="btn btn-primary px-4" 
-                      @click="fnSave()">
-                <i class="fas fa-paper-plane me-1"></i>작성
-              </button>
+            <div class="modal-edit-btn-group">
+              <button type="button" class="modal-edit-btn cancel" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="modal-edit-btn confirm" @click="fnSave()" data-bs-dismiss="modal">작성</button>
             </div>
           </div>
         </div>
@@ -253,6 +196,7 @@
 </template>
 
 <script>
+import CustomModal from '@/components/CustomModal.vue';
 export default {
   data() { //변수생성
     return {
@@ -275,11 +219,12 @@ export default {
       user_name:'',
       update_coments:'',
       reply_idx:'',
+      user_pw:'',
 
       m_reply_idx:'',
 
       list: {}, //리스트 데이터
-      list1: {},
+      list1: [],
       no: '', //게시판 숫자처리
       paging: {
         block: 0,
@@ -305,7 +250,9 @@ export default {
         let end_page = this.paging.end_page;
         for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
         return pageNumber;
-      }
+      },
+      showEditModal: false,
+      showReplyModal: false,
     }
   }
   ,mounted() {
@@ -318,7 +265,7 @@ export default {
   }
   ,methods: {
     fnGetView() {
-      this.$axios.get('/board/' + this.idx, {
+              this.$axios.get('/board/' + this.idx, {
         params: this.requestBody
       }).then((res) => {
         this.title = res.data.title
@@ -349,7 +296,7 @@ export default {
     ,fnDelete() {
       if (!confirm("삭제하시겠습니까?")) return
 
-      this.$axios.delete('/board/' + this.idx, {})
+              this.$axios.delete('/board/' + this.idx, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnList();
@@ -391,7 +338,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get('/reply/list/' + this.idx, {
+              this.$axios.get('/reply/list/' + this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -411,12 +358,12 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get('/reply/list1/' + this.idx, {
+              this.$axios.get('/reply/list1/' + this.idx, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
         if (res.data.result_code === "OK") {
-          this.list1 = res.data.data
+          this.list1 = Array.isArray(res.data.data) ? res.data.data : []
         }
         console.log(res.data.data)
       }).catch((err) => {
@@ -459,7 +406,7 @@ export default {
     ,fnComentDelete(idx){
       console.log(idx)
       if (!confirm("삭제하시겠습니까?")) return
-      this.$axios.delete('/reply/' + idx, {})
+              this.$axios.delete('/reply/' + idx, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnGetComent()
@@ -469,7 +416,12 @@ export default {
       })
     }
     ,testUpdate(idx){
-      document.getElementById("m_reply_idx").value = idx
+      this.m_reply_idx = idx
+      this.showEditModal = true
+    },
+    openReplyModal(idx) {
+      this.m_reply_idx = idx;
+      this.showReplyModal = true;
     }
   },
   computed: {
@@ -482,7 +434,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .test-position{
   display: flex;
   justify-content: center;
@@ -543,6 +495,206 @@ li{
   border-color: #0d6efd;
 }
 
+.btn-group .btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.98rem;
+  min-width: 72px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  flex-direction: row;
+  white-space: nowrap;
+}
+.btn-group .btn i {
+  font-size: 1.05em;
+  margin-right: 0.3em;
+}
+.btn-group .btn-outline-primary {
+  border: 1.5px solid #3498db;
+  color: #3498db;
+  background: #f8fbff;
+}
+.btn-group .btn-outline-primary:hover {
+  background: #3498db;
+  color: #fff;
+}
+.btn-group .btn-outline-danger {
+  border: 1.5px solid #e74c3c;
+  color: #e74c3c;
+  background: #fff8f8;
+}
+.btn-group .btn-outline-danger:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+.btn-group .btn-outline-secondary {
+  border: 1.5px solid #b2bec3;
+  color: #636e72;
+  background: #f9f9f9;
+}
+.btn-group .btn-outline-secondary:hover {
+  background: #636e72;
+  color: #fff;
+}
+
+.card-title.mb-3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1.2rem;
+}
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group textarea.form-control {
+  width: 100%;
+  min-height: 100px;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 1.08rem;
+  padding: 1.1rem 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.form-group textarea.form-control:focus {
+  border: 1.5px solid #3498db;
+  box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+}
+.text-end.mt-3 {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.btn.btn-primary {
+  background: #2196f3;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  padding: 0.7rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn.btn-primary:hover {
+  background: #1769aa;
+  box-shadow: 0 4px 16px rgba(33,150,243,0.13);
+}
+
+/* 심플한 댓글 작성 영역 스타일 */
+.comment-write-area {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-end; 제거 */
+  position: relative;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem 4rem 1.5rem;
+  box-shadow: none;
+  gap: 1rem;
+}
+.comment-write-area .textarea-row {
+  width: 100%;
+  margin-bottom: 0.7rem;
+  position: relative;
+  min-height: 120px; /* textarea 높이(100px) + 버튼 높이(34px) */
+}
+.comment-write-area textarea.form-control {
+  width: 100%;
+  min-height: 100px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 1.08rem;
+  padding: 1.1rem 1rem;
+  box-shadow: none;
+  transition: border 0.2s;
+  resize: none;
+  background: #fff;
+}
+.comment-write-area textarea.form-control:focus {
+  border: 1.5px solid #2196f3;
+  outline: none;
+}
+.comment-write-area .btn.btn-primary {
+  position: absolute;
+  right: 1.5rem;
+  top: 100%;
+  margin-top: 5px;
+  width: 80px;
+  height: 34px;
+  border-radius: 17px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  padding: 0;
+  background: #6bb9df;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+.comment-write-area .btn.btn-primary:hover {
+  background: #3498db;
+}
+
+/* 댓글 옆 액션 버튼 이쁘게 */
+.comment-action-group {
+  display: flex;
+  gap: 0.5rem;
+}
+.comment-action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #f4f7fd;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 0;
+}
+.comment-action-btn.edit { color: #3498db; }
+.comment-action-btn.edit:hover { background: #eaf4fb; color: #217dbb; }
+.comment-action-btn.delete { color: #e74c3c; }
+.comment-action-btn.delete:hover { background: #fdeaea; color: #c0392b; }
+.comment-action-btn.reply { color: #27ae60; }
+.comment-action-btn.reply:hover { background: #eafaf1; color: #219150; }
+.comment-action-btn i { font-size: 1.2em; }
+
+@media (max-width: 600px) {
+  .comment-write-area {
+    padding: 1rem 0.5rem 0 0.5rem;
+  }
+  .comment-write-area .textarea-row {
+    min-height: unset;
+  }
+  .comment-write-area .btn.btn-primary {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    font-size: 0.96rem;
+    height: 36px;
+    border-radius: 18px;
+    margin-top: 0.7rem;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
@@ -555,5 +707,78 @@ li{
   .btn-group .btn {
     margin: 0.25rem;
   }
+}
+
+.modal-edit-comment {
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.12);
+  border: none;
+  background: #fff;
+}
+.modal-edit-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 auto 0.5rem auto;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+.modal-edit-textarea {
+  width: 100%;
+  min-height: 90px;
+  border-radius: 12px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 1.08rem;
+  padding: 1.1rem 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: border 0.2s, box-shadow 0.2s;
+  resize: none;
+  background: #fafbfc;
+}
+.modal-edit-textarea:focus {
+  border: 1.5px solid #3498db;
+  box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+  outline: none;
+}
+.modal-edit-btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.modal-edit-btn {
+  min-width: 120px;
+  padding: 0.7rem 0;
+  border-radius: 22px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border: none;
+  transition: background 0.18s, color 0.18s;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.modal-edit-btn.confirm {
+  background: #3498db;
+  color: #fff;
+}
+.modal-edit-btn.confirm:hover {
+  background: #217dbb;
+}
+.modal-edit-btn.cancel {
+  background: #f4f7fd;
+  color: #333;
+}
+.modal-edit-btn.cancel:hover {
+  background: #e0e0e0;
+}
+
+.modal-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  z-index: 1050 !important;
 }
 </style>

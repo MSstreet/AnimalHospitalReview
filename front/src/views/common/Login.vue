@@ -1,62 +1,34 @@
 <template>
-  <div class="login-root responsive-root">
-    <!-- ID 찾기 모달 -->
-    <div id="findId" class="modal fade" tabindex="-1" aria-labelledby="findIdLabel" aria-modal="true" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-login">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="container my-auto">
-              <div class="row">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0" id="findIdLabel">ID 찾기</h4>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <p>가입 시 입력한 이름과 Email을 입력해주세요.</p>
-                    <div class="input-group input-group-outline my-3">
-                      <input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="이름" v-model="user_name" required aria-label="이름">
-                    </div>
-                    <div class="input-group input-group-outline my-3">
-                      <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required aria-label="이메일">
-                    </div>
-                    <div class="text-center">
-                      <TouchFeedback>
-                        <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2" id="checkEmail" @click="fnFind">확인</button>
-                      </TouchFeedback>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 비밀번호 찾기 모달 -->
-    <div id="findPw" class="modal fade" tabindex="-1" aria-labelledby="findPwLabel" aria-modal="true" role="dialog">
-      <div class="modal-dialog modal-dialog-centered modal-login">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="container my-auto">
-              <div class="row">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-black font-weight-bolder text-center mt-2 mb-0" id="findPwLabel">비밀번호 찾기</h4>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
-                    <div class="input-group input-group-outline my-3">
-                      <input type="email" maxlength="50" id="userEmailPw" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required aria-label="이메일">
-                    </div>
-                    <div class="text-center">
-                      <TouchFeedback>
-                        <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2" id="checkEmailPw" @click="checkEmail">비밀번호 발송</button>
-                      </TouchFeedback>
+  <div class="login-root">
+    <div class="container py-5">
+      <div class="login-container">
+        <!-- ID 찾기 모달 -->
+        <div id="findId" class="modal fade" tabindex="-1" aria-labelledby="findIdLabel" aria-modal="true" role="dialog">
+          <div class="modal-dialog modal-dialog-centered modal-login">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="container my-auto">
+                  <div class="row">
+                    <div class="card z-index-0 fadeIn3 fadeInBottom">
+                      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                          <h4 class="text-black font-weight-bolder text-center mt-2 mb-0" id="findIdLabel">ID 찾기</h4>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <p>가입 시 입력한 이름과 Email을 입력해주세요.</p>
+                        <div class="input-group input-group-outline my-3">
+                          <input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="이름" v-model="user_name" required aria-label="이름">
+                        </div>
+                        <div class="input-group input-group-outline my-3">
+                          <input type="email" maxlength="50" id="userEmail" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required aria-label="이메일">
+                        </div>
+                        <div class="text-center">
+                          <TouchFeedback>
+                            <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2" id="checkEmail" @click="fnFind">확인</button>
+                          </TouchFeedback>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -64,11 +36,39 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <section class="login-body responsive-section">
-      <div class="login-container responsive-container">
+        <!-- 비밀번호 찾기 모달 -->
+        <div id="findPw" class="modal fade" tabindex="-1" aria-labelledby="findPwLabel" aria-modal="true" role="dialog">
+          <div class="modal-dialog modal-dialog-centered modal-login">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div class="container my-auto">
+                  <div class="row">
+                    <div class="card z-index-0 fadeIn3 fadeInBottom">
+                      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                          <h4 class="text-black font-weight-bolder text-center mt-2 mb-0" id="findPwLabel">비밀번호 찾기</h4>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <p>입력한 이메일로 임시 비밀번호가 전송됩니다.</p>
+                        <div class="input-group input-group-outline my-3">
+                          <input type="email" maxlength="50" id="userEmailPw" name="memberEmail" class="form-control" placeholder="Email" v-model="user_email" required aria-label="이메일">
+                        </div>
+                        <div class="text-center">
+                          <TouchFeedback>
+                            <button type="button" class="btn btn-primary bg-gradient-primary w-100 my-4 mb-2" id="checkEmailPw" @click="checkEmail">비밀번호 발송</button>
+                          </TouchFeedback>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="site-title">
           <h1>ANIMAL HOSPITAL</h1>
           <p class="intro-text">신뢰할 수 있는 리뷰로 동물병원을 선택하세요.</p>
@@ -93,32 +93,22 @@
               <label for="exampleInputEmail1" class="fw-bold mb-1">이메일</label>
               <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id" aria-label="이메일" required>
             </div>
-
             <div class="form-group">
-              <label for="exampleInputPassword1" class="fw-bold mb-1 mt-4">비밀번호</label>
+              <label for="exampleInputPassword1" class="fw-bold mb-1">비밀번호</label>
               <input type="password" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" autocomplete="on" v-model="user_pw" aria-label="비밀번호" required>
             </div>
-
-            <div class="d-grid gap-2 mt-2">
-              <TouchFeedback>
-                <button type="submit" class="btn btn-primary mt-3 fw-bold" aria-label="로그인">로그인</button>
-              </TouchFeedback>
-            </div>
-            <div class="d-grid gap-2 mt-2">
-              <router-link to="/join" type="button" class="btn btn-secondary mt-1 fw-bold" aria-label="회원가입">회원가입</router-link>
-            </div>
-            <div class="mt-2">
-              <TouchFeedback>
-                <span type="button" class="btn btn-link a" data-bs-toggle="modal" data-bs-target="#findId" tabindex="0" aria-label="ID 찾기">ID를 잊으셨나요?</span>
-              </TouchFeedback>
-              <TouchFeedback>
-                <span type="button" class="btn btn-link a" data-bs-toggle="modal" data-bs-target="#findPw" tabindex="0" aria-label="비밀번호 찾기">비밀번호를 잊으셨나요?</span>
-              </TouchFeedback>
+            <div class="login-action-group">
+              <button type="submit" class="login-btn" aria-label="로그인">로그인</button>
+              <router-link to="/join" class="signup-btn" aria-label="회원가입">회원가입</router-link>
+              <div class="find-links">
+                <button type="button" class="find-link" data-bs-toggle="modal" data-bs-target="#findId" tabindex="0" aria-label="ID 찾기">ID를 잊으셨나요?</button>
+                <button type="button" class="find-link" data-bs-toggle="modal" data-bs-target="#findPw" tabindex="0" aria-label="비밀번호 찾기">비밀번호를 잊으셨나요?</button>
+              </div>
             </div>
           </form>
         </div>
       </div>
-    </section>
+    </div>
     <LoadingSpinner v-if="isLoading" />
   </div>
 </template>
@@ -213,20 +203,20 @@ export default {
 @import '@/assets/common.css';
 .login-root {
   min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
 }
 .login-container {
-  width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -244,43 +234,129 @@ export default {
   margin-bottom: 1.5rem;
 }
 .kakao-btn-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  width: 100%;
+  margin-bottom: 1.2rem;
 }
 .kakao-btn {
   width: 100%;
+  display: block;
   background: #fee500;
   color: #3c1e1e;
   border: none;
   border-radius: 8px;
-  padding: 0.75rem 0;
-  font-size: 1.1rem;
-  font-weight: bold;
+  padding: 0.85rem 0;
+  font-size: 1.08rem;
+  font-weight: 600;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: background 0.2s;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
 }
 .kakao-btn:active {
   background: #ffe066;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.form-group label {
+  margin-bottom: 0.3rem;
+  width: auto;
+}
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+  margin-bottom: 0.2rem;
+}
+
+.login-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+.login-btn, .signup-btn {
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 0.85rem 0;
+  border: none;
+  transition: background 0.2s;
+}
+.login-btn {
+  background: #3498db;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+.login-btn:active {
+  background: #217dbb;
+}
+.signup-btn {
+  background: #eaf3fb;
+  color: #3498db;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+.signup-btn:active {
+  background: #d4e6f7;
+}
+.find-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.find-link {
+  color: #3498db;
+  background: none;
+  border: none;
+  font-size: 0.98rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.2rem 0.1rem;
+  transition: color 0.2s;
+}
+.find-link:active {
+  color: #217dbb;
 }
 .divider {
   display: flex;
   align-items: center;
   margin: 1.5rem 0 1rem 0;
+  width: 100%;
+  position: relative;
 }
 .divider hr {
   flex: 1;
   border: none;
   border-top: 1px solid #eee;
+  margin: 0;
 }
 .divider-text {
-  margin: 0 1rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 0 0.7rem;
   color: #aaa;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  z-index: 1;
 }
 @media (max-width: 600px) {
   .login-container {
-    max-width: 95vw;
+    max-width: 98vw;
     padding: 1.2rem 0.5rem 1.5rem 0.5rem;
   }
   .site-title h1 {
@@ -288,6 +364,19 @@ export default {
   }
   .intro-text {
     font-size: 0.95rem;
+  }
+  .kakao-btn {
+    font-size: 1rem;
+    padding: 0.8rem 0;
+  }
+  .login-btn, .signup-btn {
+    font-size: 1rem;
+    padding: 0.8rem 0;
+  }
+  .find-links {
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: flex-start;
   }
 }
 </style>

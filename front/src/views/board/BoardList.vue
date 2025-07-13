@@ -36,22 +36,37 @@
         <h3>조회하신 글을 찾을 수 없습니다.</h3>
       </div>
 
-      <div class="board-list" v-if="list.length != 0">
-        <div class="board-item" v-for="(row, idx) in list" :key="idx" @click="fnView(`${row.idx}`,`${row.user_idx}`,`${row.user_id}`)">
-          <div class="board-item-header">
-            <span class="board-number">#{{ row.idx }}</span>
-            <span class="board-date">{{row.created_at1}}</span>
-          </div>
-          <h3 class="board-item-title">{{ row.title }}</h3>
-          <div class="board-item-footer">
-            <span class="board-author">
-              <i class="fas fa-user"></i> {{ row.user_id }}
-            </span>
-            <span class="board-replies">
-              <i class="fas fa-comment"></i> {{row.reply_count}}
-            </span>
-          </div>
-        </div>
+      <div v-if="list.length != 0">
+        <table class="board-table">
+          <colgroup>
+            <col style="width:8%">
+            <col style="width:40%">
+            <col style="width:15%">
+            <col style="width:20%">
+            <col style="width:10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>순번</th>
+              <th>제목</th>
+              <th>등록자명</th>
+              <th>등록일</th>
+              <th>조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, idx) in list" :key="row.idx" @click="fnView(row.idx, row.user_idx, row.user_id)" class="board-row">
+              <td>{{ row.idx }}</td>
+              <td class="title-cell">
+                {{ row.title }}
+                <span v-if="row.replyCount > 0" class="reply-count-badge">{{ row.replyCount }}</span>
+              </td>
+              <td>{{ row.user_id }}</td>
+              <td>{{ row.created_at1 }}</td>
+              <td>{{ row.view_count }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="pagination-container" v-if="paging.total_list_cnt > 0">
@@ -201,7 +216,7 @@ export default {
 
 <style>
 .board-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
@@ -248,81 +263,82 @@ export default {
   gap: 0.5rem;
   max-width: 600px;
 }
-
 .search-select {
-  padding: 0.8rem;
+  padding: 0.6rem 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: white;
+  font-size: 1rem;
+  min-width: 90px;
+  width: 110px;
+  height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
-
 .search-input {
-  flex: 1;
-  padding: 0.8rem;
+  flex: 1 1 220px;
+  min-width: 180px;
+  padding: 0.6rem 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
+  height: 40px;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
-
 .search-btn {
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1.1rem;
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .search-btn:hover {
   background-color: #2980b9;
 }
 
-.board-list {
-  display: grid;
-  gap: 1rem;
+.board-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-
-.board-item {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.board-table th, .board-table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.9rem 0.5rem;
+  text-align: center;
+  font-size: 1rem;
 }
-
-.board-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.board-item-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  color: #7f8c8d;
-  font-size: 0.9rem;
-}
-
-.board-item-title {
-  font-size: 1.2rem;
+.board-table th {
+  background: #f8f9fa;
   font-weight: 600;
+  color: #333;
+}
+.board-table .title-cell {
+  text-align: left;
   color: #2c3e50;
-  margin: 0.5rem 0;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
 }
-
-.board-item-footer {
-  display: flex;
-  gap: 1rem;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+.board-table .title-cell:hover {
+  color: #3498db;
+  text-decoration: underline;
 }
-
-.board-author, .board-replies {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+.board-row:hover {
+  background: #f3f7fa;
 }
 
 .no-results {
@@ -365,21 +381,35 @@ export default {
   border-color: #3498db;
 }
 
+.reply-count-badge {
+  display: inline-block;
+  margin-left: 8px;
+  background: #3498db;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  font-size: 0.98rem;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(52,152,219,0.08);
+  vertical-align: middle;
+}
+
 @media (max-width: 768px) {
   .board-container {
     margin: 1rem auto;
   }
-
   .board-title {
     font-size: 1.5rem;
   }
-
   .search-box {
     flex-direction: column;
   }
-
-  .board-item {
-    padding: 1rem;
+  .board-table th, .board-table td {
+    padding: 0.5rem 0.2rem;
+    font-size: 0.95rem;
   }
 }
 </style>

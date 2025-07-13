@@ -67,4 +67,54 @@ public class BoardReplyRepositoryCustom {
 
         return new PageImpl<>(results, pageable, total);
     }
+
+    public Page<BoardReply> findAllBySearchCondition(Pageable pageable, Long boardId) {
+        // 기본 조건 설정 - 부모 댓글만 조회 (대댓글 제외)
+        var baseCondition = boardReply.boardEntity.idx.eq(boardId)
+                .and(boardReply.deleteYn.eq(false))
+                .and(boardReply.parent.isNull());
+        
+        // 전체 카운트 쿼리
+        long total = queryFactory
+                .select(boardReply.count())
+                .from(boardReply)
+                .where(baseCondition)
+                .fetchOne();
+
+        // 메인 쿼리
+        List<BoardReply> results = queryFactory
+                .selectFrom(boardReply)
+                .where(baseCondition)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(boardReply.replyIdx.desc())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, total);
+    }
+
+    public Page<BoardReply> findAllBySearchCondition1(Pageable pageable, Long boardId) {
+        // 기본 조건 설정 - 대댓글만 조회
+        var baseCondition = boardReply.boardEntity.idx.eq(boardId)
+                .and(boardReply.deleteYn.eq(false))
+                .and(boardReply.parent.isNotNull());
+        
+        // 전체 카운트 쿼리
+        long total = queryFactory
+                .select(boardReply.count())
+                .from(boardReply)
+                .where(baseCondition)
+                .fetchOne();
+
+        // 메인 쿼리
+        List<BoardReply> results = queryFactory
+                .selectFrom(boardReply)
+                .where(baseCondition)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(boardReply.replyIdx.desc())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, total);
+    }
 }

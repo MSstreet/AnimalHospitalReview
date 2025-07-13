@@ -91,7 +91,7 @@ export default {
   }
   ,methods:{
     fnGetView() {
-      this.$axios.get('/user/' + this.user_idx, {
+              this.$axios.get('/user/' + this.user_idx, {
         params: this.requestBody
       }).then((res) => {
         this.user_id = res.data.user_id

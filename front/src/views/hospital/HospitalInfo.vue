@@ -93,7 +93,7 @@ export default {
       }
     },
     fnGetView() {
-      this.$axios.get('/hospital/' + this.localIdx, {
+              this.$axios.get('/hospital/' + this.localIdx, {
         params: this.localRequestBody
       }).then((res) => {
         this.addr = res.data.hospital_addr;

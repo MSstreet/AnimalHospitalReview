@@ -212,17 +212,28 @@ export default {
         }
       })
     },
+    // 지역 버튼 클릭 시 동물병원 리스트로 이동
     fnPage(location, type) {
       this.$router.push({
-        path: '/board/list',
-        query: { type: type, value: location }
-      })
+        path: '/hospital/list',
+        query: { sk: 'title', sv: location }
+      });
     },
     fnPage1(key, value) {
-      this.$router.push({
-        path: '/board/list',
-        query: { type: key, value: value }
-      })
+      // 병원명/지역명에 따라 병원 리스트로 이동
+      if (key === 'author') {
+        // 병원명 검색
+        this.$router.push({
+          path: '/hospital/list',
+          query: { sk: 'author', sv: value }
+        });
+      } else if (key === 'title') {
+        // 지역명 검색
+        this.$router.push({
+          path: '/hospital/list',
+          query: { sk: 'title', sv: value }
+        });
+      }
     }
   }
 }
@@ -275,51 +286,69 @@ export default {
 }
 
 .search-box {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 0 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .search-input-group {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: #ffffff;
-  padding: 1rem;
+  padding: 0.7rem 1rem;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
 }
 
 .search-select {
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
   color: #333;
   background-color: #ffffff;
   cursor: pointer;
-  min-height: 48px;
-  min-width: 120px;
+  min-height: 40px;
+  height: 40px;
+  width: 110px;
+  flex: 0 0 110px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
-  flex: 1;
-  padding: 0.8rem 1.5rem;
+  flex: 1 1 220px;
+  min-width: 120px;
+  padding: 0.6rem 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
-  min-height: 48px;
+  min-height: 40px;
+  height: 40px;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-button {
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1.1rem;
   background-color: #4a90e2;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-height: 48px;
-  min-width: 48px;
+  min-height: 40px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -486,6 +515,24 @@ export default {
   .location-item {
     font-size: 0.8rem;
     padding: 0.4rem 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-box {
+    max-width: 98vw;
+    padding: 0 0.2rem;
+  }
+  .search-input-group {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.7rem 0.3rem;
+    max-width: 98vw;
+  }
+  .search-select, .search-input, .search-button {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
   }
 }
 

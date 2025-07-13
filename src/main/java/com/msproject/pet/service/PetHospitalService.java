@@ -101,7 +101,7 @@ public class PetHospitalService {
         if (reviewEntities.size() == 0) {
             petHospitalListReviewCountDto.setHospitalScore(0);
         } else {
-            double avg = reviewRepositoryCustom.getReviewAvg(petHospitalListReviewCountDto.getHospitalId());
+            double avg = reviewRepositoryCustom.getReviewAverageScore(petHospitalListReviewCountDto.getHospitalId());
             DecimalFormat df = new DecimalFormat("0.0");
             avg = Double.parseDouble(df.format(avg));
             petHospitalListReviewCountDto.setHospitalScore(avg);
@@ -127,7 +127,7 @@ public class PetHospitalService {
                     .reviewCount(entity.getReviewCount())
                     .build();
             if(dto.getReviewCount() != 0){
-               double avg = reviewRepositoryCustom.getReviewAvg(dto.getHospitalId());
+               double avg = reviewRepositoryCustom.getReviewAverageScore(dto.getHospitalId());
                 DecimalFormat df = new DecimalFormat("0.0");
                 avg = Double.parseDouble(df.format(avg));
                 dto.setHospitalScore(avg);

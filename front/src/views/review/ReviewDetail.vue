@@ -1,5 +1,5 @@
 <template>
-  <div class="review-detail-container">
+  <div class="review-detail-container modern-review-container">
     <div class="mt-5 mb-3 pt-3">
       <!-- 모달 -->
       <div v-if="isModalVisible" class="modal fade show" id="report" tabindex="-1" aria-labelledby="reportLabel" aria-hidden="true" style="display: block;">
@@ -51,83 +51,83 @@
         </div>
       </div>
 
-      <div class="boarder">
+      <div class="boarder review-score-card">
         <div class="row px-3">
-          <div class="col-12 px-3 pt-3 pb-0 mb-3" style="text-align: center; border-right: solid 1px #e9e9e9; background-color: #f8f8f8">
+          <div class="col-12 px-3 pt-3 pb-0 mb-3 score-summary">
             <div style="letter-spacing: -1.05px; text-align: center; color: #9b9b9b; font-size: 18px" class="mb-2">
-              평점 {{hos_score}}
+              평점 {{ avgScore }}
             </div>
-            <span v-if="hos_score < 0.5">
+            <span v-if="avgScore < 0.5">
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 0.5 && hos_score < 1)">
+            <span v-if="(avgScore >= 0.5 && avgScore < 1)">
               <i class="fa-solid fa-star-half-stroke fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
               <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 1 && hos_score < 1.5)">
+            <span v-if="(avgScore >= 1 && avgScore < 1.5)">
                   <i class="fa-solid fa-star fa-lg"></i>
                   <i class="fa-regular fa-star fa-lg"></i>
                   <i class="fa-regular fa-star fa-lg"></i>
                   <i class="fa-regular fa-star fa-lg"></i>
                   <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 1.5 && hos_score < 2)">
+            <span v-if="(avgScore >= 1.5 && avgScore < 2)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star-half-stroke fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 2 && hos_score < 2.5)">
+            <span v-if="(avgScore >= 2 && avgScore < 2.5)">
                  <i class="fa-solid fa-star fa-lg"></i>
                  <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 2.5 && hos_score < 3)">
+            <span v-if="(avgScore >= 2.5 && avgScore < 3)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star-half-stroke fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 3 && hos_score < 3.5)">
+            <span v-if="(avgScore >= 3 && avgScore < 3.5)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 3.5 && hos_score < 4)">
+            <span v-if="(avgScore >= 3.5 && avgScore < 4)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star-half-stroke fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 4 && hos_score < 4.5)">
+            <span v-if="(avgScore >= 4 && avgScore < 4.5)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-regular fa-star fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 4.5 && hos_score < 5)">
+            <span v-if="(avgScore >= 4.5 && avgScore < 5)">
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star-half-stroke fa-lg"></i>
             </span>
-            <span v-if="(hos_score >= 4.8 && hos_score <= 5)">
+            <span v-if="(avgScore >= 4.8 && avgScore <= 5)">
               <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
                 <i class="fa-solid fa-star fa-lg"></i>
@@ -417,21 +417,19 @@
         </div>
       </div>
 
-      <div class="mt-5 border-top border-bottom py-3" v-for="(row, idx) in list" :key="idx">
-        <div class="row fw-semibold">
-          <div class="col-3 mb-2" style="background-color: #4c1192;  border-radius: 15px; color: white">
+      <div class="mt-5 border-top border-bottom py-3 review-card" v-for="(row, idx) in list" :key="idx">
+        <div class="row fw-semibold review-card-header">
+          <div class="col-3 mb-2 receipt-badge">
             <i class="fa-solid fa-check fa-lg"></i> 영수증 인증
           </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="text-lg-start ">{{row.user_id}}</h3>
-          <!-- 삭제 / 수정 버튼 (오른쪽 하단) -->
+        <div class="d-flex justify-content-between align-items-center review-card-user">
+          <h3 class="text-lg-start reviewer-id">{{row.user_id}}</h3>
           <div>
-            <button class="btn btn-secondary me-2 btn-sm" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
-            <button class="btn btn-secondary btn-sm" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
+            <button class="btn btn-secondary me-2 btn-sm review-btn" v-if="row.user_num == log_id" @click="fnDelete(row.review_id)">삭제</button>
+            <button class="btn btn-secondary btn-sm review-btn" v-if="row.user_num == log_id" @click="fnUpdate(idx, row.review_id)">수정</button>
           </div>
         </div>
-
         <div class="container1">
             <div v-if="row.score == 1" class="test-position1">
               <div class="align-items-center justify-content-between d-flex flex-colum">
@@ -499,37 +497,35 @@
                 </div>
               </div>
             </div>
-          <div class="ms-4 created-at">
+          <div class="ms-4 created-at review-date">
             {{ new Date(row.created_at).toISOString().split('T')[0].replace(/-/g, '-')}}
           </div>
         </div>
-          <div class="fs-4 fw-semibold mt-3 text-start" style="word-break: break-word">
+          <div class="fs-4 fw-semibold mt-3 text-start review-content" style="word-break: break-word">
             <p>{{ row.content }}</p>
           </div>
-        <div class="d-flex flex-column align-items-end mt-3">
+        <div class="d-flex flex-column align-items-end mt-3 review-actions">
           <div class="mb-2">
             <button
-                class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
+                class="btn btn-outline-secondary btn-sm review-btn"
                 @click="fnHelpful(1, row)"
-                :class="{ 'custom-text-muted': row.help_ful === 1, 'custom-btn-secondary': row.help_ful === 1 }">
+                :class="{ 'active-helpful': row.help_ful === 1 }">
               도움이 돼요
             </button>
             <button
-                class="custom-btn custom-btn-info custom-btn-sm custom-mr-2"
+                class="btn btn-outline-secondary btn-sm review-btn"
                 @click="fnHelpful(2, row)"
-                :class="{ 'custom-text-muted': row.help_ful === 2, 'custom-btn-secondary': row.help_ful === 2 }">
+                :class="{ 'active-helpful': row.help_ful === 2 }">
               도움이 안 돼요
             </button>
-            <button class="btn btn-outline-danger btn-sm" @click="openReportModal(row)">
+            <button class="btn btn-outline-danger btn-sm review-btn report-btn" @click="openReportModal(row)">
               신고하기
             </button>
           </div>
         </div>
-
       </div>
     </div>
-
-    <div class="test-position">
+    <div class="test-position review-pagination">
       <nav aria-label="Page navigation example" v-if="paging.total_list_cnt > 0">
         <span class="center">
           <ul class="pagination">
@@ -606,6 +602,18 @@ export default {
     this.fnGetList()
     this.fnGetReviewScore()
   },
+  computed: {
+    avgScore() {
+      // 평균값이 모두 숫자일 때만 계산
+      const p = parseFloat(this.avg_price_score);
+      const k = parseFloat(this.avg_kindness_score);
+      const e = parseFloat(this.avg_effect_score);
+      if (!isNaN(p) && !isNaN(k) && !isNaN(e)) {
+        return ((p + k + e) / 3).toFixed(1);
+      }
+      return 0;
+    }
+  },
   methods: {
     fnPage(n) {
       if (this.page !== n) {
@@ -618,7 +626,7 @@ export default {
         page: this.page,
         size: this.size
       }
-      this.$axios.get('/review/list/'+ this.idx + "/" + this.log_id, {
+              this.$axios.get('/review/list/'+ this.idx + "/" + this.log_id, {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -673,7 +681,7 @@ export default {
       })
     }
     ,fnGetReviewScore() {
-      this.$axios.get('/review/hos/'+ this.idx, {
+              this.$axios.get('/review/hos/'+ this.idx, {
         headers: {}
       }).then((res) => {
         this.hos_score = res.data;
@@ -686,7 +694,7 @@ export default {
     ,fnDelete(idx){
       if (!confirm("삭제하시겠습니까?")) return
 
-      this.$axios.delete('/review/' + idx, {})
+              this.$axios.delete('/review/' + idx, {})
           .then(() => {
             alert('삭제되었습니다.')
 
@@ -706,21 +714,31 @@ export default {
       })
     }
     ,fnHelpful(helpful,row) {
+        // 토글 로직: 같은 버튼을 다시 누르면 해제 (0으로 설정)
+        let finalHelpful = helpful;
         if(row.help_ful === helpful){
-          return;
+          finalHelpful = 0; // 같은 버튼을 다시 누르면 해제
         }
+        
         let apiUrl = '/help';
-
         this.form = {
-          "review_num": row.review_id,
-          "user_num" : this. log_id,
-          "help_ful" : helpful,
+          reviewNum: row.review_id,
+          userNum: this.log_id,
+          helpFul: finalHelpful,
         }
-
-        this.$axios.post(apiUrl, this.form)
+        
+        console.log('Sending helpful data:', this.form); // 디버깅용 로그
+        
+        this.$axios.post(apiUrl, this.form, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
             .then((res) => {
-             row.help_ful = res.data.data.help_ful
+             console.log('Helpful response:', res.data); // 디버깅용 로그
+             row.help_ful = res.data.data.helpFul
             }).catch((err) => {
+          console.error('Helpful error:', err); // 디버깅용 로그
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
@@ -824,4 +842,172 @@ export default {
   display: block;
 }
 
+.modern-review-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem 1rem;
+  background: #f8f9fb;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+.review-score-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+.score-summary {
+  background: none !important;
+  border: none !important;
+  color: #444;
+  font-size: 1.1rem;
+  text-align: center;
+}
+.review-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 2rem;
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  transition: box-shadow 0.2s;
+}
+.review-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+}
+.review-card-header {
+  margin-bottom: 0.5rem;
+}
+.receipt-badge {
+  background: #4c1192;
+  border-radius: 12px;
+  color: #fff;
+  padding: 0.3rem 1rem;
+  font-size: 1rem;
+  display: inline-block;
+  width: auto;
+}
+.review-card-user {
+  margin-bottom: 0.5rem;
+}
+.reviewer-id {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+}
+.review-date {
+  font-size: 0.95rem;
+  color: #888;
+  margin-left: 10px;
+}
+.review-content {
+  font-size: 1.1rem;
+  color: #333;
+  margin-top: 0.7rem;
+}
+.review-actions {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.review-actions .review-btn {
+  margin-bottom: 0;
+}
+.review-actions .review-btn:not(:last-child) {
+  margin-bottom: 0;
+}
+.review-actions .report-btn {
+  margin-top: 0.7rem;
+}
+.review-btn {
+  border-radius: 8px !important;
+  font-weight: 500;
+  font-size: 1rem !important;
+  margin-right: 0.5rem;
+  padding: 0.35rem 1.1rem !important;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+}
+.review-btn:last-child {
+  margin-right: 0;
+}
+.review-btn:hover, .review-btn:focus {
+  background: #e3e8f0 !important;
+  color: #222 !important;
+}
+.btn-outline-danger.review-btn:hover {
+  background: #ffebee !important;
+  color: #d32f2f !important;
+  border-color: #d32f2f !important;
+}
+.review-pagination {
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+.pagination {
+  justify-content: center;
+  margin: 0 auto;
+}
+.page-link {
+  border-radius: 6px !important;
+  margin: 0 2px;
+  color: #4c1192;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+}
+.page-item.active .page-link, .page-link:hover {
+  background: #4c1192;
+  color: #fff !important;
+  border-color: #4c1192;
+}
+/* 신고하기 모달 라디오 버튼 modern 스타일 */
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+.form-check-input[type="radio"] {
+  width: 1.3em;
+  height: 1.3em;
+  accent-color: #4c1192;
+  margin-right: 0.7em;
+  border: 2px solid #bbb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.form-check-input[type="radio"]:hover,
+.form-check-input[type="radio"]:focus {
+  border: 2px solid #4c1192;
+  box-shadow: 0 0 0 2px #e3d6f7;
+}
+.form-check-label {
+  font-size: 1.08rem;
+  color: #222;
+  font-weight: 500;
+  cursor: pointer;
+}
+.review-btn.active-helpful {
+  background-color: #1976d2 !important;
+  color: #fff !important;
+  border-color: #1976d2 !important;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+@media (max-width: 700px) {
+  .modern-review-container {
+    padding: 0.5rem 0.2rem 2rem 0.2rem;
+  }
+  .review-score-card {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+  .review-card {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+  .review-content {
+    font-size: 1rem;
+  }
+  .review-btn {
+    font-size: 0.95rem !important;
+    padding: 0.3rem 0.7rem !important;
+  }
+}
 </style>

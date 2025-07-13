@@ -179,7 +179,7 @@ export default {
       })
     }
     ,fnGetView() {
-      this.$axios.get('/review/' + this.review_idx, {
+              this.$axios.get('/review/' + this.review_idx, {
         params: this.requestBody
       }).then((res) => {
 

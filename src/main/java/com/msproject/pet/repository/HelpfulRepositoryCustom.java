@@ -46,4 +46,21 @@ public class HelpfulRepositoryCustom {
                         .and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)))
                 .fetchOne();
     }
+
+    // 누락된 메서드들 추가
+    public HelpfulEntity findOneHelpful(Long userId, Long reviewId) {
+        return queryFactory
+                .selectFrom(helpfulEntity)
+                .where(helpfulEntity.userEntity.idx.eq(userId)
+                        .and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)))
+                .fetchOne();
+    }
+
+    public boolean chkHelpful(Long userId, Long reviewId) {
+        return queryFactory
+                .selectFrom(helpfulEntity)
+                .where(helpfulEntity.userEntity.idx.eq(userId)
+                        .and(helpfulEntity.reviewEntity.reviewId.eq(reviewId)))
+                .fetchFirst() != null;
+    }
 }

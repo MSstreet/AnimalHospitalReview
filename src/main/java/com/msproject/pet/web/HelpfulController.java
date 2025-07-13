@@ -5,9 +5,11 @@ import com.msproject.pet.service.HelpfulService;
 import com.msproject.pet.web.dtos.HelpfulDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/help")
 @RestController
@@ -15,9 +17,20 @@ public class HelpfulController {
 
     private final HelpfulService helpfulService;
 
-    @PostMapping("/help")
+    @PostMapping("")
     public Header<HelpfulDto> insertHelpful(@RequestBody HelpfulDto helpfulDto){
-        return helpfulService.insertHelpful(helpfulDto);
+        log.info("Received helpful request: {}", helpfulDto);
+        log.info("reviewNum: {}, userNum: {}, helpFul: {}", 
+                helpfulDto.getReviewNum(), helpfulDto.getUserNum(), helpfulDto.getHelpFul());
+        
+        try {
+            Header<HelpfulDto> result = helpfulService.insertHelpful(helpfulDto);
+            log.info("Helpful response: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("Error in insertHelpful: ", e);
+            throw e;
+        }
     }
 
     @GetMapping("/help/{id}")

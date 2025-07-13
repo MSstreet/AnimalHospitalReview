@@ -206,7 +206,7 @@ export default {
       })
     }
     ,fnGetView() {
-      this.$axios.get('/hospital/' + this.pet_hospital_num, {
+              this.$axios.get('/hospital/' + this.pet_hospital_num, {
         params: this.requestBody
       }).then((res) => {
 

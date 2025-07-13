@@ -94,7 +94,7 @@ export default {
     }
     ,fnGetView() {
       if (this.idx !== undefined) {
-        this.$axios.get('/board/' + this.idx, {
+                 this.$axios.get('/board/' + this.idx, {
           params: this.requestBody
         }).then((res) => {
           this.title = res.data.title
@@ -197,25 +197,35 @@ export default {
 
 .board-write-content {
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
   color: #333;
   font-weight: 500;
 }
 
 .input-wrapper, .textarea-wrapper {
   position: relative;
+  max-width: 700px;
+  margin: 0 0 0 24px;
 }
 
 .form-control {
   width: 100%;
+  min-width: 400px;
+  max-width: 700px;
   padding: 0.8rem;
   border: 2px solid #e0e0e0;
   border-radius: 8px;

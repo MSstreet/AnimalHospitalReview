@@ -48,7 +48,7 @@
         <div class="form-group has-success">
 
           <label class="form-label mt-4" for="inputValid">비밀번호</label>
-          <div class="d-grid gap-2">
+          <div class="edit-btn-wrapper">
             <router-link to="/pw_edit" class="btn btn-secondary" role="button">Edit</router-link>
           </div>
         </div>
@@ -56,11 +56,6 @@
         <div class="form-group">
           <label for="exampleInputName" class="form-label mt-4">이름</label>
           <span type="text" class="form-control" id="exampleInputName">{{user_name}}</span>
-        </div>
-
-        <div class="form-group">
-          <label for="exampleInputEmail" class="form-label mt-4">EMAIL</label>
-          <span type="text" class="form-control" id="exampleInputEmail">{{email}}</span>
         </div>
 
         <div class="form-group">
@@ -84,12 +79,10 @@
         </div>
 
 
-        <div class="d-grid gap-2">
+        <!-- 버튼 영역 개선 -->
+        <div class="action-btns">
           <router-link to="/myinfo_edit" class="btn btn-success" role="button">Edit My Info</router-link>
-        </div>
-        <div class="mt-2 text-end">
-            <span type="button" class="btn btn-link a" data-bs-toggle="modal"
-                  data-bs-target="#findPw">회원 탈퇴</span>
+          <span type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#findPw">회원 탈퇴</span>
         </div>
 
       </form>
@@ -141,7 +134,7 @@ export default {
     }
 
     ,fnDelete(){
-      this.$axios.delete('/user/' + this.user_idx, {})
+              this.$axios.delete('/user/' + this.user_idx, {})
           .then(() => {
             alert('회원탈퇴 되었습니다.')
 
@@ -156,7 +149,7 @@ export default {
     }
 
     ,fnGetView() {
-      this.$axios.get('/user/' + this.user_idx, {
+              this.$axios.get('/user/' + this.user_idx, {
         params: this.requestBody
       }).then((res) => {
         this.user_id = res.data.user_id
@@ -187,6 +180,93 @@ export default {
 </script>
 
 <style>
-
-
+.form-group {
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto 1.2rem auto;
+}
+.form-label {
+  width: 120px;
+  min-width: 80px;
+  margin-right: 0.5rem; /* 줄임 */
+  text-align: left;
+  font-weight: 600;
+}
+.form-control {
+  flex: 1;
+  max-width: 100%;
+  min-width: 0;
+  display: block;
+  text-align: left;
+  margin: 0;
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  min-height: 48px; /* 추가: 내용이 없어도 높이 유지 */
+}
+.btn, .d-grid .btn {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto 1.2rem auto;
+  display: block;
+}
+.edit-btn-wrapper {
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+}
+.edit-btn-wrapper .btn {
+  width: 100%;
+  margin: 0;
+}
+.action-btns {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 2rem auto 0 auto;
+}
+.action-btns .btn {
+  flex: 1;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.7rem;
+  min-height: 48px;
+}
+.action-btns .btn-danger {
+  background: #ff3b3b;
+  color: #fff;
+  border: none;
+}
+.action-btns .btn-danger:hover {
+  background: #d32f2f;
+}
+@media (max-width: 700px) {
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 98vw;
+  }
+  .form-label {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.3rem;
+    text-align: left;
+  }
+  .form-control {
+    width: 100%;
+    min-width: 0;
+  }
+  .btn, .d-grid .btn {
+    max-width: 98vw;
+  }
+  .action-btns {
+    flex-direction: column;
+    gap: 0.7rem;
+    max-width: 98vw;
+  }
+}
 </style>
