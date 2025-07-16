@@ -50,7 +50,6 @@ export default {
     this.fnGetView()
   },
   methods: {
-
     validCheck(){
       if (this.title == '') {
         alert('제목을 입력하세요.')
@@ -59,7 +58,6 @@ export default {
       } else{
         this.check = true
       }
-
       if (this.contents == '') {
         alert('내용를 입력하세요.')
         this.check = false
@@ -68,7 +66,6 @@ export default {
         this.check = true
       }
     }
-
     ,fnGetView() {
       if (this.idx !== undefined) {
                  this.$axios.get('/board/' + this.idx, {
@@ -103,7 +100,7 @@ export default {
       if(!(this.check)){
         return false
       }
-      let apiUrl = '/board'
+      let apiUrl = '/board/update'
       this.form = {
         "idx": this.idx,
         "title": this.title,
@@ -111,10 +108,9 @@ export default {
         "author": this.author,
         "user_idx" :this.user_idx
       }
-
       if (this.idx === undefined) {
         //INSERT
-        this.$axios.patch(apiUrl, this.form)
+        this.$axios.post(apiUrl, this.form)
             .then((res) => {
               alert('글이 저장되었습니다.')
               this.fnView(res.data.idx)
@@ -125,7 +121,7 @@ export default {
         })
       } else {
         //UPDATE
-        this.$axios.patch(apiUrl, this.form)
+        this.$axios.post(apiUrl, this.form)
             .then((res) => {
               alert('글이 저장되었습니다.')
               this.fnView(res.data.idx)
@@ -136,7 +132,6 @@ export default {
         })
       }
     }
-
   }
 }
 </script>

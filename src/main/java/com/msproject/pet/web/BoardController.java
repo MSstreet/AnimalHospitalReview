@@ -41,7 +41,7 @@ public class BoardController {
         return boardService.create(boardDto);
     }
 
-    @PatchMapping("")
+    @PostMapping("/update")
     public BoardEntity update(@RequestBody BoardDto boardDto) {
         return boardService.update(boardDto);
     }

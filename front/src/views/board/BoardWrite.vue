@@ -72,17 +72,14 @@ export default {
   },
   mounted() {
     this.fnGetView()
-    console.log(this.idx)
   },
   methods: {
-
     validCheck(){
       if (this.title == '') {
         alert('제목을 입력하세요.')
         this.check = false
         return false
       }
-
       if (this.contents == '') {
         alert('내용를 입력하세요.')
         this.check = false
@@ -188,11 +185,6 @@ export default {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-}
-
-.board-write-subtitle {
-  color: #666;
-  font-size: 1rem;
 }
 
 .board-write-content {

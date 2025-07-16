@@ -61,8 +61,6 @@
                     <button
                         v-if="logged_idx == row.user_idx"
                         class="comment-action-btn edit"
-                        data-bs-toggle="modal"
-                        data-bs-target="#commentEditModal"
                         @click="openEditModal(row.reply_idx, row.contents)"
                     >
                       <i class="fas fa-edit"></i>
@@ -75,8 +73,6 @@
                     </button>
                     <button
                         class="comment-action-btn reply"
-                        data-bs-toggle="modal"
-                        data-bs-target="#replyCreateModal"
                         @click="openReplyModal(row.reply_idx)"
                     >
                       <i class="fas fa-reply"></i>
@@ -101,8 +97,6 @@
                         <li>
                           <a
                               class="dropdown-item"
-                              data-bs-toggle="modal"
-                              data-bs-target="#commentEditModal"
                               @click="openEditModal(row1.reply_idx, row1.contents)"
                           >
                             <i class="fas fa-edit me-2"></i>수정
@@ -180,6 +174,8 @@
     <!-- 대댓글 작성 모달 -->
     <ReplyCreateModal
         v-model="coments"
+        :show="showReplyModal"
+        @update:show="showReplyModal = $event"
         @create="fnSave"
     />
   </div>
@@ -411,6 +407,7 @@ export default {
     openReplyModal(replyIdx) {
       this.reply_idx = replyIdx;
       this.coments = '';
+      this.showReplyModal = true;
     }
   },
   computed: {
