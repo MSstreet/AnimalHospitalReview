@@ -18,46 +18,63 @@
 
           <div class="form-group">
             <label class="form-label" for="password">비밀번호</label>
+            <div class="input-group">
             <input type="password" maxlength="20" class="form-control" id="password" v-model="user_pw" @change="validPasswordCheck" placeholder="비밀번호를 입력해주세요">
+            </div>
             <div id="checkPwd" class="validation-message"></div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="password-confirm">비밀번호 재확인</label>
+            <label class="form-label" for="password-confirm">비밀번호 확인</label>
+            <div class="input-group">
             <input type="password" maxlength="20" class="form-control" id="password-confirm" v-model="pwd_check" @change="validSamePasswordCheck" placeholder="비밀번호를 다시 입력해주세요">
-            <div id="doubleCheckPwd" class="validation-message"></div>
+            </div>
+              <div id="doubleCheckPwd" class="validation-message"></div>
           </div>
 
           <div class="form-group">
             <label for="name" class="form-label">이름</label>
+            <div class="input-group">
             <input type="text" maxlength="20" class="form-control" id="name" v-model="user_name" @change="validNameCheck" placeholder="이름을 입력해주세요">
             <div id="nameCheck" class="validation-message"></div>
+            </div>
           </div>
 
           <div class="form-group">
             <label for="phone" class="form-label">전화번호</label>
+            <div class="input-group">
             <input type="text" maxlength="20" class="form-control" id="phone" v-model="user_num" @change="validNumCheck" placeholder="전화번호를 입력해주세요">
             <div id="numberCheck" class="validation-message"></div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">주소</label>
-            <div class="address-group">
+          <div class="form-group d-flex align-items-start">
+            <label for="zipInput" class="form-label me-3">주소</label>
+            <div class="flex-grow-1 w-100">
+              <!-- 우편번호 + 버튼 -->
               <div class="input-group mb-2">
                 <input type="text" maxlength="20" v-model="postcode" class="form-control" id="zipInput" placeholder="우편번호" readonly>
                 <button type="button" class="btn btn-outline-primary" @click="execDaumPostcode()">
                   <i class="fas fa-search"></i> 우편번호 찾기
                 </button>
               </div>
-              <input type="text" maxlength="50" class="form-control mb-2" id="addressInput" v-model="address" placeholder="주소" readonly>
-              <input type="text" class="form-control" id="detailAddressInput" v-model="extra_address" placeholder="상세주소">
+              <!-- 기본 주소 -->
+              <div class="mb-2">
+                <input type="text" maxlength="50" class="form-control" id="addressInput" v-model="address" placeholder="주소" readonly>
+              </div>
+              <!-- 상세 주소 -->
+              <div>
+                <input type="text" class="form-control" id="detailAddressInput" v-model="extra_address" placeholder="상세주소">
+              </div>
             </div>
           </div>
 
-          <div class="d-grid gap-2 mt-4">
+
+          <div class="d-flex justify-content-between gap-3">
             <button class="btn btn-primary btn-lg join-btn" type="submit">회원가입</button>
             <button class="btn btn-outline-secondary btn-lg" type="button" @click="goToPages1">취소</button>
           </div>
+
         </form>
       </div>
     </div>
@@ -481,10 +498,14 @@ export default {
 .join-body {
   min-height: 100vh;
   background-color: #f8f9fa;
-  padding: 2rem 0;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .join-container {
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
@@ -494,31 +515,44 @@ export default {
 }
 
 .join-title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 700;
   color: #2c3e50;
   text-align: center;
   margin-bottom: 0.5rem;
+  word-break: keep-all;
+  line-height: 1.2;
 }
 
 .join-subtitle {
   color: #6c757d;
   text-align: center;
   margin-bottom: 2rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  word-break: keep-all;
+  line-height: 1.4;
 }
 
 .join-form {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
 }
 
+.address-form-group{
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .form-label {
   font-weight: 600;
   color: #495057;
   margin-bottom: 0.5rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  display: block;
 }
 
 .form-control {
@@ -526,48 +560,62 @@ export default {
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   transition: all 0.3s ease;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-control:focus {
   border-color: #80bdff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
 .input-group {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.check-btn {
-  white-space: nowrap;
+.input-group .form-control {
+  flex: 1;
+  min-width: 0;
 }
 
-.validation-message {
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  color: #dc3545;
-}
-
-.address-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.join-btn {
-  background-color: #0d6efd;
-  border: none;
-  padding: 0.75rem;
-  font-weight: 600;
+.btn {
+  padding: 0.75rem 1rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* 터치 친화적 최소 높이 */
 }
 
-.join-btn:hover {
-  background-color: #0b5ed7;
-  transform: translateY(-1px);
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
 }
 
 .btn-outline-secondary {
-  border: 1px solid #6c757d;
+  background-color: transparent;
+  border-color: #6c757d;
   color: #6c757d;
 }
 
@@ -576,26 +624,222 @@ export default {
   color: white;
 }
 
-.btn-outline-secondary.btn-lg {
-  color: #fff;
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
 }
 
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+.btn-lg {
+  padding: 0.875rem 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.125rem);
+  font-weight: 600;
+}
+
+.validation-message {
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+  margin-top: 0.25rem;
+  color: #dc3545;
+  word-break: keep-all;
+  line-height: 1.3;
+}
+
+.address-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.address-input-group .input-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.address-input-group .form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.address-input-group .input-group .form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-area{
+  display: flex;
+}
+
+.d-grid {
+  display: grid;
+}
+
+/* 모바일 최적화 */
 @media (max-width: 768px) {
-  .join-container {
-    padding: 1rem;
-    margin: 1rem;
+  .join-body {
+    padding: 0.5rem;
+    min-height: 100vh;
+    align-items: flex-start;
+    padding-top: 1rem;
   }
 
-  .join-title {
-    font-size: 1.75rem;
+  .join-container {
+    padding: 1.5rem 1rem;
+    margin: 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .join-form {
+    padding: 0;
   }
 
   .input-group {
     flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .check-btn {
+  .input-group .form-control {
+    flex: none;
+  }
+
+  .btn {
     width: 100%;
+    justify-content: center;
+  }
+
+  .form-control {
+    padding: 1.5rem 1.25rem !important;
+    font-size: 1.125rem !important;
+    min-height: 60px !important;
+  }
+
+  .address-input-group .form-control {
+    padding: 1.5rem 1.25rem !important;
+    font-size: 1.125rem !important;
+    min-height: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 주소 입력 그룹의 input-group도 세로 배치 */
+  .address-input-group .input-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .address-input-group .input-group .form-control {
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  .btn-lg {
+    padding: 1.5rem 2rem !important;
+    font-size: 1.25rem !important;
+    min-height: 64px !important;
+  }
+
+  .form-label {
+    font-size: 1.125rem !important;
+    margin-bottom: 1rem !important;
+    font-weight: 700 !important;
+  }
+
+  .validation-message {
+    font-size: 1rem !important;
+    margin-top: 0.75rem !important;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 480px) {
+  .join-container {
+    padding: 1rem 0.75rem;
+    border-radius: 0.5rem;
+  }
+
+  .join-title {
+    font-size: 1.5rem;
+  }
+
+  .join-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .form-control {
+    padding: 1.5rem 1.25rem !important;
+    font-size: 1.125rem !important;
+    min-height: 60px !important;
+  }
+
+  /* 주소 입력 필드들 크기 통일 */
+  .address-input-group .form-control {
+    padding: 1.5rem 1.25rem !important;
+    font-size: 1.125rem !important;
+    min-height: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn {
+    padding: 1.25rem 1.5rem !important;
+    font-size: 1.125rem !important;
+    min-height: 60px !important;
+  }
+
+  .btn-lg {
+    padding: 1.5rem 2rem !important;
+    font-size: 1.25rem !important;
+    min-height: 64px !important;
+  }
+
+  .form-label {
+    font-size: 1.125rem !important;
+    margin-bottom: 1rem !important;
+    font-weight: 700 !important;
+  }
+}
+
+/* 태블릿 최적화 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .join-container {
+    max-width: 500px;
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* 큰 화면 최적화 */
+@media (min-width: 1025px) {
+  .join-container {
+    max-width: 600px;
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .form-control,
+  .btn {
+    transition: none;
+  }
+}
+
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+  }
+
+  .form-control {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
   }
 }
 </style>

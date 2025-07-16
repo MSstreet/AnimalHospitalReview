@@ -211,9 +211,11 @@ export default {
   justify-content: center;
 }
 .login-container {
-  max-width: 600px;
+  width: 100%;
+  max-width: 800px;
+  /*max-width: 600px;*/
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 10rem;
   background: white;
   border-radius: 1rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -221,6 +223,7 @@ export default {
   flex-direction: column;
   gap: 1rem;
 }
+
 .site-title h1 {
   font-size: 2rem;
   font-weight: bold;
