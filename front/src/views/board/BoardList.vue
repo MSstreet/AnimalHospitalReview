@@ -59,7 +59,7 @@
               <td>{{ row.idx }}</td>
               <td class="title-cell">
                 {{ row.title }}
-                <span v-if="row.replyCount > 0" class="reply-count-badge">{{ row.replyCount }}</span>
+                <span v-if="row.reply_count > 0" class="reply-count-badge">({{ row.reply_count }})</span>
               </td>
               <td>{{ row.user_id }}</td>
               <td>{{ row.created_at1 }}</td>
@@ -382,19 +382,9 @@ export default {
 }
 
 .reply-count-badge {
-  display: inline-block;
-  margin-left: 8px;
-  background: #3498db;
-  color: #fff;
-  border-radius: 50%;
-  min-width: 28px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
-  font-size: 0.98rem;
-  font-weight: 600;
-  box-shadow: 0 1px 4px rgba(52,152,219,0.08);
-  vertical-align: middle;
+  color: #666;
+  font-size: 0.85rem;
+  margin-left: 4px;
 }
 
 @media (max-width: 768px) {

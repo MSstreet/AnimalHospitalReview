@@ -70,7 +70,6 @@ public class BoardService {
                     .author(entity.getAuthor())
                     .userIdx(entity.getUserIdx())
                     .userId(entity.getUserId())
-                    //.hospitalScore(entity.getHospitalScore())
                     .createdAt(entity.getCreatedAt())
                     .updatedAt(entity.getUpdatedAt())
                     .createdAt1(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))

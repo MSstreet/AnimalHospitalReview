@@ -183,7 +183,7 @@
         <template v-else>
           <div class="empty-review-container">
             <h3 class="empty-review-title">작성한 후기가 아직 없습니다.</h3>
-            <p class="empty-review-desc">첫 후기를 남기고 <span style='color:#ff5a5f;'>포인트</span>를 받아보세요!</p>
+            <p class="empty-review-desc">첫 후기를 남겨보세요!</p>
             <button class="btn btn-outline-primary mt-3" @click="$router.push('/hospital/list')">동물병원 후기 쓰러가기</button>
           </div>
         </template>

@@ -5,9 +5,7 @@
         <i class="fas fa-bullhorn"></i>
         공지사항
       </h1>
-      <button class="write-btn" v-on:click="fnWrite">
-        <i class="fas fa-edit"></i> 글 작성
-      </button>
+
     </div>
 
     <div class="search-container">
@@ -148,7 +146,7 @@ export default {
         size: this.size
       }
 
-      this.$axios.get("/noticeBoard/list", {
+      this.$axios.get("/notice/list", {
         params: this.requestBody,
         headers: {}
       }).then((res) => {
@@ -174,11 +172,6 @@ export default {
     },
     fnReload() {
       location.reload();
-    },
-    fnWrite() {
-      this.$router.push({
-        path: './write'
-      })
     },
     fnPage(n) {
       if (this.page !== n) {

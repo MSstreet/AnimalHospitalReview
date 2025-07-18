@@ -52,7 +52,7 @@ export default {
     },
     goToPages() {
       this.$router.replace({
-        name: 'PageHome'
+        name: 'kakaoJoin'
       })
     }
   }

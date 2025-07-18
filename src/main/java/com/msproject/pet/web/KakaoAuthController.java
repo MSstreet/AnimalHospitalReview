@@ -5,6 +5,7 @@ import com.msproject.pet.security.UserSecurityDTO;
 import com.msproject.pet.service.KakaoAuthService;
 import com.msproject.pet.service.UserService;
 import com.msproject.pet.util.JwtUtil;
+import com.msproject.pet.web.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.Map;
 @CrossOrigin
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/oauth/kakao")
+@RequestMapping("/api/oauth/kakao")
 public class KakaoAuthController {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -58,5 +59,10 @@ public class KakaoAuthController {
 
         return ResponseEntity.ok(result);
 
+    }
+
+    @PostMapping("/update")
+    public void kakaoUserInfoUpdate(@RequestBody UserDto userDto){
+        userService.update(userDto);
     }
 }

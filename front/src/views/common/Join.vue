@@ -8,12 +8,22 @@
         <p class="join-subtitle">반려동물 병원 서비스 이용을 위한 회원가입을 진행해주세요.</p>
 
         <form @submit.prevent="fnJoin" ref="form" class="join-form">
-          <div class="form-group">
-            <label for="email" class="form-label">이메일</label>
-            <div class="input-group">
-              <input type="text" maxlength="50" class="form-control" id="email" v-model="user_id" @change="validEmailCheck" placeholder="이메일을 입력해주세요">
+          <div>
+            <div class="form-group" :class="{ 'error-margin': !check }">
+              <label for="email" class="form-label">이메일</label>
+              <div class="input-group">
+                <input
+                    type="text"
+                    maxlength="50"
+                    class="form-control"
+                    id="email"
+                    v-model="user_id"
+                    @change="validEmailCheck"
+                    placeholder="이메일을 입력해주세요"
+                >
+              </div>
             </div>
-            <div id="checkEmail" class="validation-message"></div>
+            <div id="checkEmail" class="validation-message" ></div>
           </div>
 
           <div class="form-group">
@@ -36,20 +46,20 @@
             <label for="name" class="form-label">이름</label>
             <div class="input-group">
             <input type="text" maxlength="20" class="form-control" id="name" v-model="user_name" @change="validNameCheck" placeholder="이름을 입력해주세요">
-            <div id="nameCheck" class="validation-message"></div>
             </div>
+            <div id="nameCheck" class="validation-message"></div>
           </div>
 
           <div class="form-group">
             <label for="phone" class="form-label">전화번호</label>
             <div class="input-group">
             <input type="text" maxlength="20" class="form-control" id="phone" v-model="user_num" @change="validNumCheck" placeholder="전화번호를 입력해주세요">
-            <div id="numberCheck" class="validation-message"></div>
             </div>
+            <div id="numberCheck" class="validation-message"></div>
           </div>
 
           <div class="form-group d-flex align-items-start">
-            <label for="zipInput" class="form-label me-3">주소</label>
+            <label for="zipInput" class="form-label">주소</label>
             <div class="flex-grow-1 w-100">
               <!-- 우편번호 + 버튼 -->
               <div class="input-group mb-2">
@@ -86,6 +96,7 @@ import {mapActions, mapGetters} from 'vuex'   //vuex 추가
 export default {
   data() {
     return {
+
       check : false,
 
       duplicated_check: false,
@@ -127,9 +138,7 @@ export default {
           user_id: this.user_id,
           user_pw: this.user_pw,
           user_name: this.user_name,
-
           email:this.user_email,
-
           phone_num: this.user_num,
           zip_code: this.postcode,
           addr:this.address,
@@ -146,25 +155,6 @@ export default {
         } else {
           alert('실패')
         }
-      }
-    }
-
-    //ID체크
-    ,validIdCheck(){
-      const idCheck = new RegExp("^[A-Za-z0-9]{5,20}$")
-      if (this.user_id !== '' && !idCheck.test(this.user_id)) {
-        alert("ID는 5자 이상 20자리 이하의 영문과 숫자로 입력해주세요")
-        document.getElementById('checkId').style.color="red"
-        document.getElementById('checkId').innerHTML = " ID는 5자 이상 20자리 이하의 영문과 숫자로 입력해주세요";
-        this.check = false
-
-        return
-      }else{
-        document.getElementById('checkId').style.color="black"
-        document.getElementById('checkId').innerHTML = "";
-        this.check = true
-        //this.validIdDuplicationCheck()
-        return
       }
     }
     //Email 체크
@@ -539,12 +529,11 @@ export default {
 
 .form-group {
   margin-bottom: 1.5rem;
+  transition: margin-bottom 0.3s ease;
 }
 
-.address-form-group{
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
+.form-group.error-margin {
+  margin-bottom: 0.5rem;
 }
 
 .form-label {
@@ -644,7 +633,7 @@ export default {
 
 .validation-message {
   font-size: clamp(0.75rem, 2vw, 0.875rem);
-  margin-top: 0.25rem;
+  margin-top: 0.15rem;
   color: #dc3545;
   word-break: keep-all;
   line-height: 1.3;
