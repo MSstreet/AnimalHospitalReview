@@ -173,10 +173,10 @@
 
     <!-- 대댓글 작성 모달 -->
     <ReplyCreateModal
-        v-model="coments"
+        v-model="coments1"
         :show="showReplyModal"
         @update:show="showReplyModal = $event"
-        @create="fnSave"
+        @confirm="() => fnSubCommentSave(parent_id)"
     />
   </div>
 </template>
@@ -244,6 +244,7 @@ export default {
       },
       showEditModal: false,
       showReplyModal: false,
+      parent_id: null
     }
   },
   mounted() {
@@ -293,6 +294,34 @@ export default {
         console.log(err);
       });
     },
+    fnSubCommentSave(parent_id){
+      console.log('부모 댓글 ID:', parent_id);
+      if (this.coments1 == '') {
+        alert("대댓글을 입력해주세요");
+        return false;
+      }
+
+      let apiUrl = '/reply/sub/join';
+      this.form = {
+        "parent": parent_id,
+        "board_idx": this.idx,
+        "user_idx": this.logged_idx,
+        "contents": this.coments1.replace(/\n/g, '<br/>')
+      };
+
+      this.$axios.post(apiUrl, this.form)
+          .then((res) => {
+            alert('댓글이 저장되었습니다.');
+            this.coments = '';
+            this.reply_idx = '';
+            this.fnGetComent();
+            this.fnGetComent1();
+          }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.');
+        }
+      });
+    },
     fnSave() {
       if (this.coments == '') {
         alert("댓글을 입력해주세요");
@@ -301,7 +330,6 @@ export default {
 
       let apiUrl = '/reply/join';
       this.form = {
-        "parent": this.reply_idx,
         "board_idx": this.idx,
         "user_idx": this.logged_idx,
         "contents": this.coments.replace(/\n/g, '<br/>')
@@ -374,8 +402,7 @@ export default {
         "user_idx": this.logged_idx,
         "contents": this.update_coments
       };
-
-      this.$axios.patch(apiUrl, this.form)
+      this.$axios.post(apiUrl, this.form)
           .then((res) => {
             alert('댓글이 저장되었습니다.');
             this.fnGetComent();
@@ -405,15 +432,15 @@ export default {
       this.showEditModal = true;
     },
     openReplyModal(replyIdx) {
-      this.reply_idx = replyIdx;
+      this.parent_id = replyIdx;
       this.coments = '';
       this.showReplyModal = true;
     }
   },
   computed: {
     filteredReplies() {
-      return (parentId) => {
-        return this.list1.filter(reply => reply.parent === parentId);
+      return (parent_id) => {
+        return this.list1.filter(reply => reply.parent === parent_id);
       };
     }
   }

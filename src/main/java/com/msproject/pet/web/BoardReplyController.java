@@ -27,6 +27,11 @@ public class BoardReplyController {
         return boardReplyService.BoardReplyCreate(boardReplyDto);
     }
 
+    @PostMapping("/sub/join")
+    public BoardReply replyCreate (@RequestBody BoardReplyDto boardReplyDto) throws Exception{
+        return boardReplyService.BoardSubReplyCreate(boardReplyDto);
+    }
+
     @GetMapping("/list/{id}")
     public Header<List<BoardReplyDto>> reviewList(@PathVariable Long id,
                                               @PageableDefault(sort = "reply_idx") Pageable pageable)
@@ -46,7 +51,7 @@ public class BoardReplyController {
         return boardReplyService.getReply(id);
     }
 
-    @PatchMapping("/")
+    @PostMapping("/")
     public BoardReply update(@RequestBody BoardReplyDto boardReplyDto) {
         return boardReplyService.update(boardReplyDto);
     }

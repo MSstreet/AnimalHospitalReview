@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardRepositoryCustom boardRepositoryCustom;
     private final UserRepository userRepository;
+    private final ViewCountRedisService viewCountRedisService;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public Header<List<BoardDto>> getBoardList(Pageable pageable, SearchCondition searchCondition) {
 
@@ -60,9 +64,13 @@ public class BoardService {
     public Header<List<BoardListWithReplyCountDto>> getBoardListWithReplyCount(Pageable pageable,SearchCondition searchCondition) {
 
         List<BoardListWithReplyCountDto> dtos = new ArrayList<>();
-        Page<BoardListWithReplyCountDto> boardListWithReplyCountDtos = boardRepositoryCustom.findAllBySearchConditionWithReplyCount(pageable,searchCondition);
+        Page<BoardListWithReplyCountDto> boardListWithReplyCountDtos = boardRepositoryCustom.findAllBySearchConditionWithReplyCount(pageable, searchCondition);
 
         for (BoardListWithReplyCountDto entity : boardListWithReplyCountDtos) {
+            // Redis 조회수 가져오기
+            Long cachedViewCount = viewCountRedisService.getCachedViewCount(entity.getIdx());
+            Long totalViewCount = entity.getViewCount() + cachedViewCount;
+
             BoardListWithReplyCountDto dto = BoardListWithReplyCountDto.builder()
                     .idx(entity.getIdx())
                     .title(entity.getTitle())
@@ -72,19 +80,20 @@ public class BoardService {
                     .userId(entity.getUserId())
                     .createdAt(entity.getCreatedAt())
                     .updatedAt(entity.getUpdatedAt())
-                    .createdAt1(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
-                    .updatedAt1(entity.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                    .createdAt1(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .updatedAt1(entity.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .replyCount(entity.getReplyCount())
+                    .viewCount(totalViewCount) // ✅ Redis + DB 합산
                     .build();
 
             dtos.add(dto);
-
         }
+
         Pagination pagination = new Pagination(
-                (int) boardListWithReplyCountDtos.getTotalElements()
-                , pageable.getPageNumber() + 1
-                , pageable.getPageSize()
-                , 10
+                (int) boardListWithReplyCountDtos.getTotalElements(),
+                pageable.getPageNumber() + 1,
+                pageable.getPageSize(),
+                10
         );
 
         return Header.OK(dtos, pagination);
@@ -96,11 +105,31 @@ public class BoardService {
     public BoardDto getBoard(Long id) {
         BoardEntity entity = boardRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
+        // Redis INCR
+//        String redisKey = "view:board:" + id;
+//        redisTemplate.opsForValue().increment(redisKey);
+
+        String viewKey = "view:board:" + id;
+        String userKey = "view:board:" + id + ":user:" + entity.getUserEntity().getUserId();
+
+        if (!redisTemplate.hasKey(userKey)) {
+            redisTemplate.opsForValue().set(userKey, "1", Duration.ofHours(1));
+            redisTemplate.opsForValue().increment(viewKey);
+        }
+
+        // Redis에서 누적 조회수도 가져옴
+        String cachedViewCount = redisTemplate.opsForValue().get(viewKey);
+        long redisCount = cachedViewCount == null ? 0L : Long.parseLong(cachedViewCount);
+
+        // 최종 viewCount = DB + Redis
+        long totalViewCount = entity.getViewCount() + redisCount;
+
         return BoardDto.builder()
                 .idx(entity.getIdx())
                 .title(entity.getTitle())
                 .contents(entity.getContents())
                 .author(entity.getAuthor())
+                .viewCount(totalViewCount)
                 .userIdx(entity.getUserEntity().getIdx())
                 .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
                 .updatedAt(entity.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))

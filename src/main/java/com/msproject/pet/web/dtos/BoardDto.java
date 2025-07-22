@@ -22,4 +22,5 @@ public class BoardDto implements Serializable {
     private boolean deleteYn;
     private String createdAt;
     private String updatedAt;
+    private Long viewCount;
 }

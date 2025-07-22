@@ -65,7 +65,8 @@ public class BoardRepositoryCustom {
                 boardEntity.userEntity.userId,
                 boardEntity.createdAt,
                 boardEntity.updatedAt,
-                boardReply.count().as("replyCount")
+                boardReply.count().as("replyCount"),
+                boardEntity.viewCount
         ));
 
         List<BoardListWithReplyCountDto> dtoList = dtoJPAQuery.fetch();

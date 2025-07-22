@@ -25,5 +25,5 @@ public class BoardListWithReplyCountDto {
     private boolean deleteYn;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    private Long viewCount;
 }

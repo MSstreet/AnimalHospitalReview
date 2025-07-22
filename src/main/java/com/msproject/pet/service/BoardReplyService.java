@@ -43,31 +43,39 @@ public class BoardReplyService {
         Optional<UserEntity> userEntity = userRepository.findById(boardReplyDto.getUserIdx());
         UserEntity user = userEntity.orElseThrow();
 
-        if(boardReplyDto.getParent() != null){
-            Optional<BoardReply> tmpBoardReply = boardReplyRepository.findById(boardReplyDto.getParent());
-            BoardReply parent = tmpBoardReply.orElseThrow();
+        BoardReply boardReply = BoardReply.builder()
+                .boardEntity(board)
+                .userEntity(user)
+                .contents(boardReplyDto.getContents())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
-            BoardReply boardReply = BoardReply.builder()
-                    .boardEntity(board)
-                    .userEntity(user)
-                    .contents(boardReplyDto.getContents())
-                    .parent(parent)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-            return boardReplyRepository.save(boardReply);
-        }else{
+        return boardReplyRepository.save(boardReply);
+    }
 
-            BoardReply boardReply = BoardReply.builder()
-                    .boardEntity(board)
-                    .userEntity(user)
-                    .contents(boardReplyDto.getContents())
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+    public BoardReply BoardSubReplyCreate(BoardReplyDto boardReplyDto) {
 
-            return boardReplyRepository.save(boardReply);
-        }
+        // Todo : Parent 확인
+
+        Optional<BoardEntity> boardEntity = boardRepository.findById(boardReplyDto.getBoardIdx());
+        BoardEntity board = boardEntity.orElseThrow();
+
+        Optional<UserEntity> userEntity = userRepository.findById(boardReplyDto.getUserIdx());
+        UserEntity user = userEntity.orElseThrow();
+
+        Optional<BoardReply> tmpBoardReply = boardReplyRepository.findById(boardReplyDto.getParent());
+        BoardReply parent = tmpBoardReply.orElseThrow();
+
+        BoardReply boardReply = BoardReply.builder()
+                .boardEntity(board)
+                .userEntity(user)
+                .contents(boardReplyDto.getContents())
+                .parent(parent)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        return boardReplyRepository.save(boardReply);
     }
 
     public Header<List<BoardReplyDto>> getReplyList(Pageable pageable, Long id) {
@@ -164,5 +172,4 @@ public class BoardReplyService {
         );
         return Header.OK(dtos, pagination);
     }
-
 }

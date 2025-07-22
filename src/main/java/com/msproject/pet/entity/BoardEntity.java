@@ -36,6 +36,9 @@ public class BoardEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Column(columnDefinition = "bigint default 0")
+    private Long viewCount;
+
     public void changeState(){
         this.deleteYn = true;
     }
