@@ -736,11 +736,13 @@ export default {
 .validation-message {
   font-size: clamp(0.75rem, 2vw, 0.875rem);
   margin-top: 0.15rem;
-  margin-left: calc(80px + 3rem);
+  margin-left: calc(100px + 1rem);
   padding-left: 0;
   color: #dc3545;
-  word-break: keep-all;
+  word-break: break-word;
+  white-space: normal;
   line-height: 1.3;
+  max-width: calc(100% - (100px + 1rem)); /* 전체 너비에서 왼쪽 여백을 뺀 만큼만 사용 */
 }
 
 .address-input-group {
@@ -844,8 +846,9 @@ export default {
   }
 
   .validation-message {
-    margin-left: 108px !important; /* label width (100px) + gap (8px) */
+    margin-left: calc(100px + 0.5rem) !important;
     margin-top: 0.25rem !important;
+    max-width: calc(100% - (100px + 0.5rem)) !important;
   }
 
   .input-group {
