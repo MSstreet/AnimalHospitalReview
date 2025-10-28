@@ -8,10 +8,10 @@
         <p class="join-subtitle">반려동물 병원 서비스 이용을 위한 회원가입을 진행해주세요.</p>
 
         <form @submit.prevent="fnJoin" ref="form" class="join-form">
-          <div>
-            <div class="form-group" :class="{ 'error-margin': !check }">
-              <label for="email" class="form-label">이메일</label>
-              <div class="input-group">
+          <div class="form-group" :class="{ 'error-margin': !check }">
+            <div class="input-row">
+              <div>
+                <label for="email" class="form-label">이메일</label>
                 <input
                     type="text"
                     maxlength="50"
@@ -22,59 +22,64 @@
                     placeholder="이메일을 입력해주세요"
                 >
               </div>
+              <div id="checkEmail" class="validation-message"></div>
             </div>
-            <div id="checkEmail" class="validation-message" ></div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="password">비밀번호</label>
-            <div class="input-group">
-            <input type="password" maxlength="20" class="form-control" id="password" v-model="user_pw" @change="validPasswordCheck" placeholder="비밀번호를 입력해주세요">
-            </div>
-            <div id="checkPwd" class="validation-message"></div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="password-confirm">비밀번호 확인</label>
-            <div class="input-group">
-            <input type="password" maxlength="20" class="form-control" id="password-confirm" v-model="pwd_check" @change="validSamePasswordCheck" placeholder="비밀번호를 다시 입력해주세요">
-            </div>
-              <div id="doubleCheckPwd" class="validation-message"></div>
-          </div>
-
-          <div class="form-group">
-            <label for="name" class="form-label">이름</label>
-            <div class="input-group">
-            <input type="text" maxlength="20" class="form-control" id="name" v-model="user_name" @change="validNameCheck" placeholder="이름을 입력해주세요">
-            </div>
-            <div id="nameCheck" class="validation-message"></div>
-          </div>
-
-          <div class="form-group">
-            <label for="phone" class="form-label">전화번호</label>
-            <div class="input-group">
-            <input type="text" maxlength="20" class="form-control" id="phone" v-model="user_num" @change="validNumCheck" placeholder="전화번호를 입력해주세요">
-            </div>
-            <div id="numberCheck" class="validation-message"></div>
-          </div>
-
-          <div class="form-group d-flex align-items-start">
-            <label for="zipInput" class="form-label">주소</label>
-            <div class="flex-grow-1 w-100">
-              <!-- 우편번호 + 버튼 -->
-              <div class="input-group mb-2">
-                <input type="text" maxlength="20" v-model="postcode" class="form-control" id="zipInput" placeholder="우편번호" readonly>
-                <button type="button" class="btn btn-outline-primary" @click="execDaumPostcode()">
-                  <i class="fas fa-search"></i> 우편번호 찾기
-                </button>
-              </div>
-              <!-- 기본 주소 -->
-              <div class="mb-2">
-                <input type="text" maxlength="50" class="form-control" id="addressInput" v-model="address" placeholder="주소" readonly>
-              </div>
-              <!-- 상세 주소 -->
+            <div class="input-row">
               <div>
-                <input type="text" class="form-control" id="detailAddressInput" v-model="extra_address" placeholder="상세주소">
+                <label class="form-label" for="password">비밀번호</label>
+                <input type="password" maxlength="20" class="form-control" id="password" v-model="user_pw" @change="validPasswordCheck" placeholder="비밀번호를 입력해주세요">
+              </div>
+              <div id="checkPwd" class="validation-message"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-row">
+              <div>
+                <label class="form-label" for="password-confirm">비밀번호 확인</label>
+                <input type="password" maxlength="20" class="form-control" id="password-confirm" v-model="pwd_check" @change="validSamePasswordCheck" placeholder="비밀번호를 다시 입력해주세요">
+              </div>
+              <div id="doubleCheckPwd" class="validation-message"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-row">
+              <div>
+                <label for="name" class="form-label">이름</label>
+                <input type="text" maxlength="20" class="form-control" id="name" v-model="user_name" @change="validNameCheck" placeholder="이름을 입력해주세요">
+              </div>
+              <div id="nameCheck" class="validation-message"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-row">
+              <div>
+                <label for="phone" class="form-label">전화번호</label>
+                <input type="text" maxlength="20" class="form-control" id="phone" v-model="user_num" @change="validNumCheck" placeholder="전화번호를 입력해주세요">
+              </div>
+              <div id="numberCheck" class="validation-message"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-row address-row">
+              <div>
+                <label for="zipInput" class="form-label">주소</label>
+                <div class="address-inputs">
+                  <div class="postcode-group">
+                    <input type="text" maxlength="20" v-model="postcode" class="form-control" id="zipInput" placeholder="우편번호" readonly>
+                    <button type="button" class="btn btn-outline-primary" @click="execDaumPostcode()">
+                      <i class="fas fa-search"></i> 우편번호 찾기
+                    </button>
+                  </div>
+                  <input type="text" maxlength="50" class="form-control" id="addressInput" v-model="address" placeholder="주소" readonly>
+                  <input type="text" class="form-control" id="detailAddressInput" v-model="extra_address" placeholder="상세주소">
+                </div>
               </div>
             </div>
           </div>
@@ -315,7 +320,7 @@ export default {
 
       if (this.user_id !== '' && !emailCheck.test(this.user_id)) {
         document.getElementById('checkEmail').style.color="red"
-        document.getElementById('checkEmail').innerHTML = " 올바른 이메일 형식이 아닙니다.";
+        document.getElementById('checkEmail').innerHTML = "올바른 이메일 형식이 아닙니다.";
         alert(" 올바른 이메일 형식이 아닙니다.")
         this.check = false
         return
@@ -532,6 +537,103 @@ export default {
   transition: margin-bottom 0.3s ease;
 }
 
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.input-row > * {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-row > :first-child {
+  gap: 1rem;
+}
+
+.form-label {
+  flex: 0 0 100px;
+  min-width: 100px;
+  word-break: keep-all;
+}
+
+.address-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.postcode-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.postcode-group .form-control {
+  width: 150px;
+  flex: none;
+  height: 42px;
+  padding: 0.5rem 0.75rem;
+}
+
+.postcode-group .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 0 1rem;
+  height: 42px;
+  font-size: 0.875rem;
+}
+
+.postcode-group .btn i {
+  margin-right: 0.25rem;
+}
+
+.address-row > div {
+  flex: 1;
+}
+
+.form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-row > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-label {
+  flex: 0 0 100px;
+  min-width: 100px;
+  word-break: keep-all;
+}
+
+.form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.validation-message {
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+  color: #dc3545;
+  word-break: keep-all;
+  line-height: 1.3;
+  margin-top: 0.15rem;
+  margin-left: 116px; /* label width (100px) + gap (16px) */
+}
+
 .form-group.error-margin {
   margin-bottom: 0.5rem;
 }
@@ -634,6 +736,8 @@ export default {
 .validation-message {
   font-size: clamp(0.75rem, 2vw, 0.875rem);
   margin-top: 0.15rem;
+  margin-left: calc(80px + 3rem);
+  padding-left: 0;
   color: #dc3545;
   word-break: keep-all;
   line-height: 1.3;
@@ -671,6 +775,30 @@ export default {
 
 /* 모바일 최적화 */
 @media (max-width: 768px) {
+  .postcode-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .postcode-group .form-control {
+    width: 100%;
+  }
+
+  .postcode-group .form-control {
+    height: 48px;
+    padding: 0.75rem 1rem;
+  }
+
+  .postcode-group .btn {
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    font-size: 1rem;
+  }
+
+  .address-inputs {
+    gap: 0.75rem;
+  }
   .join-body {
     padding: 0.5rem;
     min-height: 100vh;
@@ -687,6 +815,37 @@ export default {
 
   .join-form {
     padding: 0;
+  }
+
+  .form-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .input-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .form-label {
+    flex-shrink: 0 !important;
+    width: 80px !important;
+    min-width: 80px !important;
+  }
+
+  .input-row .form-control {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .validation-message {
+    margin-left: 108px !important; /* label width (100px) + gap (8px) */
+    margin-top: 0.25rem !important;
   }
 
   .input-group {
@@ -743,6 +902,8 @@ export default {
   .validation-message {
     font-size: 1rem !important;
     margin-top: 0.75rem !important;
+    margin-left: calc(80px + 0.5rem) !important;
+    padding-left: 0 !important;
   }
 }
 
@@ -759,6 +920,28 @@ export default {
 
   .join-subtitle {
     font-size: 0.875rem;
+  }
+
+  .form-group {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .input-row {
+    display: contents !important;
+  }
+
+  .form-label {
+    flex-shrink: 0 !important;
+    width: 80px !important;
+    min-width: 80px !important;
+  }
+
+  .input-row .form-control {
+    flex: 1 !important;
+    min-width: 0 !important;
   }
 
   .form-control {
@@ -792,6 +975,11 @@ export default {
     font-size: 1.125rem !important;
     margin-bottom: 1rem !important;
     font-weight: 700 !important;
+  }
+
+  .validation-message {
+    margin-left: calc(100px + 0.5rem) !important;
+    padding-left: 0 !important;
   }
 }
 
