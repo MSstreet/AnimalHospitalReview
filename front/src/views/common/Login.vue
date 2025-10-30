@@ -91,7 +91,23 @@
           <form @submit.prevent="fnLogin" autocomplete="on">
             <div class="form-group">
               <label for="exampleInputEmail1" class="fw-bold mb-1">이메일</label>
-              <input type="text" maxlength="50" class="form-control" id="exampleInputEmail1" placeholder="Enter Id" v-model="user_id" aria-label="이메일" required>
+              <div class="input-wrapper">
+                <input 
+                  type="email" 
+                  maxlength="50" 
+                  class="form-control" 
+                  :class="{ 'is-invalid': showEmailError }"
+                  id="exampleInputEmail1" 
+                  placeholder="example@email.com" 
+                  v-model="user_id" 
+                  @blur="validateEmailInput"
+                  aria-label="이메일" 
+                  required
+                >
+                <div v-if="showEmailError" class="validation-popup">
+                  올바른 이메일 형식이 아닙니다.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1" class="fw-bold mb-1">비밀번호</label>
@@ -128,13 +144,27 @@ export default {
       user_email: '',
       userInfo: null,
       isLoading: false,
+      showEmailError: false,
     };
   },
   methods: {
     ...mapActions(['login']),
+    validateEmail(email) {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    },
+    validateEmailInput() {
+      if (this.user_id) {
+        this.showEmailError = !this.validateEmail(this.user_id);
+      }
+    },
     async fnLogin() {
       if (this.user_id === '') {
-        alert('ID를 입력하세요.');
+        alert('이메일을 입력하세요.');
+        return;
+      }
+      if (!this.validateEmail(this.user_id)) {
+        alert('올바른 이메일 형식이 아닙니다.');
         return;
       }
       if (this.user_pw === '') {
@@ -331,6 +361,55 @@ export default {
 .find-link:active {
   color: #217dbb;
 }
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.validation-popup {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background-color: #dc3545;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.validation-popup::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 10px;
+  width: 8px;
+  height: 8px;
+  background-color: #dc3545;
+  transform: rotate(45deg);
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .divider {
   display: flex;
   align-items: center;
@@ -341,7 +420,7 @@ export default {
 .divider hr {
   flex: 1;
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ccc; /* #eee에서 #ddd로 더 진하게 변경 */
   margin: 0;
 }
 .divider-text {

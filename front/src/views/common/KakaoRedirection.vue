@@ -28,6 +28,8 @@ export default {
         this.userInfo.userRole = res.data.user_role;
         localStorage.setItem('user_token', res.data.user_token);
         localStorage.setItem('user_role', res.data.user_role);
+        localStorage.setItem('user_idx', res.data.user_idx);  // idx도 저장
+        localStorage.setItem('user_id', res.data.user_id);     // userId도 저장
         this.fnSocialLogin();
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {

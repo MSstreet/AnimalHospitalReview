@@ -77,40 +77,61 @@ export default {
     ...mapActions(['join']),     //vuex/actions에 있는 login 함수
 
     async fnJoin() {       //async 함수로 변경
-      this.submitCheck()
-
-      if(!(this.check)){
+      // 카카오 로그인의 경우 필수 필드만 체크
+      if (this.user_num === '') {
+        alert('전화번호를 입력하세요.')
         return false
       }
 
-      if(!(this.duplicated_check)){
-        alert("이미 등록된 Email입니다.")
+      const numCheck = new RegExp("^(?:(010\\d{4})|(01[1|6|7|8|9]\\d{3,4}))(\\d{4})$")
+      if (!numCheck.test(this.user_num)) {
+        alert('올바른 전화번호 형식이 아닙니다.')
+        return false
+      }
+
+      if (this.postcode === '') {
+        alert('우편번호를 입력하세요.')
+        return false
+      }
+
+      if (this.address === '') {
+        alert('주소를 입력하세요.')
         return false
       }
 
       try {
-        let joinResult = await this.join( {
-          user_id: this.user_id,
+        // 카카오 로그인의 경우 social-update 엔드포인트 사용
+        const userIdx = this.getUserIdx || localStorage.getItem('user_idx');
+        console.log('Sending idx:', userIdx);
+        console.log('User data to send:', {
+          idx: userIdx,
           user_pw: this.user_pw,
-          user_name: this.user_name,
-
-          email:this.user_email,
-
           phone_num: this.user_num,
           zip_code: this.postcode,
-          addr:this.address,
-          detail_addr:this.extra_address
+          addr: this.address,
+          detail_addr: this.extra_address
+        });
+        
+        const updateResponse = await this.$axios.patch('/user/social-update', {
+          idx: userIdx,  // Vuex에서 가져오거나 localStorage에서 읽기
+          user_pw: this.user_pw || 'kakao_user',  // 기본값 설정
+          phone_num: this.user_num,
+          zip_code: this.postcode,
+          addr: this.address,
+          detail_addr: this.extra_address
         })
-        if (joinResult) {
+        
+        if (updateResponse.status === 200 || updateResponse.data) {
           this.goToPages1()
           alert("가입이 완료되었습니다!")
         }
       }
       catch (err) {
+        console.error('Error:', err)
         if (err.message.indexOf('Network Error') > -1) {
           alert('서버에 접속할 수 없습니다. 상태를 확인해주세요.')
         } else {
-          alert('실패')
+          alert('가입에 실패했습니다. 다시 시도해주세요.')
         }
       }
     }
@@ -445,15 +466,15 @@ export default {
     }
     ,goToPages1() {
       this.$router.push({
-        // path: './write',
-        name: 'Login'
+        name: 'PageHome'
       })
     }
   },
 
   computed: {
     ...mapGetters({
-      errorState: 'getErrorState'
+      errorState: 'getErrorState',
+      getUserIdx: 'getUserIdx'
     })
   }
 }
